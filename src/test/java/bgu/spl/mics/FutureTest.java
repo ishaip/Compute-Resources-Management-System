@@ -12,6 +12,7 @@ public class FutureTest extends TestCase {
     }
 
     public void testGet() {
+
     }
 
     public void testResolve() {

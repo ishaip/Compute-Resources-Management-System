@@ -1,5 +1,7 @@
 package bgu.spl.mics.application.objects;
 
+import java.util.LinkedList;
+
 /**
  * Passive object representing single student.
  * Add fields and methods to this class as you see fit (including public methods and constructors).
