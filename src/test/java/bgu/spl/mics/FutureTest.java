@@ -11,10 +11,17 @@ public class FutureTest extends TestCase {
     public void tearDown() throws Exception {
     }
 
-    public void testGet() {
+    public FutureTest testGet() {
+        return this;
     }
 
     public void testResolve() {
+        Object o = new Future();
+        try {
+
+        } catch (Exception e) {
+            System.out.println("Object has wrong value");
+        }
     }
 
     public void testIsDone() {
