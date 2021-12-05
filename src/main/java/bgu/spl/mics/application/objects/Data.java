@@ -8,7 +8,7 @@ public class Data {
     /**
      * Enum representing the Data type.
      */
-    enum Type {
+    public enum Type {
         Images, Text, Tabular
     }
 
@@ -37,4 +37,7 @@ public class Data {
         processed ++;
     }
 
+    public void processData(int numOfProcesses){
+        processed += numOfProcesses;
+    }
 }

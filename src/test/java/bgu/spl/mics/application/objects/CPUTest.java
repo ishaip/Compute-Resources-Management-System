@@ -14,6 +14,9 @@ public class CPUTest {
     @BeforeEach
     public void setUp() throws Exception {
         cpu = new CPU(4);
+        Data d = new Data(Data.Type.Text, 2000);
+        DataBatch db = new DataBatch(d, 0);
+        cpu.addBatchOfData(db);
     }
 
     @Test
@@ -24,21 +27,7 @@ public class CPUTest {
     @Test
     public void testProcess() throws Exception{
         assertFalse(cpu.isDone());
-        ArrayList<DataBatch> db1 = new ArrayList<>();
-        ArrayList<DataBatch> db2 = new ArrayList<>();
-
-        for (int i = 0; i <= 1000; i++)
-            db1.add(new DataBatch());
-        for (int i = 0; i < 1000; i++)
-            db1.add(new DataBatch());
-
-        try{
-            cpu.process(db1);
-        }
-        catch(Exception e){
-            assertFalse(cpu.isDone());
-        }
-        cpu.process(db2);
+        cpu.process();
         assertTrue(cpu.isDone());
     }
 

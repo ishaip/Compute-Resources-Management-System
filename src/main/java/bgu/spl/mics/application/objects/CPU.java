@@ -33,16 +33,32 @@ public class CPU {
         return this.cores;
     }
 
+    /**
+     * @Post: done == true
+     * @param dataToProcess
+     */
     public void process(ArrayList<DataBatch> dataToProcess){
         //some processing
         this.done = true;
     }
 
     /**
-     * @POST: done == true
+     * @Post: done == true
      */
+    public void process(){
+        //some processing
+        this.done = true;
+    }
+
     public boolean isDone(){
         return done;
     }
 
+    /**
+     * @Post: data.size() == @Pre(data.size()) + 1
+     * @param db
+     */
+    public void addBatchOfData(DataBatch db){
+        this.data.add(db);
+    }
 }
