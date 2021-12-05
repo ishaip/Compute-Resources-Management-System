@@ -118,7 +118,7 @@ public class MessageBusImplTest extends TestCase {
     }
 
     public void testAwaitMessage() {
-        //is tested in testUnregister
+        //is tested in testSendEvent
 
     }
 }
