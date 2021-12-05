@@ -1,6 +1,7 @@
 package bgu.spl.mics.application.objects;
 
 import java.util.Collection;
+import java.util.ArrayList;
 
 /**
  * Passive object representing a single CPU.
@@ -9,8 +10,33 @@ import java.util.Collection;
  */
 public class CPU {
 
+    //---------------------Fields----------------------
     private int core;
-    private Collection<DataBatch> data;
+    private boolean done;
+    private ArrayList<DataBatch> data;
     private Cluster cluster;
+
+    //----------------Constructor-----------------------
+    public CPU(){
+        this.done = false;
+        this.data = new ArrayList<DataBatch>();
+
+    }
+
+    //-------------------Methods-----------------------
+    public int getNumOfCPUs(){
+        return this.core;
+    }
+
+    public void process(){
+        /*
+
+         */
+        this.done = true;
+    }
+
+    public boolean isDone(){
+        return done;
+    }
 
 }
