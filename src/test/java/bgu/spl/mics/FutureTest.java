@@ -1,6 +1,8 @@
 package bgu.spl.mics;
 
 import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 public class FutureTest extends TestCase {
 
