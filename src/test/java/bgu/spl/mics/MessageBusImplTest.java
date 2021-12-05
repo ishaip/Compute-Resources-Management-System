@@ -27,10 +27,12 @@ public class MessageBusImplTest extends TestCase {
         //tested in testSendEvent
     }
 
+    @Test
     public void testSubscribeBroadcast() {
         //tested in testSendBroadcast
     }
 
+    @Test
     public void testComplete() {
         /*
         create an event with result 0
@@ -50,6 +52,7 @@ public class MessageBusImplTest extends TestCase {
         assertEquals(1,(int)future.get());
     }
 
+    @Test
     public void testSendBroadcast() {
         //making 2 microServices and seeing if the can subscribe and if the queue contains them
         //init
@@ -69,6 +72,7 @@ public class MessageBusImplTest extends TestCase {
         }
     }
 
+    @Test
     public void testSendEvent() {
         //making 2 microServices
         //making sure the events were delivered
@@ -101,7 +105,7 @@ public class MessageBusImplTest extends TestCase {
         }
     }
 
-
+    @Test
     public void testRegister() {
         //was tested in other methods such as testSendBroadcast
     }
@@ -117,6 +121,7 @@ public class MessageBusImplTest extends TestCase {
         assertNull(tBus.sendEvent(new TEvent(1)));
     }
 
+    @Test
     public void testAwaitMessage() {
         //is tested in testSendEvent
 
