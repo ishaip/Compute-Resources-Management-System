@@ -12,7 +12,6 @@ public class FutureTest extends TestCase {
 
     @BeforeEach
     public void setUp() throws Exception {
-//        super.setUp();
         future = new Future<>();
     }
 
