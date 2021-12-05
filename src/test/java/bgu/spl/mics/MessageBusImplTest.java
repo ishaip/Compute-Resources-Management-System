@@ -92,7 +92,7 @@ public class MessageBusImplTest extends TestCase {
             Message message;
             message = tBus.awaitMessage(m1);
             assertEquals(events[0],message);
-            message = tBus.awaitMessage(m1);
+            message = tBus.awaitMessage(m2);
             assertEquals(events[1],message);
             message = tBus.awaitMessage(m1);
             assertEquals(events[2],message);
@@ -107,11 +107,18 @@ public class MessageBusImplTest extends TestCase {
     }
 
     public void testUnregister() {
-
+        //we will register 1 microservices
+        // and will subscribe to an event
+        // and see if a future is called back using send event
+        TMicroService m1 = new TMicroService();
+        tBus.register(m1);
+        tBus.subscribeEvent(TEvent.class,m1);
+        tBus.unregister(m1);
+        assertNull(tBus.sendEvent(new TEvent(1)));
     }
 
     public void testAwaitMessage() {
-        //is tested in testSendEvent
+        //is tested in testUnregister
 
     }
 }
