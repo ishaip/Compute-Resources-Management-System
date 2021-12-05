@@ -6,5 +6,20 @@ package bgu.spl.mics.application.objects;
  */
 
 public class DataBatch {
+
+    /** @INV: startIndex >= 0
+     *        startIndex < data.size()
+     */
+    //--------------------Fields---------------------
+    private Data data;
+    private int startIndex;
+
+    //-----------------Constructor-------------------
+    public DataBatch(Data _data, int _index){
+        this.data = _data;
+        this.startIndex = _index;
+    }
+
+    //-------------------Methods---------------------
     
 }

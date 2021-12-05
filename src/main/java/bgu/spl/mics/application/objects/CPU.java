@@ -11,6 +11,10 @@ import java.util.ArrayList;
 public class CPU {
 
     //---------------------Fields----------------------
+    /**
+     * @INV: data.size() <= 1000
+     *       cores > 0
+     */
     private int cores;
     private boolean done;
     private ArrayList<DataBatch> data;
@@ -34,6 +38,9 @@ public class CPU {
         this.done = true;
     }
 
+    /**
+     * @POST: done == true
+     */
     public boolean isDone(){
         return done;
     }
