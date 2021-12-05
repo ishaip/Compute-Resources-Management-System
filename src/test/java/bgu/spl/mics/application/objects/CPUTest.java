@@ -1,6 +1,5 @@
 package bgu.spl.mics.application.objects;
 
-import bgu.spl.mics.Future;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -14,19 +13,32 @@ public class CPUTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        cpu = new CPU(10);
+        cpu = new CPU(4);
     }
 
     @Test
     public void testGetNumOfCPUs() {
-        assertEquals(10, cpu.getNumOfCPUs());
+        assertEquals(4, cpu.getNumOfCPUs());
     }
 
     @Test
-    public void testProcess() {
-        ArrayList<DataBatch> someData = new ArrayList<>();
+    public void testProcess() throws Exception{
         assertFalse(cpu.isDone());
-        cpu.process(someData);
+        ArrayList<DataBatch> db1 = new ArrayList<>();
+        ArrayList<DataBatch> db2 = new ArrayList<>();
+
+        for (int i = 0; i <= 1000; i++)
+            db1.add(new DataBatch());
+        for (int i = 0; i < 1000; i++)
+            db1.add(new DataBatch());
+
+        try{
+            cpu.process(db1);
+        }
+        catch(Exception e){
+            assertFalse(cpu.isDone());
+        }
+        cpu.process(db2);
         assertTrue(cpu.isDone());
     }
 

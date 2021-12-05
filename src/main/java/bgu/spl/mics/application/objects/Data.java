@@ -12,7 +12,17 @@ public class Data {
         Images, Text, Tabular
     }
 
+    //--------------------Fields---------------------
     private Type type;
     private int processed;
     private int size;
+
+    //-----------------Constructor-------------------
+
+
+    //-------------------Methods---------------------
+    public Type getType(){
+        return this.type;
+    }
+
 }
