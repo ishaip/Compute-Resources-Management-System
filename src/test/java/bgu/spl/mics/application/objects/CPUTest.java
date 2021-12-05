@@ -14,9 +14,7 @@ public class CPUTest {
     @BeforeEach
     public void setUp() throws Exception {
         cpu = new CPU(4);
-        Data d = new Data(Data.Type.Text, 2000);
-        DataBatch db = new DataBatch(d, 0);
-        cpu.addBatchOfData(db);
+
     }
 
     @Test
@@ -34,7 +32,13 @@ public class CPUTest {
     @Test
     public void testIsDone() {
         assertFalse(cpu.isDone());
+
+        Data d = new Data(Data.Type.Text, 2000);
+        DataBatch db = new DataBatch(d, 0);
+        cpu.addBatchOfData(db);
         ArrayList<DataBatch> someData = new ArrayList<>();
+        someData.add(db);
+
         cpu.process(someData);
         assertTrue(cpu.isDone());
     }

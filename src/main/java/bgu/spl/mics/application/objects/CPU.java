@@ -25,7 +25,7 @@ public class CPU {
         this.cores = numOfCores;
         this.done = false;
         this.data = new ArrayList<DataBatch>();
-
+        /* Cluster */
     }
 
     //-------------------Methods-----------------------
