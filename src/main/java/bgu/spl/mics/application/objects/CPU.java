@@ -11,13 +11,14 @@ import java.util.ArrayList;
 public class CPU {
 
     //---------------------Fields----------------------
-    private int core;
+    private int cores;
     private boolean done;
     private ArrayList<DataBatch> data;
     private Cluster cluster;
 
     //----------------Constructor-----------------------
-    public CPU(){
+    public CPU(int numOfCores){
+        this.cores = numOfCores;
         this.done = false;
         this.data = new ArrayList<DataBatch>();
 
@@ -25,13 +26,11 @@ public class CPU {
 
     //-------------------Methods-----------------------
     public int getNumOfCPUs(){
-        return this.core;
+        return this.cores;
     }
 
-    public void process(){
-        /*
-
-         */
+    public void process(ArrayList<DataBatch> dataToProcess){
+        //some processing
         this.done = true;
     }
 
