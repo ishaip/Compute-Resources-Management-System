@@ -5,15 +5,20 @@ package bgu.spl.mics.application.objects;
  * Add all the fields described in the assignment as private fields.
  * Add fields and methods to this class as you see fit (including public methods and constructors).
  */
+
+
+enum Status {
+    PreTrained, Training, Trained, Tested
+}
+
+enum Result {
+    None, Good, Bad
+}
+
+
 public class Model {
 
-    enum Status {
-        PreTrained, Training, Trained, Tested
-    }
 
-    enum Result {
-        None, Good, Bad
-    }
 
     private String name;
     private Data data;
@@ -44,4 +49,7 @@ public class Model {
     public Status getStatus(){
         return status;
     }
+     
+    public Data getData(){return data;}
+    
 }
