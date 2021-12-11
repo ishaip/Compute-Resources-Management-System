@@ -11,7 +11,6 @@ import java.util.ArrayList;
  */
 public class Cluster {
 
-
 	/**
      * Retrieves the single instance of this class.
      */
@@ -39,7 +38,6 @@ public class Cluster {
 	}
 
 	//-------------------Methods-----------------------
-
 	public ArrayList<CPU> getCpus() {
 		return cpus;
 	}
