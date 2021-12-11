@@ -20,4 +20,25 @@ public class Student {
     private int publications;
     private int papersRead;
 
+    public Student(int name,String department,Degree status, int publications,int papersRead ){
+        this.name = name;
+        this.department = department;
+        this.papersRead = papersRead;
+        this.status = status;
+        this.publications = publications;
+    }
+
+    public void readPaper(){
+        papersRead++;
+    }
+
+    public void addPublishResult(){
+        publications++;
+    }
+
+    public Degree getDegree(){
+        return status;
+    }
 }
+
+
