@@ -28,8 +28,8 @@ public class GPU {
     public void trainModelEvent (Model model){
         available = false;
         this.model = model;
-
     }
+    
     public void startModelTraining(Model model){}
 
     public Future testModel(Model model){
