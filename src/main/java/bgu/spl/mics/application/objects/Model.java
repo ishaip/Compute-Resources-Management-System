@@ -7,11 +7,11 @@ package bgu.spl.mics.application.objects;
  */
 public class Model {
 
-    enum Status {
+    public enum Status {
         PreTrained, Training, Trained, Tested
     }
 
-    enum Result {
+    public enum Result {
         None, Good, Bad
     }
 
