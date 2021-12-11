@@ -29,7 +29,7 @@ public class CPU {
     }
 
     //-------------------Methods-----------------------
-    public int getNumOfCPUs(){
+    public int getNumOfCores(){
         return this.cores;
     }
 

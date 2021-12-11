@@ -34,10 +34,17 @@ public class Data {
     }
 
     public void processData(){
+        if ( processed == size )
+            throw new StackOverflowError("All data has been processed"); //TODO: which exception should it throw
         processed ++;
     }
 
     public void processData(int numOfProcesses){
-        processed += numOfProcesses;
+        if ( processed == size )
+            throw new StackOverflowError("All data has been processed"); //TODO: which exception should it throw
+        else if ( processed + numOfProcesses >= size )
+            processed = size;
+        else
+            processed += numOfProcesses;
     }
 }

@@ -21,7 +21,6 @@ public class DataBatch { //
     }
 
     //-------------------Methods---------------------
-
     public void setStartIndex(){
         this.startIndex ++;
         data.processData();
@@ -32,5 +31,6 @@ public class DataBatch { //
         this.startIndex += nextIndex;
     }
 
+    public Data getDataType() { return data; }
     
 }
