@@ -8,5 +8,4 @@ public class TickBroadcast  implements Broadcast {
     TickBroadcast(int tick){this.tick = tick;}
 
     public Integer getTick(){return tick;}
-
 }
