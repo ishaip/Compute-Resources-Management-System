@@ -3,21 +3,29 @@ package bgu.spl.mics.application.events;
 import bgu.spl.mics.Event;
 import bgu.spl.mics.Future;
 import bgu.spl.mics.application.objects.Model;
-import bgu.spl.mics.application.objects.Result;
 
-public class TestModelEvent implements Event<String> {
+public class TestModelEvent implements Event<Boolean> {
 
     //---------------------Fields----------------------
-    private Future<String> future;
+    private Future<Boolean> future;
     private Model model;
 
     //-----------------Constructor---------------------
-    public TestModelEvent (){
+    public TestModelEvent (Model _model){
         this.future = new Future<>();
+        this.model = _model;
     }
 
     //-------------------Methods----------------------
-    public Result getResult(){
+    public Model.Result getResult(){
         return model.getResult();
+    }
+
+    public void setResult (Model.Result res){
+        model.setResult(res);
+    }
+
+    public boolean test (){
+        return future.get();
     }
 }
