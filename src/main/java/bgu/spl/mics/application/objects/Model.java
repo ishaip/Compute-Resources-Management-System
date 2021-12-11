@@ -8,6 +8,8 @@ package bgu.spl.mics.application.objects;
 
 public class Model {
 
+
+
     public enum Status {
         PreTrained, Training, Trained, Tested
     }
@@ -22,24 +24,21 @@ public class Model {
     private Result result;
 
     public Model(String name,Data data, Student student, Status status, Result result){
-           this.name = name;
-           this.data = data;
-           this.status = status;
-           this.student = student;
-           this.result = result;
-    }
-
-    public void setResult(Result result){
+        this.name = name;
+        this.data = data;
+        this.status = status;
+        this.student = student;
         this.result = result;
     }
 
-    public Result getResult(){
-        return result;
-    }
+    public void setResult(Result result){this.result = result;}
 
-    public void setStatus(Status status){
-        this.status = status;
-    }
+    public Result getResult(){return result;}
+
+    public void setStatus(Status status){this.status = status;}
+
+
+    public Data getData() {return data;}
 
     public Status getStatus(){
         return status;
