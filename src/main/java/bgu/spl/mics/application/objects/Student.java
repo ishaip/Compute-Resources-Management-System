@@ -19,6 +19,7 @@ public class Student {
     private Degree status;
     private int publications;
     private int papersRead;
+    private LinkedList<Model> models;
 
     public Student(int name,String department,Degree status, int publications,int papersRead ){
         this.name = name;
@@ -28,17 +29,18 @@ public class Student {
         this.publications = publications;
     }
 
-    public void readPaper(){
-        papersRead++;
-    }
+    public void readPaper(){papersRead++;}
 
-    public void addPublishResult(){
-        publications++;
-    }
+    public int getPapersRead(){return papersRead;}
 
-    public Degree getDegree(){
-        return status;
-    }
+    public void addPublishResult(){publications++;}
+
+    public Degree getDegree(){return status;}
+
+    public void addModel(Model model){models.addLast(model);}
+
+    public LinkedList<Model> getModels(){return models;}
+
 }
 
 
