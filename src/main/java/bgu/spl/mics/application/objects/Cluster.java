@@ -1,4 +1,5 @@
 package bgu.spl.mics.application.objects;
+import java.util.ArrayList;
 
 
 /**
@@ -18,5 +19,11 @@ public class Cluster {
 		//TODO: Implement this
 		return null;
 	}
+
+	//---------------------Fields----------------------
+	private ArrayList<GPU> gpus;
+	private ArrayList<CPU> cpus;
+
+
 
 }
