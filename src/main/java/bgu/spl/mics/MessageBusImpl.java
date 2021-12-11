@@ -1,5 +1,7 @@
 package bgu.spl.mics;
 
+import bgu.spl.mics.application.broadcast.TickBroadcast;
+
 import java.util.Queue;
 
 /**

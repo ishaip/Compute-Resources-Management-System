@@ -39,6 +39,7 @@ public class CPU {
      */
     public void process(ArrayList<DataBatch> dataToProcess){
         //some processing
+        // wait(1/2/4 ticks for each process ??)
         this.done = true;
     }
 
