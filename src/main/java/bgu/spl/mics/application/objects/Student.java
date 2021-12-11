@@ -31,8 +31,6 @@ public class Student {
     public void readPaper(){
         papersRead++;
     }
-    //hgj
-
 
     public void addPublishResult(){
         publications++;

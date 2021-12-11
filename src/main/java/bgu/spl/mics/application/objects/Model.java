@@ -28,7 +28,6 @@ public class Model {
            this.student = student;
            this.result = result;
     }
-    //gfh
 
     public void setResult(Result result){
         this.result = result;
