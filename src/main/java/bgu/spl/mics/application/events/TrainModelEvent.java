@@ -15,7 +15,7 @@ public class TrainModelEvent implements Event<Boolean> {
 
     public void setStatus(Model.Status status){model.setStatus(status);}
 
-    public Model.Result getResult(){return model.getResult();}
+    public Model.Status getStatus(){return model.getStatus();}
 
     public Future<Boolean> getTestModelIsPreformed(){return TestModelIsPreformed;}
 }
