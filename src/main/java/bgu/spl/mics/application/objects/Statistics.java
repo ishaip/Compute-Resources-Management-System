@@ -5,13 +5,13 @@ import java.util.ArrayList;
 
 public class Statistics {
 
-    //---------------------Fields----------------------
+    //---------------------Fields---------------------
     private ArrayList<String> trainedModels = new ArrayList<>(); // list of all the names of the trained models
     private int DataBatchProcessed = 0; // total number of DataBatches processed by the CPU
     private int CPUTimeUnitUsed = 0; // represent the number of CPU time unit used
     private int GPUTimeUnitUsed = 0; // represent the number of GPU time unit used
 
-    //------------------Constructor---------------------
+    //------------------Constructor--------------------
     public Statistics(){}
 
     public Statistics(ArrayList<String> list, int db, int cpu, int gpu){
@@ -21,7 +21,7 @@ public class Statistics {
         this.GPUTimeUnitUsed = gpu;
     }
 
-    //-------------------Methods-----------------------
+    //-------------------Methods----------------------
     public void addTrainedModel (String model){
         trainedModels.add(model);
     }

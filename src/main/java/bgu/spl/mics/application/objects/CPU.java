@@ -20,7 +20,7 @@ public class CPU {
     private ArrayList<DataBatch> data;
     private Cluster cluster;
 
-    //----------------Constructor-----------------------
+    //-----------------Constructor---------------------
     public CPU(int numOfCores){
         this.cores = numOfCores;
         this.done = false;
@@ -47,6 +47,7 @@ public class CPU {
      */
     public void process(){
         //some processing
+        //data.get(0).getDataType();
         this.done = true;
     }
 
