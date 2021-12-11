@@ -3,6 +3,7 @@ package bgu.spl.mics.application.events;
 import bgu.spl.mics.Event;
 import bgu.spl.mics.Future;
 import bgu.spl.mics.application.objects.Model;
+import bgu.spl.mics.application.objects.Result;
 
 public class TestModelEvent implements Event<String> {
 
