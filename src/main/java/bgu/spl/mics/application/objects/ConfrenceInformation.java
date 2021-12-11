@@ -13,7 +13,7 @@ public class ConfrenceInformation {
         this.name = name;
         this.date = date;
     }
-
+//nvnbv
     public int getDate(){
         return date;
     }
