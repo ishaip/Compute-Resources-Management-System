@@ -18,7 +18,7 @@ public class Student {
     private String department;
     private Degree status;
     private int publications;
-    private int papersRead;
+    private int papersRead = 0;
     private LinkedList<Model> models;
 
     public Student(int name,String department,Degree status, int publications,int papersRead ){
@@ -30,6 +30,8 @@ public class Student {
     }
 
     public void readPaper(){papersRead++;}
+
+    public void setPapersRead(int papersRead){this.papersRead = papersRead;}
 
     public int getPapersRead(){return papersRead;}
 

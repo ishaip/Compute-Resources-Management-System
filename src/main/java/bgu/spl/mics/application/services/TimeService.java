@@ -44,6 +44,7 @@ public class TimeService extends MicroService{
 			}
 		}
 		mb.sendBroadcast(new TerminateBroadcast());
+		terminate();
 	}
 
 }

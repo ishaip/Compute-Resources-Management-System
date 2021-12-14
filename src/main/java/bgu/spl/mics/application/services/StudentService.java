@@ -1,9 +1,14 @@
 package bgu.spl.mics.application.services;
 
+import bgu.spl.mics.Future;
 import bgu.spl.mics.MessageBusImpl;
 import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.broadcast.PublishConferenceBroadcast;
+import bgu.spl.mics.application.events.TestModelEvent;
+import bgu.spl.mics.application.objects.Model;
 import bgu.spl.mics.application.objects.Student;
+
+import java.util.LinkedList;
 
 /**
  * Student is responsible for sending the {@link //TrainModelEvent},
@@ -23,11 +28,20 @@ public class StudentService extends MicroService {
         this.student=student;
     }
 
+
     @Override
     protected void initialize() {
-        while()
-        ms.subscribeBroadcast(PublishConferenceBroadcast.class, this);
-
-
+        subscribeBroadcast(PublishConferenceBroadcast.class, c -> {
+            student.setPapersRead(student.getPapersRead() + c.getResults().length);
+        });
+        //TODO remember to remove the papers the studnet himself published
+        LinkedList<Future<Model.Result>> testModelsFutures = new LinkedList<Future<Model.Result>>();
+        for (Model m: student.getModels() ){
+            TestModelEvent mEvent = new TestModelEvent(m);
+            testModelsFutures.add(mEvent.getFuture());
+            sendEvent(mEvent);
+        }
+        //TODO check the futures for good results
     }
 }
+
