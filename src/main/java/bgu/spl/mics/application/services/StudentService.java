@@ -25,6 +25,7 @@ public class StudentService extends MicroService {
 
     @Override
     protected void initialize() {
+        while()
         ms.subscribeBroadcast(PublishConferenceBroadcast.class, this);
 
 
