@@ -75,11 +75,17 @@ public class MessageBusImpl implements MessageBus {
 		if (!messageRegisteredQueues.containsKey(e.getClass()))
 			return null;
 		//the round robbing manor will be used here by shifting around the messageRegisteredQueues
-		//need to make sure the order is maintained using synchronization
+		//need to make sure the order is maintained, and since we are removing temporally the thread we will make sure there always exists one using synchronization
 		synchronized (messageRegisteredQueues.get(e.getClass())){
-
+			if (messageRegisteredQueues.containsKey(e.getClass()) || messageRegisteredQueues.get(e.getClass()).isEmpty())
+				return null;
+			//the handler was snatched or there are no handlers
+			MicroService handler = messageRegisteredQueues.get(e.getClass()).poll();
+			Future<T> future = new Future<>();
+			microServiceMessageQueues.get(handler).add(e);
+			messageRegisteredQueues.get(e.getClass()).add(handler);
+			return future;
 		}
-
 	}
 
 	@Override
@@ -100,9 +106,9 @@ public class MessageBusImpl implements MessageBus {
 
 	@Override
 	public Message awaitMessage(MicroService m) throws InterruptedException {
-
-		return null;
+		if(microServiceMessageQueues.containsKey(m))
+			return microServiceMessageQueues.get(m).take();
+		else
+			throw new NullPointerException("no such microService is registered");
 	}
-
-
 }
