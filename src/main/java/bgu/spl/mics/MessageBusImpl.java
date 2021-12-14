@@ -11,7 +11,7 @@ public class MessageBusImpl implements MessageBus {
 	private static MessageBusImpl instance = null;
 	private static volatile boolean  isDone = false;
 	//using ConcurrentHashMap and Blocking queue because it will be better for threading
-	//a queue of messages for every micro service
+	//a queue of messages for every microService
 	private ConcurrentHashMap<MicroService,BlockingQueue<Message>> microServiceMessageQueues = new ConcurrentHashMap<>();
 	//a queue of MicroServices subscribed to a message type for every message type
 	private ConcurrentHashMap<Class<? extends Message>,BlockingQueue<MicroService>> messageRegisteredQueues = new ConcurrentHashMap<>();
@@ -41,7 +41,7 @@ public class MessageBusImpl implements MessageBus {
 		//making sure we have microservice registered in the message bus
 		if (!microServiceMessageQueues.containsKey(m))
 			throw new NullPointerException("the key isn't registered,probably threading mistake");
-		messageRegisteredQueues.putIfAbsent(type,new LinkedBlockingDeque<>());
+		messageRegisteredQueues.putIfAbsent(type,new LinkedBlockingQueue<>());
 		//we want to add the value to the proper queue and if it is all ready there do nothing
 		BlockingQueue<MicroService> messageRegisteredQueue = messageRegisteredQueues.get(type);
 		if (messageRegisteredQueue != null && !messageRegisteredQueue.contains(m)){

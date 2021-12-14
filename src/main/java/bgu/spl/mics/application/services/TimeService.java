@@ -21,6 +21,7 @@ public class TimeService extends MicroService{
 	private int time;
 	private int speed;
 	private int duration;
+	private MessageBusImpl mb;
 
 
 	public TimeService(String name, int speed, int duration) {
@@ -32,16 +33,17 @@ public class TimeService extends MicroService{
 
 	@Override
 	protected void initialize() {
+		mb = MessageBusImpl.getInstance();
 		while(time < duration) {
 			time = time + 1;
-			MessageBusImpl.getInstance().sendBroadcast(new TickBroadcast(time));
+			mb.sendBroadcast(new TickBroadcast(time));
 			try {
 				wait(speed);
 			} catch (InterruptedException e) {
 				//do nothing
 			}
 		}
-		MessageBusImpl.getInstance().sendBroadcast(new TerminateBroadcast());
+		mb.sendBroadcast(new TerminateBroadcast());
 	}
 
 }
