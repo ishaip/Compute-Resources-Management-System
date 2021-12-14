@@ -1,5 +1,7 @@
 package bgu.spl.mics;
 
+import bgu.spl.mics.application.broadcast.TerminateBroadcast;
+
 import java.util.concurrent.*;
 
 /**
@@ -57,15 +59,19 @@ public class MessageBusImpl implements MessageBus {
 			throw new IllegalArgumentException("event doesn't exsit any more");
 		else
 			eventFutureQueues.get(e).resolve(result);
+		//unchecked
 	}
 
 	@Override
 	public void sendBroadcast(Broadcast b) {
-		if (messageRegisteredQueues.containsKey(b.getClass())){
-			for(MicroService ms : messageRegisteredQueues.get(b.getClass()))  {
-				microServiceMessageQueues.get(ms).add(b);
-			}
-		}
+		if (b.getClass() == TerminateBroadcast.class)
+			if (messageRegisteredQueues.containsKey(b.getClass()))
+				for (MicroService ms : messageRegisteredQueues.get(b.getClass()))
+					ms.terminate();
+		else
+			if (messageRegisteredQueues.containsKey(b.getClass()))
+				for (MicroService ms : messageRegisteredQueues.get(b.getClass()))
+					microServiceMessageQueues.get(ms).add(b);
 	}
 
 	
@@ -95,9 +101,7 @@ public class MessageBusImpl implements MessageBus {
 	@Override
 	public void unregister(MicroService m) {
 		for(BlockingQueue<MicroService>  bq : messageRegisteredQueues.values()){
-			if(bq.contains(m)){
 				bq.remove(m);
-			}
 		}
 		if (!microServiceMessageQueues.containsKey(m))
 			throw new IllegalArgumentException("microService was allready unregistered");

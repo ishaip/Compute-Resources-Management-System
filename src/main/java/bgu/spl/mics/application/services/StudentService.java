@@ -1,11 +1,13 @@
 package bgu.spl.mics.application.services;
 
+import bgu.spl.mics.MessageBusImpl;
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.broadcast.PublishConferenceBroadcast;
 import bgu.spl.mics.application.objects.Student;
 
 /**
- * Student is responsible for sending the {@link TrainModelEvent},
- * {@link TestModelEvent} and {@link PublishResultsEvent}.
+ * Student is responsible for sending the {@link //TrainModelEvent},
+ * {@link //TestModelEvent} and {@link //PublishResultsEvent}.
  * In addition, it must sign up for the conference publication broadcasts.
  * This class may not hold references for objects which it is not responsible for.
  *
@@ -14,6 +16,7 @@ import bgu.spl.mics.application.objects.Student;
  */
 public class StudentService extends MicroService {
     private final Student student;
+    private MessageBusImpl ms = MessageBusImpl.getInstance();
 
     public StudentService(String name, Student student) {
         super(name);
@@ -22,7 +25,8 @@ public class StudentService extends MicroService {
 
     @Override
     protected void initialize() {
-        // TODO Implement this
+        ms.subscribeBroadcast(PublishConferenceBroadcast.class, this);
+
 
     }
 }
