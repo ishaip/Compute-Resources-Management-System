@@ -103,7 +103,7 @@ public class MessageBusImplTest extends TestCase {
         }catch (InterruptedException exp){
             fail("event hasent been deliverd");
         }
-    }
+    }//h
 
     @Test
     public void testRegister() {

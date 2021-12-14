@@ -8,11 +8,43 @@ public class Data {
     /**
      * Enum representing the Data type.
      */
-    enum Type {
+    public enum Type {
         Images, Text, Tabular
     }
 
+    /**
+     * @INV: processed >=0
+     *       processed <= size
+     */
+    //--------------------Fields---------------------
     private Type type;
     private int processed;
     private int size;
+
+    //-----------------Constructor-------------------
+    public Data(Type _type, int _size){
+        this.type = _type;
+        this.processed = 0;
+        this.size = _size;
+    }
+
+    //-------------------Methods---------------------
+    public Type getType(){
+        return this.type;
+    }
+
+    public void processData(){
+        if ( processed == size )
+            throw new StackOverflowError("All data has been processed"); //TODO: which exception should it throw
+        processed ++;
+    }
+
+    public void processData(int numOfProcesses){
+        if ( processed == size )
+            throw new StackOverflowError("All data has been processed"); //TODO: which exception should it throw
+        else if ( processed + numOfProcesses >= size )
+            processed = size;
+        else
+            processed += numOfProcesses;
+    }
 }
