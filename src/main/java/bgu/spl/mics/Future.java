@@ -1,5 +1,6 @@
 package bgu.spl.mics;
 
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -11,12 +12,13 @@ import java.util.concurrent.TimeUnit;
  * No public constructor is allowed except for the empty constructor.
  */
 public class Future<T> {
-	
+
+	private T future = null;
+
 	/**
-	 * This should be the the only public constructor in this class.
+	 * This should be the only public constructor in this class.
 	 */
 	public Future() {
-		//TODO: implement this
 	}
 	
 	/**
@@ -28,23 +30,25 @@ public class Future<T> {
      * 	       
      */
 	public T get() {
-		//TODO: implement this.
-		return null;
+		return future;
 	}
 	
 	/**
      * Resolves the result of this Future object.
      */
-	public void resolve (T result) {
-		//TODO: implement this.
+	// it's synchronize because some microservices can call it concurrently
+	public synchronized void resolve (T result) {
+		if ( future == null){
+			this.future = result;
+			notifyAll();
+		}
 	}
 	
 	/**
      * @return true if this object has been resolved, false otherwise
      */
 	public boolean isDone() {
-		//TODO: implement this.
-		return false;
+		return (future != null);
 	}
 	
 	/**
@@ -52,15 +56,23 @@ public class Future<T> {
      * This method is non-blocking, it has a limited amount of time determined
      * by {@code timeout}
      * <p>
-     * @param timout 	the maximal amount of time units to wait for the result.
+     * @param timeout 	the maximal amount of time units to wait for the result.
      * @param unit		the {@link TimeUnit} time units to wait.
      * @return return the result of type T if it is available, if not, 
      * 	       wait for {@code timeout} TimeUnits {@code unit}. If time has
      *         elapsed, return null.
      */
 	public T get(long timeout, TimeUnit unit) {
-		//TODO: implement this.
-		return null;
+		if ( isDone() )
+			return future;
+		else{
+			try{
+				unit.timedWait(this, timeout);
+			}catch (InterruptedException e){
+				e.printStackTrace();
+			}
+		}
+		return future;
 	}
 
 }

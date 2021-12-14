@@ -20,7 +20,7 @@ public class CPU {
     private ArrayList<DataBatch> data;
     private Cluster cluster;
 
-    //----------------Constructor-----------------------
+    //-----------------Constructor---------------------
     public CPU(int numOfCores){
         this.cores = numOfCores;
         this.done = false;
@@ -29,7 +29,7 @@ public class CPU {
     }
 
     //-------------------Methods-----------------------
-    public int getNumOfCPUs(){
+    public int getNumOfCores(){
         return this.cores;
     }
 
@@ -39,6 +39,7 @@ public class CPU {
      */
     public void process(ArrayList<DataBatch> dataToProcess){
         //some processing
+        // wait(1/2/4 ticks for each process ?)
         this.done = true;
     }
 
@@ -47,6 +48,7 @@ public class CPU {
      */
     public void process(){
         //some processing
+        //data.get(0).getDataType();
         this.done = true;
     }
 

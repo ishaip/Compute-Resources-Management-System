@@ -1,4 +1,5 @@
 package bgu.spl.mics.application.objects;
+import java.util.ArrayList;
 
 
 /**
@@ -10,7 +11,6 @@ package bgu.spl.mics.application.objects;
  */
 public class Cluster {
 
-
 	/**
      * Retrieves the single instance of this class.
      */
@@ -19,4 +19,46 @@ public class Cluster {
 		return null;
 	}
 
+	//---------------------Fields----------------------
+	private ArrayList<GPU> gpus;
+	private ArrayList<CPU> cpus;
+	private Statistics stats;
+
+	//------------------Constructor---------------------
+	public Cluster(){
+		this.gpus = new ArrayList<>();
+		this.cpus = new ArrayList<>();
+		this.stats = new Statistics();
+	}
+
+	public Cluster(ArrayList<GPU> g, ArrayList<CPU> c, Statistics s){
+		this.gpus = new ArrayList<>(g);
+		this.cpus = new ArrayList<>(c);
+		this.stats = s;
+	}
+
+	//-------------------Methods-----------------------
+	public ArrayList<CPU> getCpus() {
+		return cpus;
+	}
+
+	public ArrayList<GPU> getGpus() {
+		return gpus;
+	}
+
+	public ArrayList<String> getTrainedModels(){
+		return stats.getTrainedModels();
+	}
+
+	public int getNumOfDataBatchProcessed(){
+		return stats.getDataBatchProcessed();
+	}
+
+	public int getNumOfCpuTimeUnits(){
+		return stats.getCPUTimeUnitUsed();
+	}
+
+	public int getNumOfGpuTimeUnits(){
+		return stats.getGPUTimeUnitUsed();
+	}
 }

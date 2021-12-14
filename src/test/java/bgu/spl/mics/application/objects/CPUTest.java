@@ -19,7 +19,7 @@ public class CPUTest {
 //rufg
     @Test
     public void testGetNumOfCPUs() {
-        assertEquals(4, cpu.getNumOfCPUs());
+        assertEquals(4, cpu.getNumOfCores());
     }
 
     @Test

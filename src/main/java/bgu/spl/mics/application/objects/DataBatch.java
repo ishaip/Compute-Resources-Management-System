@@ -5,7 +5,7 @@ package bgu.spl.mics.application.objects;
  * Add fields and methods to this class as you see fit (including public methods and constructors).
  */
 
-public class DataBatch {
+public class DataBatch { //
 
     /** @INV: startIndex >= 0
      *        startIndex < data.size()
@@ -21,7 +21,6 @@ public class DataBatch {
     }
 
     //-------------------Methods---------------------
-
     public void setStartIndex(){
         this.startIndex ++;
         data.processData();
@@ -32,5 +31,6 @@ public class DataBatch {
         this.startIndex += nextIndex;
     }
 
+    public Data getDataType() { return data; }
     
 }
