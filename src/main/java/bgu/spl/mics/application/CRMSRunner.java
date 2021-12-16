@@ -43,6 +43,7 @@ public class CRMSRunner {
                     //extract the data
                     String modelName = modelObject.get("name").getAsString();
                     String type = modelObject.get("type").getAsString();
+                    int size = modelObject.get("size").getAsInt();
 
                 }
             }
