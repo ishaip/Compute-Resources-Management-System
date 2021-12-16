@@ -7,7 +7,7 @@ import bgu.spl.mics.application.objects.Model;
 
 public class TrainModelEvent implements Event<Boolean> {
     private final Model model;
-    private Future <Boolean> TestModelIsPreformed;
+    private Future <Model.Status> TestModelIsPreformed;
 
     public TrainModelEvent(Model model){ this.model = model;}
 
@@ -17,5 +17,6 @@ public class TrainModelEvent implements Event<Boolean> {
 
     public Model.Status getStatus(){return model.getStatus();}
 
-    public Future<Boolean> getTestModelIsPreformed(){return TestModelIsPreformed;}
+    public Future<Model.Status> getFuture(){return TestModelIsPreformed;}
+
 }
