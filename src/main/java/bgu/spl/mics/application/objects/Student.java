@@ -10,18 +10,18 @@ public class Student {
     /**
      * Enum representing the Degree the student is studying for.
      */
-    enum Degree {
+    public enum Degree {
         MSc, PhD
     }
 
-    private int name;
+    private String name;
     private String department;
     private Degree status;
     private int publications;
     private int papersRead;
     private LinkedList<Model> models;
 
-    public Student(int name,String department,Degree status, int publications,int papersRead ){
+    public Student(String name,String department,Degree status, int publications,int papersRead ){
         this.name = name;
         this.department = department;
         this.papersRead = papersRead;
