@@ -18,13 +18,8 @@ public class CPUService extends MicroService {
 
     //---------------------Fields----------------------
     private boolean terminated;
-    private String name;
-    private CPU cpu; //
-    private int time=0;
-    private int speed;
-    private Cluster cluster;
-    DataBatch db;
-    int calculationTime;
+    private final CPU cpu; //
+    private final Cluster cluster;
     int coreNum;
 
 
@@ -38,26 +33,17 @@ public class CPUService extends MicroService {
 
     //-------------------Methods----------------------
 
-    private void processData(){
-        time = time + 1;
-        if (calculationTime <= time) {
-            cluster.addProcessedData(db);
-            db = cluster.getNextDataToBePreprocessed();
-            calculationTime = (db.getData().getSpeed())/coreNum;
-        }
-    }
-
     @Override
     protected void initialize() {
         Thread processDataThread = new Thread(cpu::processData);
-        db = cluster.getNextDataToBePreprocessed();
-        calculationTime = (db.getData().getSpeed())/coreNum;
+        cpu.startUp(cluster.getNextDataToBePreprocessed());
 
         processDataThread.start();
 
         subscribeBroadcast(TickBroadcast.class, c -> {
             if (processDataThread.getState() == Thread.State.WAITING) {
                 processDataThread.notify();
+                processDataThread.interrupt();
             }
         });
 

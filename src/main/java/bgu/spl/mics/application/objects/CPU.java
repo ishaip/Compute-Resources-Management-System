@@ -44,6 +44,7 @@ public class CPU {
                 cluster.addProcessedData(db);
                 db = cluster.getNextDataToBePreprocessed();
                 calculationTime = (db.getData().getSpeed()) / cores;
+                time = time - calculationTime;
             }
             try {
                 this.wait();

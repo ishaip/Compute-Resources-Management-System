@@ -21,47 +21,34 @@ import static bgu.spl.mics.application.objects.Model.Status.Trained;
  * You MAY change constructor signatures and even add new public constructors.
  */
 public class GPUService extends MicroService {
-    private GPU gpu;
-    private int time = 0;
-    private Cluster cluster;
-    private int speed;
-    private ConcurrentHashMap<Data, Future<Model.Status>> modelFutures = new ConcurrentHashMap<>();
-    private DataBatch db;
+    private final GPU gpu;
+    private final Cluster cluster = Cluster.getInstance();
+    private final ConcurrentHashMap<Data, Future<Model.Status>> modelFutures = new ConcurrentHashMap<>();
 
 
     public GPUService(String name, GPU gpu) {
         super(name);
         this.gpu = gpu;
-        cluster = Cluster.getInstance();
-        if (gpu.getType() == GPU.Type.GTX1080)
-            speed = 4;
-        if (gpu.getType() == GPU.Type.RTX2080)
-            speed = 2;
-        if (gpu.getType() == GPU.Type.RTX3090)
-            speed = 1;
         cluster.startNewGpuConnection(gpu);
+        gpu.setGpuService(this);
     }
 
-    private void trainData(){
-        while(speed <= time) {
-            db = cluster.getNextProcessedData(gpu);
-            if (db.getData().processData())
-                modelFutures.get(db.getData()).resolve(Trained);
-            time = time - speed;
-        }
+    public void doneTraining(DataBatch db){
+        modelFutures.get(db.getData()).resolve(Trained);
     }
 
     @Override
     protected void initialize() {
-        Thread trainDataThread = new Thread(this::trainData);
+        Thread trainDataThread = new Thread(gpu::trainData);
+        trainDataThread.start();
 
         subscribeBroadcast(TickBroadcast.class, c -> {
-            time = time + 1;
-            if (trainDataThread.getState() == Thread.State.TERMINATED)
-                trainDataThread.start();
+            gpu.addTime();
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
+            gpu.terminate();
+            trainDataThread.notify();
             trainDataThread.interrupt();
              terminate();
          });

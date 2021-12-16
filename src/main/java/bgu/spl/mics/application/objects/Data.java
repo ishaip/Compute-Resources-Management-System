@@ -21,6 +21,7 @@ public class Data {
     //--------------------Fields---------------------
     private Type type;
     private AtomicInteger processed = new AtomicInteger();
+//    private int prossing;
     private int size;
     private final GPU gpu;
     private int speed;
@@ -64,7 +65,7 @@ public class Data {
 
 //    public void processData(int numOfProcesses){
 //        if ( processed == size )
-//            throw new StackOverflowError("All data has been processed"); //TODO: which exception should it throw
+//            throw new StackOverflowError("All data has been processed");
 //        else if ( processed + numOfProcesses >= size )
 //            processed = size;
 //        else
