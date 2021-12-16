@@ -5,16 +5,12 @@ import bgu.spl.mics.application.services.CPUService;
 import bgu.spl.mics.application.services.GPUService;
 import bgu.spl.mics.application.services.StudentService;
 
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileDescriptor;
+import java.io.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -118,9 +114,20 @@ public class CRMSRunner {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-
         //--------------------File-output-----------------------
+        JsonObject output = new JsonObject();
+        output.put("key", "value"); //TODO: fix //TODO: change "key" and "value"
+
+        try{
+            FileWriter file = new FileWriter("c:/somepath"); //TODO: change the path
+            //file.write();
+
+
+            file.close();
+        }catch(Exception e){
+
+        }
+
         System.out.println("Hello World!");
     }
 
