@@ -32,20 +32,11 @@ public class Model {
         this.result = result;
     }
 
-    public void setResult(Result result){
-        synchronized (this){
-            this.result = result;
-        }
-    }
+    public void setResult(Result result){this.result = result;}
 
-    public synchronized Result getResult() {
-        synchronized (this) {
-            return result;
-        }
-    }
+    public  Result getResult() {return result;}
 
     public void setStatus(Status status){this.status = status;}
-
 
     public Data getData() {return data;}
 
