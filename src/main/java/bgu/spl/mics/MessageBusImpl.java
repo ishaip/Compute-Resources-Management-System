@@ -9,6 +9,7 @@ import java.util.concurrent.*;
  * Write your implementation here!
  * Only private fields and methods can be added to this class.
  */
+
 public class MessageBusImpl implements MessageBus {
 	private static MessageBusImpl instance = null;
 	private static volatile boolean  isDone = false;
@@ -64,11 +65,13 @@ public class MessageBusImpl implements MessageBus {
 
 	@Override
 	public void sendBroadcast(Broadcast b) {
+		/*
 		if (b.getClass() == TerminateBroadcast.class)
 			if (messageRegisteredQueues.containsKey(b.getClass()))
 				for (MicroService ms : messageRegisteredQueues.get(b.getClass()))
 					ms.terminate();
 		else
+			*/
 			if (messageRegisteredQueues.containsKey(b.getClass()))
 				for (MicroService ms : messageRegisteredQueues.get(b.getClass()))
 					microServiceMessageQueues.get(ms).add(b);

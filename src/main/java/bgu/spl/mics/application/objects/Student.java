@@ -14,14 +14,14 @@ public class Student {
         MSc, PhD
     }
 
-    private int name;
+    private String name;
     private String department;
     private Degree status;
     private int publications;
     private int papersRead = 0;
     private LinkedList<Model> models;
 
-    public Student(int name,String department,Degree status, int publications,int papersRead ){
+    public Student(String name,String department,Degree status, int publications,int papersRead ){
         this.name = name;
         this.department = department;
         this.papersRead = papersRead;
@@ -35,7 +35,7 @@ public class Student {
 
     public int getPapersRead(){return papersRead;}
 
-    public void addPublishResult(){publications++;}
+    public void publishPaper(){publications++;}
 
     public Degree getDegree(){return status;}
 

@@ -17,6 +17,7 @@ public class Model {
     public enum Result {
         None, Good, Bad
     }
+
     private String name;
     private Data data;
     private Student student;
@@ -31,9 +32,17 @@ public class Model {
         this.result = result;
     }
 
-    public void setResult(Result result){this.result = result;}
+    public void setResult(Result result){
+        synchronized (this){
+            this.result = result;
+        }
+    }
 
-    public Result getResult(){return result;}
+    public synchronized Result getResult() {
+        synchronized (this) {
+            return result;
+        }
+    }
 
     public void setStatus(Status status){this.status = status;}
 
