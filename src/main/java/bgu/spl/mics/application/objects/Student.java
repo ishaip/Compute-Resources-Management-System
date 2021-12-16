@@ -46,6 +46,8 @@ public class Student {
 
     public void addPublishResult(){ publications++; }
 
+    public void publishPaper(){ publications++; }
+
     public Degree getDegree(){ return status; }
 
     public void addModel(Model model){ models.addLast(model); }
