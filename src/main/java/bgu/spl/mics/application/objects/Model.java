@@ -58,4 +58,6 @@ public class Model {
     public Status getStatus(){
         return status;
     }
+
+    public Student getStudent(){ return student; }
 }
