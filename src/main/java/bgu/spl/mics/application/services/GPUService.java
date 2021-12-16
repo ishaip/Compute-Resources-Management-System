@@ -1,7 +1,15 @@
 package bgu.spl.mics.application.services;
 
+import bgu.spl.mics.Future;
 import bgu.spl.mics.MicroService;
-import bgu.spl.mics.application.objects.Student;
+import bgu.spl.mics.application.broadcast.TerminateBroadcast;
+import bgu.spl.mics.application.broadcast.TickBroadcast;
+import bgu.spl.mics.application.events.TrainModelEvent;
+import bgu.spl.mics.application.objects.*;
+
+import java.util.concurrent.ConcurrentHashMap;
+
+import static bgu.spl.mics.application.objects.Model.Status.Trained;
 
 /**
  * GPU service is responsible for handling the
@@ -13,15 +21,44 @@ import bgu.spl.mics.application.objects.Student;
  * You MAY change constructor signatures and even add new public constructors.
  */
 public class GPUService extends MicroService {
+    private final GPU gpu;
+    private final Cluster cluster = Cluster.getInstance();
+    private final ConcurrentHashMap<Data, Future<Model.Status>> modelFutures = new ConcurrentHashMap<>();
 
-    public GPUService(String name) {
-        super("Change_This_Name");
-        // TODO Implement this
+
+    public GPUService(String name, GPU gpu) {
+        super(name);
+        this.gpu = gpu;
+        cluster.startNewGpuConnection(gpu);
+        gpu.setGpuService(this);
+    }
+
+    public void doneTraining(DataBatch db){
+        modelFutures.get(db.getData()).resolve(Trained);
     }
 
     @Override
     protected void initialize() {
-        // TODO Implement this
+        Thread trainDataThread = new Thread(gpu::trainData);
+        trainDataThread.start();
 
+        subscribeBroadcast(TickBroadcast.class, c -> {
+            gpu.addTime();
+        });
+
+        subscribeBroadcast(TerminateBroadcast.class, c -> {
+            gpu.terminate();
+            trainDataThread.notify();
+            trainDataThread.interrupt();
+             terminate();
+         });
+
+        subscribeEvent(TrainModelEvent.class, c-> {
+            modelFutures.putIfAbsent(c.getData(),c.getFuture());
+            for(int i =0; i < c.getData().getSize(); i +=1000){
+                DataBatch db = new DataBatch(c.getData(),0,gpu);
+                cluster.addDataToBePreprocessed(db);
+            }
+        });
     }
 }
