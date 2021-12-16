@@ -5,9 +5,10 @@ import bgu.spl.mics.Future;
 
 public class PublishResultEvent implements Event<Boolean> {
     private Future<Boolean> published;
+    private String name;
 
-    public PublishResultEvent(Future<Boolean> published){
-        this.published = published;
+    public PublishResultEvent(Future<Boolean> published, String name){
+        //this.published = published; this
     }
 
     public Future<Boolean> getPublishedIsPreformed(){

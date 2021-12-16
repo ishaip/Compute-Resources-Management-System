@@ -44,8 +44,8 @@ public class StudentService extends MicroService {
                 testModelFuture = testModelEvent.getFuture();
                 sendEvent(testModelEvent);
                 Model.Result result= testModelFuture.get(100, TimeUnit.MILLISECONDS);
-                if (result == Model.Result.Good)
-                    sendEvent(new PublishResultEvent())
+               //if (result == Model.Result.Good)
+                    //sendEvent(new PublishResultEvent())
             }
         }
     }
