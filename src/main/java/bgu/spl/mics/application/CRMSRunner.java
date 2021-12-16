@@ -25,6 +25,8 @@ import java.util.ArrayList;
  */
 public class CRMSRunner {
     public static void main(String[] args) {
+
+        //--------------------File-Input-----------------------
         File input = new File("c:/data.json"); //TODO: change pathname input
 
         //Lists of inputs objects
@@ -83,7 +85,7 @@ public class CRMSRunner {
                 gpuList.add(gpu);
 
                 String name = String.format("gpu_%f", i);
-                gpuServiceList.add(new GPUService("name"), gpu);
+                gpuServiceList.add(new GPUService("name", gpu));
             }
 
             //process all cpus
@@ -118,6 +120,7 @@ public class CRMSRunner {
         }
 
 
+        //--------------------File-output-----------------------
         System.out.println("Hello World!");
     }
 

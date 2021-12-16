@@ -11,7 +11,7 @@ public class GPU {
     /**
      * Enum representing the type of the GPU.
      */
-    enum Type {RTX3090, RTX2080, GTX1080, TEST}
+    public enum Type {RTX3090, RTX2080, GTX1080, TEST}
 
     private Type type;
     private Model model = null;
@@ -31,13 +31,15 @@ public class GPU {
             this.type = Type.GTX1080;
     }
 
-    public boolean isAvailable(){return available;}
+    public boolean isAvailable(){ return available; }
 
     public void trainModelEvent (Model model){
         available = false;
         this.model = model;
     }
-    
+
+    public Type getType(){ return type; }
+
     public void startModelTraining(Model model){}
 
     public Future testModel(Model model){
