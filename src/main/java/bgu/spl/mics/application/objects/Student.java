@@ -29,6 +29,18 @@ public class Student {
         this.publications = publications;
     }
 
+    public Student(String name, String department, String degree, Model model){
+        this.name = name;
+        this.department = department;
+        if (degree.equals("MSc"))
+            this.status = Degree.MSc;
+        else
+            this.status = Degree.PhD;
+        this.publications = 0;
+        this.papersRead = 0;
+        this.models.add(model);
+    }
+
     public void readPaper(){papersRead++;}
 
     public int getPapersRead(){return papersRead;}

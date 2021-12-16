@@ -8,8 +8,6 @@ package bgu.spl.mics.application.objects;
 
 public class Model {
 
-
-
     public enum Status {
         PreTrained, Training, Trained, Tested
     }
@@ -17,18 +15,36 @@ public class Model {
     public enum Result {
         None, Good, Bad
     }
+
     private String name;
     private Data data;
     private Student student;
     private Status status;
     private Result result;
 
-    public Model(String name,Data data, Student student, Status status, Result result){
+    public Model(String name, Data data, Student student, Status status, Result result){
         this.name = name;
         this.data = data;
         this.status = status;
         this.student = student;
         this.result = result;
+    }
+
+    public Model (String name, String dataType, int sizeOfData, Student student){
+        this.name = name;
+        this.student = student;
+
+        Data.Type type;
+        if (dataType.equals("Images"))
+            type = Data.Type.Images;
+        else if (dataType.equals("Tabular"))
+            type = Data.Type.Tabular;
+        else
+            type = Data.Type.Text;
+        this.data = new Data(type, sizeOfData);
+
+        this.status = Status.PreTrained;
+        this.result = Result.None;
     }
 
     public void setResult(Result result){this.result = result;}

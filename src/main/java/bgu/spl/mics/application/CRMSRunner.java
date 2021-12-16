@@ -34,7 +34,17 @@ public class CRMSRunner {
                 String name = studentObject.get("name").getAsString();
                 String department = studentObject.get("department").getAsString();
                 String status = studentObject.get("status").getAsString(); // should be cast to 'Degree'
-                int publications = studentObject.get("")
+
+                JsonArray JsonArrayOfModels = fileObject.get("models").getAsJsonArray();
+                for (JsonElement m : JsonArrayOfModels){
+                    //get the Json object
+                    JsonObject modelObject = m.getAsJsonObject();
+
+                    //extract the data
+                    String modelName = modelObject.get("name").getAsString();
+                    String type = modelObject.get("type").getAsString();
+
+                }
             }
 
 
@@ -50,31 +60,3 @@ public class CRMSRunner {
         System.out.println("Hello World!");
     }
 }
-
-/*
-    public Student(String name, String department, String degree, Model model){
-        this.name = name;
-        this.department = department;
-        if (degree.equals("MSc"))
-            this.status = Degree.MSc;
-        else
-            this.status = Degree.PhD;
-        this.publications = 0;
-        this.papersRead = 0;
-        this.models.add(model);
-    }
- */
-
-/*
-    public Student(String name, String department, String degree, Model model){
-        this.name = name;
-        this.department = department;
-        if (degree.equals("MSc"))
-            this.status = Degree.MSc;
-        else
-            this.status = Degree.PhD;
-        this.publications = 0;
-        this.papersRead = 0;
-        this.models.add(model);
-    }
- */
