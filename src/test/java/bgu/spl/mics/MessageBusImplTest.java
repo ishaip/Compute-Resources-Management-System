@@ -49,7 +49,12 @@ public class MessageBusImplTest extends TestCase {
         tBus.complete(e,1);
         //asserting that the future have the correct value
         assertTrue(future.isDone());
-        assertEquals(1,(int)future.get());
+        // the rest of the code was without 'try' and 'catch'
+        try {
+            assertEquals(1,(int)future.get());
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Test

@@ -25,7 +25,7 @@ public class TestModelEvent implements Event<Boolean> {
         model.setResult(res);
     }
 
-    public boolean test (){
+    public boolean test () throws InterruptedException {
         return future.get();
     }
 }
