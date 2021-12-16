@@ -1,4 +1,6 @@
 package bgu.spl.mics.application.objects;
+import bgu.spl.mics.MessageBusImpl;
+
 import java.util.ArrayList;
 
 
@@ -15,14 +17,23 @@ public class Cluster {
      * Retrieves the single instance of this class.
      */
 	public static Cluster getInstance() {
-		//TODO: Implement this
-		return null;
+		if (!isDone){
+			synchronized (MessageBusImpl.class){
+				if (!isDone){
+					instance = new Cluster();
+					isDone = true;
+				}
+			}
+		}
+		return instance;
 	}
 
 	//---------------------Fields----------------------
+	private static volatile boolean  isDone = false;
 	private ArrayList<GPU> gpus;
 	private ArrayList<CPU> cpus;
 	private Statistics stats;
+	private static Cluster instance = null;
 
 	//------------------Constructor---------------------
 	public Cluster(){

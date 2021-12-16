@@ -13,6 +13,7 @@ import java.util.concurrent.*;
 public class MessageBusImpl implements MessageBus {
 	private static MessageBusImpl instance = null;
 	private static volatile boolean  isDone = false;
+
 	//using ConcurrentHashMap and Blocking queue because it will be better for threading
 	//a queue of messages for every microService
 	private ConcurrentHashMap<MicroService,BlockingQueue<Message>> microServiceMessageQueues = new ConcurrentHashMap<>();

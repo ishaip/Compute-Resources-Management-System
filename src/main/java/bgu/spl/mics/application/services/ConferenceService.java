@@ -4,6 +4,7 @@ import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.broadcast.PublishConferenceBroadcast;
 import bgu.spl.mics.application.broadcast.TerminateBroadcast;
 import bgu.spl.mics.application.broadcast.TickBroadcast;
+import bgu.spl.mics.application.events.PublishResultEvent;
 import bgu.spl.mics.application.objects.Model;
 import bgu.spl.mics.application.objects.Student;
 
@@ -45,6 +46,8 @@ public class ConferenceService extends MicroService {
             terminate();
         });
 
-
+        subscribeEvent(PublishResultEvent.class , c -> {
+            models.add(c.getModel());
+        });
     }
 }

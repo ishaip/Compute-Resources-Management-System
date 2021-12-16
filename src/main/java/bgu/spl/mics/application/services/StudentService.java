@@ -47,7 +47,7 @@ public class StudentService extends MicroService {
                 Model.Result result = testModelFuture.get();
                 //wait until testing is done
                 if (result == Model.Result.Good)
-                    sendEvent(new PublishResultEvent(student,m));
+                    sendEvent(new PublishResultEvent(m));
             }
         }
     }
@@ -58,7 +58,8 @@ public class StudentService extends MicroService {
         runResults.start();
 
         subscribeBroadcast(PublishConferenceBroadcast.class, c -> {
-            for (Student s : c.getPublishers()) {
+            for (Model m : c.getModel()) {
+                Student s = m.getStudent();
                 if (s != student)
                     student.readPaper();
                 else
