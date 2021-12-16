@@ -47,14 +47,13 @@ public class Model {
         this.data = new Data(type, sizeOfData);
     }
 
-    public void setResult(Result result){this.result = result;}
+    public void setResult(Result result){ this.result = result; }
 
-    public Result getResult(){return result;}
+    public Result getResult(){ return result; }
 
-    public void setStatus(Status status){this.status = status;}
+    public void setStatus(Status status){ this.status = status; }
 
-
-    public Data getData() {return data;}
+    public Data getData() { return data; }
 
     public Status getStatus(){
         return status;
