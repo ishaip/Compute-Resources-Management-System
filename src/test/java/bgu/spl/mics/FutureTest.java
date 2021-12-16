@@ -22,7 +22,12 @@ public class FutureTest extends TestCase {
     public void testGet() {
         assertFalse(future.isDone());
         future.resolve("");
-        future.get();
+        // the rest of the code was without 'try' and 'catch'
+        try {
+            future.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         assertTrue(future.isDone());
     }
 
@@ -31,7 +36,12 @@ public class FutureTest extends TestCase {
         String str = "result";
         future.resolve(str);
         assertTrue(future.isDone());
-        assertEquals(str, future.get());
+        // the rest of the code was without 'try' and 'catch'
+        try {
+            assertEquals(str, future.get());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

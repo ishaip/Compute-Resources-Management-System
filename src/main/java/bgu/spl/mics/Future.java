@@ -29,7 +29,11 @@ public class Future<T> {
      * @return return the result of type T if it is available, if not wait until it is available.
      * 	       
      */
-	public T get() {
+	public T get() throws InterruptedException{
+		synchronized(this){
+			while ( future == null )
+				this.wait();
+		}
 		return future;
 	}
 	//TODO update this
@@ -39,7 +43,7 @@ public class Future<T> {
      */
 	// it's synchronize because some microservices can call it concurrently
 	public synchronized void resolve (T result) {
-		if ( future == null){
+		synchronized(this){
 			this.future = result;
 			notifyAll();
 		}
