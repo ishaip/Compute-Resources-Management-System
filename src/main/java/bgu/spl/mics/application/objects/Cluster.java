@@ -4,6 +4,7 @@ import bgu.spl.mics.MessageBusImpl;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -38,7 +39,7 @@ public class Cluster {
 	private Statistics stats;
 	private static Cluster instance = null;
 	private LinkedBlockingQueue<DataBatch> dataToPreprocessed = new LinkedBlockingQueue<DataBatch>();
-	private LinkedBlockingQueue<DataBatch> processedData = new LinkedBlockingQueue<DataBatch>();
+	private ConcurrentHashMap<GPU,LinkedBlockingQueue<DataBatch>> processedData = new ConcurrentHashMap<GPU,LinkedBlockingQueue<DataBatch>>();
 
 	//------------------Constructor---------------------
 	public Cluster(){
@@ -54,6 +55,8 @@ public class Cluster {
 	}
 
 	//-------------------Methods-----------------------
+	public void startNewGpuConnection(GPU gpu){processedData.putIfAbsent(gpu,new LinkedBlockingQueue<DataBatch>());}
+
 	public ArrayList<CPU> getCpus() {
 		return cpus;
 	}
@@ -62,15 +65,15 @@ public class Cluster {
 		return gpus;
 	}
 
-	public DataBatch getNextDataToBePreprocessed(){return dataToPreprocessed.poll();}
+
 
 	public void addDataToBePreprocessed(DataBatch db){dataToPreprocessed.add(db);}
 
-	public DataBatch getNextProcessedData(){return processedData.poll();}
+	public DataBatch getNextProcessedData(GPU gpu){return processedData.get(gpu).poll();}
 
-	public void addProcessedData(DataBatch db){processedData.add(db);}
+	public DataBatch getNextDataToBePreprocessed(){return dataToPreprocessed.poll();}
 
-
+	public void addProcessedData(DataBatch db){processedData.get(db.getGpu()).add(db);}
 
 	public ArrayList<String> getTrainedModels(){
 		return stats.getTrainedModels();

@@ -34,7 +34,7 @@ public class DataBatch { //
     }
 
     public void setStartIndex(int nextIndex){
-        data.processData(nextIndex);
+        //data.processData(nextIndex);
         this.startIndex += nextIndex;
     }
 

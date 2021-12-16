@@ -17,13 +17,12 @@ public class CPUTest {
         cpu = new CPU(4);
 
     }
-//rufg
     @Test
     public void testGetNumOfCPUs() {
         assertEquals(4, cpu.getNumOfCores());
     }
 
-    @Test
+   /* @Test
     public void testProcess() throws Exception{
         assertFalse(cpu.isDone());
         cpu.process();
@@ -42,5 +41,5 @@ public class CPUTest {
 
         cpu.process(someData);
         assertTrue(cpu.isDone());
-    }
+    }*/
 }

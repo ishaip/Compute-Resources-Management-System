@@ -1,16 +1,12 @@
 package bgu.spl.mics.application.services;
 
-import bgu.spl.mics.Event;
 import bgu.spl.mics.Future;
 import bgu.spl.mics.MicroService;
-import bgu.spl.mics.application.broadcast.PublishConferenceBroadcast;
 import bgu.spl.mics.application.broadcast.TerminateBroadcast;
 import bgu.spl.mics.application.broadcast.TickBroadcast;
-import bgu.spl.mics.application.events.TestModelEvent;
 import bgu.spl.mics.application.events.TrainModelEvent;
 import bgu.spl.mics.application.objects.*;
 
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static bgu.spl.mics.application.objects.Model.Status.Trained;
@@ -30,6 +26,7 @@ public class GPUService extends MicroService {
     private Cluster cluster;
     private int speed;
     private ConcurrentHashMap<Data, Future<Model.Status>> modelFutures = new ConcurrentHashMap<>();
+    private DataBatch db;
 
 
     public GPUService(String name, GPU gpu) {
@@ -42,21 +39,30 @@ public class GPUService extends MicroService {
             speed = 2;
         if (gpu.getType() == GPU.Type.RTX3090)
             speed = 1;
+        cluster.startNewGpuConnection(gpu);
+    }
+
+    private void trainData(){
+        while(speed <= time) {
+            db = cluster.getNextProcessedData(gpu);
+            if (db.getData().processData())
+                modelFutures.get(db.getData()).resolve(Trained);
+            time = time - speed;
+        }
     }
 
     @Override
     protected void initialize() {
+        Thread trainDataThread = new Thread(this::trainData);
+
         subscribeBroadcast(TickBroadcast.class, c -> {
-            DataBatch db;
             time = time + 1;
-            if (speed <= time ){
-                db = cluster.getNextProcessedData();
-                if (db.getData().processData())
-                    modelFutures.get(db.getData()).resolve(Trained);
-            }
+            if (trainDataThread.getState() == Thread.State.TERMINATED)
+                trainDataThread.start();
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
+            trainDataThread.interrupt();
              terminate();
          });
 
