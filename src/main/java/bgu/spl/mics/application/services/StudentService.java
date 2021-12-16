@@ -13,6 +13,7 @@ import bgu.spl.mics.application.objects.Student;
  * You MAY change constructor signatures and even add new public constructors.
  */
 public class StudentService extends MicroService {
+
     private final Student student;
 
     public StudentService(String name, Student student) {

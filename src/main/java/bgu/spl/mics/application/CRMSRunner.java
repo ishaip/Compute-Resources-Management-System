@@ -43,8 +43,7 @@ public class CRMSRunner {
 
             //extracting Students into array
             JsonArray JsonArrayOfStudents = fileObject.get("Student").getAsJsonArray();
-            Student[] studentArray = new Student[JsonArrayOfStudents.size()];
-            int index = 0;
+
             //process all students
             for (JsonElement e : JsonArrayOfStudents){
                 //get the Json object
@@ -55,7 +54,8 @@ public class CRMSRunner {
                 String department = studentObject.get("department").getAsString();
                 String status = studentObject.get("status").getAsString();
 
-                studentArray[index] = new Student(name, department, status);
+                Student st = new Student(name, department, status);
+                studentList.add(st);
 
                 JsonArray JsonArrayOfModels = fileObject.get("models").getAsJsonArray();
                 for (JsonElement m : JsonArrayOfModels){
@@ -67,12 +67,11 @@ public class CRMSRunner {
                     String type = modelObject.get("type").getAsString();
                     int size = modelObject.get("size").getAsInt();
 
-                    Model model = new Model(modelName, type, size, studentArray[index]);
-
-                    studentArray[index].addModel(model);
+                    Model model = new Model(modelName, type, size, st);
+                    st.addModel(model);
                 }
-                index ++;
             }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
