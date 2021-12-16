@@ -8,16 +8,15 @@ import bgu.spl.mics.application.objects.Student;
 public class TestModelEvent implements Event<Boolean> {
 
     //---------------------Fields----------------------
-    private Future<Model.Result> future;
+    private final Future<Model.Result> future;
     private final Model model;
-    private final Student publisher;
+    private final Student student;
 
     //-----------------Constructor---------------------
-    public TestModelEvent (Model _model, Student publisher){
-        this.future = new Future<Model.Result>();
+    public TestModelEvent (Model _model, Student student){
+        this.future = new Future<>();
         this.model = _model;
-        this.publisher = publisher;
-
+        this.student = student;
     }
 
     //-------------------Methods----------------------
@@ -31,7 +30,5 @@ public class TestModelEvent implements Event<Boolean> {
 
     public Future<Model.Result> getFuture(){return future;}
 
-    public Model.Result test (){return future.get();}
-
-    public Student getPublisher(){return publisher;}
+    public Student getStudent(){return student;}
 }

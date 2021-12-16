@@ -35,24 +35,29 @@ public class StudentService extends MicroService {
         this.student=student;
     }
 
-    private void waitForResults(){
-        while(!terminated){
+    private void waitForResults()  {
+        while (!terminated) {
             for (Model m : student.getModels()) {
                 TrainModelEvent trainModelEvent = new TrainModelEvent(m);
                 trainModelFuture = trainModelEvent.getFuture();
-                trainModelFuture.get(100, TimeUnit.MILLISECONDS);
+                trainModelFuture.get();
+                //wait until training is done
                 TestModelEvent testModelEvent = new TestModelEvent(m, student);
                 testModelFuture = testModelEvent.getFuture();
                 sendEvent(testModelEvent);
-                Model.Result result= testModelFuture.get(100, TimeUnit.MILLISECONDS);
-               //if (result == Model.Result.Good)
-                    //sendEvent(new PublishResultEvent())
+                Model.Result result = testModelFuture.get();
+                //wait until testing is done
+                if (result == Model.Result.Good)
+                    sendEvent(new PublishResultEvent(student,m));
             }
         }
     }
 
     @Override
     protected void initialize() {
+        Thread runResults = new Thread(this::waitForResults);
+        runResults.start();
+
         subscribeBroadcast(PublishConferenceBroadcast.class, c -> {
             for (Student s : c.getPublishers()) {
                 if (s != student)
@@ -64,11 +69,11 @@ public class StudentService extends MicroService {
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
             terminated = true;
+            runResults.interrupt();
             terminate();
         });
 
-        Thread runResults = new Thread(this::waitForResults);
-        runResults.start();
+
     }
 }
 

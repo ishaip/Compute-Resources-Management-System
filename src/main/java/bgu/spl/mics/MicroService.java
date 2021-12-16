@@ -58,7 +58,7 @@ public abstract class MicroService implements Runnable {
      *                 queue.
      */
     protected final <T, E extends Event<T>> void subscribeEvent(Class<E> type, Callback<E> callback) {
-        mesInstructions.put(type, callback); // stores the instructions to handle Event of such 'type'
+        mesInstructions.put(type, callback); // stores the instructions so as to handle Event of such 'type'
         messageBus.subscribeEvent(type, this); // notify messageBus
     }
 
@@ -159,13 +159,13 @@ public abstract class MicroService implements Runnable {
         while (!terminated) {
             try{
                 Message currMessage = messageBus.awaitMessage(this);
-                Class<? extends Message> HowToReact = currMessage.getClass();
-                Callback action = mesInstructions.get(HowToReact);
-                if (action != null ) action.call(currMessage);
+                Class<? extends Message> react = currMessage.getClass();
+                Callback action = mesInstructions.get(react);
+                if (action != null)
+                    action.call(currMessage);
             } catch (InterruptedException e) {
                 throw new IllegalStateException();
             }
-            //unchecked
         }
         messageBus.unregister(this);
     }
