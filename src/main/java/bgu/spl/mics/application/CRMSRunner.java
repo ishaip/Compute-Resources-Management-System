@@ -73,12 +73,45 @@ public class CRMSRunner {
                 }
                 studentServiceList.add(new StudentService(name, st));
             }
-            JsonArray JsonArrayOfGPU = fileObject.get("GPUS").getAsJsonArray();
-            for (JsonElement e : JsonArrayOfGPU){
-                JsonObject gpuObject = e.getAsJsonObject();
-                String t = gpuObject.getAsString();
 
+            //process all gpus
+            JsonArray JsonArrayOfGPU = fileObject.get("GPUS").getAsJsonArray();
+            for (int i = 0; i < JsonArrayOfGPU.size(); i++){
+                JsonObject gpuObject = JsonArrayOfGPU.get(i).getAsJsonObject();
+                String t = gpuObject.getAsString();
+                GPU gpu = new GPU(t);
+                gpuList.add(gpu);
+
+                String name = String.format("gpu_%f", i);
+                gpuServiceList.add(new GPUService("name"), gpu);
             }
+
+            //process all cpus
+            JsonArray JsonArrayOfCPU = fileObject.get("CPUS").getAsJsonArray();
+            for (int i = 0; i < JsonArrayOfCPU.size(); i++){
+                JsonObject cpuObject = JsonArrayOfCPU.get(i).getAsJsonObject();
+                int numOfCores = cpuObject.getAsInt();
+                CPU cpu = new CPU(numOfCores);
+                CPUList.add(cpu);
+
+                String name = String.format("cpu_%f", i);
+                cpuServiceList.add(new CPUService(name, cpu));
+            }
+
+            //process all conferences
+            JsonArray JsonArrayOfConferences = fileObject.get("Conferences").getAsJsonArray();
+            for (JsonElement e : JsonArrayOfConferences){
+                JsonObject conferenceObject = e.getAsJsonObject();
+
+                //extract the data of the conference
+                String name = conferenceObject.get("name").getAsString();
+                int date = conferenceObject.get("date").getAsInt();
+
+                conferenceList.add(new ConfrenceInformation(name, date));
+            }
+
+            tickTime = fileObject.get("TickTime").getAsInt();
+            duration = fileObject.get("Duration").getAsLong();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -88,5 +121,4 @@ public class CRMSRunner {
         System.out.println("Hello World!");
     }
 
-    public static Type
 }
