@@ -39,7 +39,12 @@ public class StudentService extends MicroService {
             for (Model m : student.getModels()) {
                 TrainModelEvent trainModelEvent = new TrainModelEvent(m);
                 trainModelFuture = trainModelEvent.getFuture();
-                trainModelFuture.get();
+                try {
+                    trainModelFuture.get();
+                }
+                catch (InterruptedException e){
+                    //do nothing
+                }
                 //wait until training is done
                 TestModelEvent testModelEvent = new TestModelEvent(m, student);
                 testModelFuture = testModelEvent.getFuture();
