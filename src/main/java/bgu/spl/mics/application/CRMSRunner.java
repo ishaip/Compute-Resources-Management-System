@@ -34,7 +34,7 @@ public class CRMSRunner {
                 String name = studentObject.get("name").getAsString();
                 String department = studentObject.get("department").getAsString();
                 String status = studentObject.get("status").getAsString(); // should be cast to 'Degree'
-                int publications = studentObject.get("")
+                int publications = studentObject.get("").getAsInt();
             }
 
 
