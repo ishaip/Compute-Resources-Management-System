@@ -34,25 +34,20 @@ public class StudentService extends MicroService {
         this.student=student;
     }
 
-    private void waitForResults(){
-        while(!terminated){
+    private void waitForResults()  {
+        while (!terminated) {
             for (Model m : student.getModels()) {
                 TrainModelEvent trainModelEvent = new TrainModelEvent(m);
                 trainModelFuture = trainModelEvent.getFuture();
-                try {
-                    trainModelFuture.get();
-                }
-                catch (InterruptedException e){
-                    //do nothing
-                }
+                trainModelFuture.get();
                 //wait until training is done
                 TestModelEvent testModelEvent = new TestModelEvent(m, student);
                 testModelFuture = testModelEvent.getFuture();
                 sendEvent(testModelEvent);
-                Model.Result result= testModelFuture.get();
+                Model.Result result = testModelFuture.get();
                 //wait until testing is done
-               if (result == Model.Result.Good)
-                    sendEvent(new PublishResultEvent(student));
+                if (result == Model.Result.Good)
+                    sendEvent(new PublishResultEvent(student,m));
             }
         }
     }
@@ -73,13 +68,7 @@ public class StudentService extends MicroService {
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
             terminated = true;
-            try {
-                runResults.interrupt();
-            }
-            catch(InterruptedException e){
-                //do nothing
-            }
-
+            runResults.interrupt();
             terminate();
         });
 

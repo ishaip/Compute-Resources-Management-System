@@ -5,7 +5,7 @@ import bgu.spl.mics.application.broadcast.TickBroadcast;
 import bgu.spl.mics.application.objects.CPU;
 
 /**
- * CPU service is responsible for handling the {@link  DataPreProcessEvent}.
+ * CPU service is responsible for handling the {@link  //DataPreProcessEvent}.
  * This class may not hold references for objects which it is not responsible for.
  *
  * You can add private fields and public methods to this class.

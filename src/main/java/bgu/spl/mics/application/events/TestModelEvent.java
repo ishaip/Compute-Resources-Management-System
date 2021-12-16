@@ -3,17 +3,20 @@ package bgu.spl.mics.application.events;
 import bgu.spl.mics.Event;
 import bgu.spl.mics.Future;
 import bgu.spl.mics.application.objects.Model;
+import bgu.spl.mics.application.objects.Student;
 
 public class TestModelEvent implements Event<Boolean> {
 
     //---------------------Fields----------------------
-    private Future<Boolean> future;
-    private Model model;
+    private final Future<Model.Result> future;
+    private final Model model;
+    private final Student student;
 
     //-----------------Constructor---------------------
-    public TestModelEvent (Model _model){
+    public TestModelEvent (Model _model, Student student){
         this.future = new Future<>();
         this.model = _model;
+        this.student = student;
     }
 
     //-------------------Methods----------------------
@@ -25,7 +28,7 @@ public class TestModelEvent implements Event<Boolean> {
         model.setResult(res);
     }
 
-    public boolean test () throws InterruptedException {
-        return future.get();
-    }
+    public Future<Model.Result> getFuture(){return future;}
+
+    public Student getStudent(){return student;}
 }
