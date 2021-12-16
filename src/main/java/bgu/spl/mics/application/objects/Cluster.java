@@ -2,6 +2,9 @@ package bgu.spl.mics.application.objects;
 import bgu.spl.mics.MessageBusImpl;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
@@ -34,6 +37,8 @@ public class Cluster {
 	private ArrayList<CPU> cpus;
 	private Statistics stats;
 	private static Cluster instance = null;
+	private LinkedBlockingQueue<DataBatch> dataToPreprocessed = new LinkedBlockingQueue<DataBatch>();
+	private LinkedBlockingQueue<DataBatch> processedData = new LinkedBlockingQueue<DataBatch>();
 
 	//------------------Constructor---------------------
 	public Cluster(){
@@ -56,6 +61,16 @@ public class Cluster {
 	public ArrayList<GPU> getGpus() {
 		return gpus;
 	}
+
+	public DataBatch getNextDataToBePreprocessed(){return dataToPreprocessed.poll();}
+
+	public void addDataToBePreprocessed(DataBatch db){dataToPreprocessed.add(db);}
+
+	public DataBatch getNextProcessedData(){return processedData.poll();}
+
+	public void addProcessedData(DataBatch db){processedData.add(db);}
+
+
 
 	public ArrayList<String> getTrainedModels(){
 		return stats.getTrainedModels();

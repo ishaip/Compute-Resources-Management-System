@@ -11,7 +11,7 @@ public class GPU {
     /**
      * Enum representing the type of the GPU.
      */
-    enum Type {RTX3090, RTX2080, GTX1080, TEST}
+    public enum Type {RTX3090, RTX2080, GTX1080, TEST}
 
     private Type type;
     private Model model = null;
@@ -31,6 +31,8 @@ public class GPU {
     }
     
     public void startModelTraining(Model model){}
+
+    public Type getType() {return type;}
 
     public Future testModel(Model model){
         return null;

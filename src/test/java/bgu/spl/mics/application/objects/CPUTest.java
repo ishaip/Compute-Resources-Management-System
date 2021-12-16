@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
 
+import static bgu.spl.mics.application.objects.GPU.Type.RTX3090;
 import static org.junit.Assert.*;
 
 public class CPUTest {
@@ -33,7 +34,7 @@ public class CPUTest {
     public void testIsDone() {
         assertFalse(cpu.isDone());
 
-        Data d = new Data(Data.Type.Text, 2000);
+        Data d = new Data(Data.Type.Text, 2000, new GPU(RTX3090));
         DataBatch db = new DataBatch(d, 0);
         cpu.addBatchOfData(db);
         ArrayList<DataBatch> someData = new ArrayList<>();
