@@ -16,11 +16,19 @@ public class GPU {
     private Type type;
     private Model model = null;
     private Cluster cluster;
-    private boolean available;
+    private boolean available = true;
 
     public GPU(Type type){
         this.type = type;
-        available =true;
+    }
+
+    public GPU (String type){
+        if (type.equals("RTX3090"))
+            this.type = Type.RTX3090;
+        else if (type.equals("RTX2080"))
+            this.type = Type.RTX2080;
+        else
+            this.type = Type.GTX1080;
     }
 
     public boolean isAvailable(){return available;}

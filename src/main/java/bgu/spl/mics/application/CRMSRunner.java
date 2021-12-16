@@ -27,6 +27,7 @@ public class CRMSRunner {
     public static void main(String[] args) {
         File input = new File("c:/data.json"); //TODO: change pathname input
 
+        //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
         ArrayList<StudentService> studentServiceList = new ArrayList<>();
         ArrayList<GPU> gpuList = new ArrayList<>();
@@ -70,6 +71,13 @@ public class CRMSRunner {
                     Model model = new Model(modelName, type, size, st);
                     st.addModel(model);
                 }
+                studentServiceList.add(new StudentService(name, st));
+            }
+            JsonArray JsonArrayOfGPU = fileObject.get("GPUS").getAsJsonArray();
+            for (JsonElement e : JsonArrayOfGPU){
+                JsonObject gpuObject = e.getAsJsonObject();
+                String t = gpuObject.getAsString();
+
             }
 
         } catch (FileNotFoundException e) {
@@ -79,4 +87,6 @@ public class CRMSRunner {
 
         System.out.println("Hello World!");
     }
+
+    public static Type
 }
