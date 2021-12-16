@@ -2,16 +2,16 @@ package bgu.spl.mics.application.events;
 
 import bgu.spl.mics.Event;
 import bgu.spl.mics.Future;
+import bgu.spl.mics.application.objects.Student;
 
 public class PublishResultEvent implements Event<Boolean> {
-    private Future<Boolean> published;
-    private String name;
+    private Student publisher;
 
-    public PublishResultEvent(Future<Boolean> published, String name){
-        //this.published = published; this
+    public PublishResultEvent( Student publisher){
+        this.publisher = publisher;
     }
 
-    public Future<Boolean> getPublishedIsPreformed(){
-        return published;
-    }
+    //public Future<Boolean> getPublishedIsPreformed(){
+      //  return published;
+    //}
 }
