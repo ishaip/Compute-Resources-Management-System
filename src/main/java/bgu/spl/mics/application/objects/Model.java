@@ -33,7 +33,10 @@ public class Model {
     public Model (String name, String dataType, int sizeOfData, Student student){
         this.name = name;
         this.student = student;
+        this.status = Status.PreTrained;
+        this.result = Result.None;
 
+        //init the data
         Data.Type type;
         if (dataType.equals("Images"))
             type = Data.Type.Images;
@@ -42,9 +45,6 @@ public class Model {
         else
             type = Data.Type.Text;
         this.data = new Data(type, sizeOfData);
-
-        this.status = Status.PreTrained;
-        this.result = Result.None;
     }
 
     public void setResult(Result result){this.result = result;}
