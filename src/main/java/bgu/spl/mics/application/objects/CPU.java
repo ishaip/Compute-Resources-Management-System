@@ -33,7 +33,10 @@ public class CPU {
 
     public void terminate(){terminate = true;}
 
-    public void startUp(DataBatch db){this.db = db; calculationTime = (db.getData().getSpeed()) / cores;}
+    public void startUp(DataBatch db){
+        this.db = db;
+        calculationTime = (db.getData().getSpeed()) / cores;
+    }
 
 
 
@@ -43,6 +46,8 @@ public class CPU {
             if (calculationTime <= time) {
                 cluster.addProcessedData(db);
                 db = cluster.getNextDataToBePreprocessed();
+                if (db == null)
+                    break;
                 calculationTime = (db.getData().getSpeed()) / cores;
                 time = time - calculationTime;
             }

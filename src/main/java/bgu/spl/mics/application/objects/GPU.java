@@ -13,8 +13,6 @@ import static bgu.spl.mics.application.objects.Model.Status.Trained;
  * Add fields and methods to this class as you see fit (including public methods and constructors).
  */
 public class GPU {
-
-
     /**
      * Enum representing the type of the GPU.
      */
@@ -32,7 +30,7 @@ public class GPU {
 
     public GPU(Type type){
         this.type = type;
-        available =true;
+        available = true;
         if (this.type == GPU.Type.GTX1080)
             speed = 4;
         if (this.type == GPU.Type.RTX2080)
@@ -42,20 +40,38 @@ public class GPU {
         cluster.startNewGpuConnection(this);
     }
 
-    public void terminate() {terminate=true;}
+    public GPU (String type){
+        available = true;
+        if (type.equals("GTX1080")){
+            this.type = Type.GTX1080;
+            this.speed = 4;
+        }
+        else if (type.equals("RTX2080")){
+            this.type = Type.RTX2080;
+            this.speed = 2;
+        }
+        else{
+            this.type = Type.RTX3090;
+            this.speed = 1;
+        }
+        cluster.startNewGpuConnection(this);
+    }
 
-    public void setGpuService(GPUService gpuService){this.gpuService = gpuService;}
+    public void terminate() { terminate=true; }
 
-    public void trainData(){
+    public void setGpuService(GPUService gpuService){ this.gpuService = gpuService; }
+
+    public synchronized void trainData(){
         while (!terminate) {
             time = time + 1;
             if (speed <= time) {
                 db = cluster.getNextProcessedData(this);
+                if (db == null)
+                    break;
                 if (db.getData().processData())
                     gpuService.doneTraining(db);
                 time = time - speed;
             }
-
             try {
                 this.wait();
             } catch (InterruptedException e) {
@@ -64,9 +80,9 @@ public class GPU {
         }
     }
 
-    public void addTime(){time++;}
+    public void addTime(){ time++; }
 
-    public boolean isAvailable(){return available;}
+    public boolean isAvailable(){ return available; }
 
     public void trainModelEvent (Model model){
         available = false;
