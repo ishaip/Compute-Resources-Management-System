@@ -66,16 +66,15 @@ public class MessageBusImpl implements MessageBus {
 
 	@Override
 	public void sendBroadcast(Broadcast b) {
-		/*
-		if (b.getClass() == TerminateBroadcast.class)
-			if (messageRegisteredQueues.containsKey(b.getClass()))
-				for (MicroService ms : messageRegisteredQueues.get(b.getClass()))
-					ms.terminate();
-		else
-			*/
-			if (messageRegisteredQueues.containsKey(b.getClass()))
+		try {
+			if (messageRegisteredQueues.containsKey(b.getClass())) {
 				for (MicroService ms : messageRegisteredQueues.get(b.getClass()))
 					microServiceMessageQueues.get(ms).add(b);
+			}
+		}
+		catch (NullPointerException e){
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -91,11 +90,16 @@ public class MessageBusImpl implements MessageBus {
 				return null;
 			else {
 				//the handler was snatched or there are no handlers
-				MicroService handler = messageRegisteredQueues.get(e.getClass()).poll();
 				Future<T> future = new Future<>();
 				eventFutureQueues.putIfAbsent(e,future);
-				microServiceMessageQueues.get(handler).add(e);
-				messageRegisteredQueues.get(e.getClass()).add(handler);
+				MicroService handler = messageRegisteredQueues.get(e.getClass()).remove();
+
+				try {
+					microServiceMessageQueues.get(handler).put(e);
+					messageRegisteredQueues.get(e.getClass()).put(handler);
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
+				}
 				return future;
 			}
 		}

@@ -40,7 +40,7 @@ public class CPU {
 
 
 
-    public  void processData() {
+    public synchronized void processData() {
         while (!terminate) {
             time = time + 1;
             if (calculationTime <= time) {
