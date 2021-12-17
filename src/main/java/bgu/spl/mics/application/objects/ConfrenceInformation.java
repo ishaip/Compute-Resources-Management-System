@@ -43,7 +43,6 @@ public class ConfrenceInformation {
             str += "{\n\t\t\t" + publications.get(i).toString() + "\n}";
             if ( i < publications.size() - 1 )
                 str += ",";
-            //str += "\n";
         }
         str += "]";
         return str;
