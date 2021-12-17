@@ -1,9 +1,7 @@
 package bgu.spl.mics.application;
 
 import bgu.spl.mics.application.objects.*;
-import bgu.spl.mics.application.services.CPUService;
-import bgu.spl.mics.application.services.GPUService;
-import bgu.spl.mics.application.services.StudentService;
+import bgu.spl.mics.application.services.*;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -122,6 +120,45 @@ public class CRMSRunner {
         int cpuTimeUsed = 0;
         int gpuTimeUsed = 0;
         int batchesProcessed = 0;
+
+        TimeService timeService = new TimeService("timeService",tickTime,duration);
+        Thread timeServiceThread = new Thread(timeService);
+        timeServiceThread.start();
+
+        //initialize the Threads
+        ArrayList<Thread> studentsThread = new ArrayList<>();
+        for (StudentService s: studentServiceList){
+            Thread st = new Thread(s);
+            studentsThread.add(st);
+            st.start();
+        }
+
+        ArrayList<Thread> conferenceThreads = new ArrayList<>();
+        for (ConfrenceInformation cl : conferenceList ){
+            ConferenceService cs = new ConferenceService(cl.getName(),cl);
+            Thread cst = new Thread(cs);
+            conferenceThreads.add(cst);
+            cst.start();
+        }
+
+        ArrayList<Thread> gpuThreads = new ArrayList<>();
+        for (GPUService g : gpuServiceList){
+            Thread gt = new Thread(g);
+            gpuThreads.add(gt);
+            gt.start();
+        }
+
+        ArrayList<Thread> cpuThread = new ArrayList<>();
+        for (CPUService c : cpuServiceList){
+            Thread ct = new Thread(c);
+            cpuThread.add(ct);
+            ct.start();
+        }
+
+        //joining threads
+//        for (int i = 0; i < studentsThread.size(); i++)
+//            studentsThread.get(i).join();
+
 
         //--------------------File-output-----------------------
 
