@@ -80,6 +80,8 @@ public class GPU {
         }
     }
 
+    public synchronized void getMoreTime(){notify();}
+
     public void addTime(){ time++; }
 
     public boolean isAvailable(){ return available; }

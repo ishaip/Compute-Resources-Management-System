@@ -25,7 +25,7 @@ public abstract class MicroService implements Runnable {
 
     private boolean terminated = false;
     private final String name;
-    private MessageBus messageBus = MessageBusImpl.getInstance();
+    private final MessageBus messageBus = MessageBusImpl.getInstance();
     private Map< Class< ? extends Message >, Callback< ? extends Message > > mesInstructions = new HashMap<>();
 
     /**
@@ -58,7 +58,7 @@ public abstract class MicroService implements Runnable {
      *                 queue.
      */
     protected final <T, E extends Event<T>> void subscribeEvent(Class<E> type, Callback<E> callback) {
-        mesInstructions.put(type, callback); // stores the instructions so as to handle Event of such 'type'
+        mesInstructions.put(type, callback); // stores the instructions to handle Event of such 'type'
         messageBus.subscribeEvent(type, this); // notify messageBus
     }
 

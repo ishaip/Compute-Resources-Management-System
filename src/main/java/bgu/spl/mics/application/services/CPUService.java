@@ -48,9 +48,7 @@ public class CPUService extends MicroService {
         CPUProcessingThread.start();
 
         subscribeBroadcast(TickBroadcast.class, c -> {
-            if (CPUProcessingThread.getState() == Thread.State.WAITING) {
-                CPUProcessingThread.notify();
-            }
+            cpu.getMoreTime();
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
