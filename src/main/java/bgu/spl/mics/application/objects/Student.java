@@ -1,6 +1,7 @@
 package bgu.spl.mics.application.objects;
 
-import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Passive object representing single student.
@@ -19,7 +20,8 @@ public class Student {
     private Degree status;
     private int publications = 0;
     private int papersRead = 0;
-    private LinkedList<Model> models = new LinkedList<>();
+    private ConcurrentLinkedQueue<Model> models = new ConcurrentLinkedQueue<>();
+    //private ArrayList<Model> models = new ArrayList<>();
 
     public Student(String name,String department,Degree status, int publications,int papersRead ){
         this.name = name;
@@ -48,9 +50,11 @@ public class Student {
 
     public Degree getDegree(){ return status; }
 
-    public void addModel(Model model){ models.addLast(model); }
+    public void addModel(Model model){ models.add(model); }
 
-    public LinkedList<Model> getModels(){ return models; }
+    //public LinkedList<Model> getModels(){ return models; }
+
+    public ConcurrentLinkedQueue<Model> getModels(){ return models; }
 
     public String toString(){
         String output = "";
@@ -61,8 +65,12 @@ public class Student {
         output += "\"publications\": " + Integer.toString(publications) + ",\n";
         output += "\"papersRead\": " + Integer.toString(papersRead) + ",\n";
         output += "\"trainedModels\": [\n\t{\n";
-        for (Model m : models){
-            output += "\t\t" + m.toString();
+        Iterator itr = models.iterator();
+        while (itr.hasNext()){
+            output += "\t\t" + itr.toString() + "\n}";
+            itr.next();
+            if (itr.hasNext())
+                output += ",";
         }
         output += "\n\t}\n]";
 
