@@ -23,7 +23,7 @@ public class CRMSRunner {
     public static void main(String[] args) {
 
         //--------------------File-Input-----------------------
-        File input = new File("c:/data.json"); //TODO: change pathname input
+        File input = new File("/users/studs/bsc/2022/picus/Desktop/jason_ishai_test"); //TODO: change pathname input
 
         //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
@@ -41,7 +41,7 @@ public class CRMSRunner {
             JsonObject fileObject = fileElement.getAsJsonObject();
 
             //extracting Students into array
-            JsonArray JsonArrayOfStudents = fileObject.get("Student").getAsJsonArray();
+            JsonArray JsonArrayOfStudents = fileObject.get("Students").getAsJsonArray();
 
             //process all students
             for (JsonElement e : JsonArrayOfStudents){
