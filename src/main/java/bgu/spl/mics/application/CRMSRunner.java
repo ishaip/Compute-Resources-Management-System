@@ -126,10 +126,10 @@ public class CRMSRunner {
         timeServiceThread.start();
 
         //initialize the Threads
-        ArrayList<Thread> studentsThread = new ArrayList<>();
+        ArrayList<Thread> studentsThreads = new ArrayList<>();
         for (StudentService s: studentServiceList){
             Thread st = new Thread(s);
-            studentsThread.add(st);
+            studentsThreads.add(st);
             st.start();
         }
 
@@ -148,16 +148,42 @@ public class CRMSRunner {
             gt.start();
         }
 
-        ArrayList<Thread> cpuThread = new ArrayList<>();
+        ArrayList<Thread> cpuThreads = new ArrayList<>();
         for (CPUService c : cpuServiceList){
             Thread ct = new Thread(c);
-            cpuThread.add(ct);
+            cpuThreads.add(ct);
             ct.start();
         }
 
         //joining threads
-//        for (int i = 0; i < studentsThread.size(); i++)
-//            studentsThread.get(i).join();
+        for (int i = 0; i < studentsThreads.size(); i++) {
+            try {
+                studentsThreads.get(i).join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        for (int i = 0; i < conferenceThreads.size(); i++) {
+            try {
+                conferenceThreads.get(i).join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        for (int i = 0; i < gpuThreads.size(); i++) {
+            try {
+                gpuThreads.get(i).join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        for (int i = 0; i < cpuThreads.size(); i++) {
+            try {
+                cpuThreads.get(i).join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
 
         //--------------------File-output-----------------------
