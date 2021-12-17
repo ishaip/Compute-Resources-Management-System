@@ -60,4 +60,15 @@ public class Model {
     }
 
     public Student getStudent(){ return student; }
+
+    public String toString(){
+        String str = "";
+
+        str += "\"name\": \"" + name + "\",\n";
+        str += "\"data\": {\n\t" + data.toString() + "\n},\n";
+        str += "\"status\": \"" + status + "\",\n";
+        str += "\"results\": \"" + result + "\"\n";
+
+        return str;
+    }
 }
