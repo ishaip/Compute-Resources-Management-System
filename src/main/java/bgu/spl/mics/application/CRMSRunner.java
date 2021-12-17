@@ -115,20 +115,21 @@ public class CRMSRunner {
             tickTime = fileObject.get("TickTime").getAsInt();
             duration = fileObject.get("Duration").getAsInt();
 
-            TimeService timeService = new TimeService("timeService",tickTime,duration);
-            new Thread(timeService).start();
-
-
-            for (StudentService s: studentServiceList)
-                new Thread(s).start();
-            for (ConfrenceInformation cl : conferenceList ){
-                ConferenceService cs = new ConferenceService(cl.getName(),cl);
-                new Thread(cs).start();
-            }
             for (GPUService g : gpuServiceList)
                 new Thread(g).start();
             for (CPUService c : cpuServiceList)
                 new Thread(c).start();
+
+            for (ConfrenceInformation cl : conferenceList ){
+                ConferenceService cs = new ConferenceService(cl.getName(),cl);
+                new Thread(cs).start();
+            }
+
+            for (StudentService s: studentServiceList)
+                new Thread(s).start();
+
+            TimeService timeService = new TimeService("timeService",tickTime,duration);
+            new Thread(timeService).start();
 
 
 

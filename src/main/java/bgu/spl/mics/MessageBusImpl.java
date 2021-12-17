@@ -45,7 +45,7 @@ public class MessageBusImpl implements MessageBus {
 		//making sure we have microservice registered in the message bus
 		if (!microServiceMessageQueues.containsKey(m))
 			throw new NullPointerException("the key isn't registered,probably threading mistake");
-		messageRegisteredQueues.putIfAbsent(type,new LinkedBlockingQueue<>());
+		messageRegisteredQueues.putIfAbsent(type,new LinkedBlockingQueue<MicroService>());
 		//we want to add the value to the proper queue and if it is all ready there do nothing
 		BlockingQueue<MicroService> messageRegisteredQueue = messageRegisteredQueues.get(type);
 		if (messageRegisteredQueue != null && !messageRegisteredQueue.contains(m)){
@@ -82,19 +82,22 @@ public class MessageBusImpl implements MessageBus {
 	@Override
 	public <T> Future<T> sendEvent(Event<T> e) {
 		//checking that there exists threads that are registered to deal with the event
-		if (!messageRegisteredQueues.containsKey(e.getClass()))
+		if (messageRegisteredQueues.get(e.getClass())==null)
 			return null;
 		//the round robbing manor will be used here by shifting around the messageRegisteredQueues
 		//need to make sure the order is maintained, and since we are removing temporally the thread we will make sure there always exists one using synchronization
-		synchronized (messageRegisteredQueues.get(e.getClass())){
-			if (messageRegisteredQueues.containsKey(e.getClass()) || messageRegisteredQueues.get(e.getClass()).isEmpty())
+		synchronized (messageRegisteredQueues.get(e.getClass())) {
+			if (!messageRegisteredQueues.containsKey(e.getClass()) || messageRegisteredQueues.get(e.getClass()).isEmpty())
 				return null;
-			//the handler was snatched or there are no handlers
-			MicroService handler = messageRegisteredQueues.get(e.getClass()).poll();
-			Future<T> future = new Future<>();
-			microServiceMessageQueues.get(handler).add(e);
-			messageRegisteredQueues.get(e.getClass()).add(handler);
-			return future;
+			else {
+				//the handler was snatched or there are no handlers
+				MicroService handler = messageRegisteredQueues.get(e.getClass()).poll();
+				Future<T> future = new Future<>();
+				eventFutureQueues.putIfAbsent(e,future);
+				microServiceMessageQueues.get(handler).add(e);
+				messageRegisteredQueues.get(e.getClass()).add(handler);
+				return future;
+			}
 		}
 	}
 

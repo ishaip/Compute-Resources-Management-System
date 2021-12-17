@@ -45,6 +45,7 @@ public class CPU {
             time = time + 1;
             if (calculationTime <= time) {
                 cluster.addProcessedData(db);
+                System.out.println(db);
                 db = cluster.getNextDataToBePreprocessed();
                 if (db == null)
                     break;
@@ -58,6 +59,8 @@ public class CPU {
             }
         }
     }
+
+    public synchronized void getMoreTime(){notify();}
 
     public void updateTime(){time++;}
 
