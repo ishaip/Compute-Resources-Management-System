@@ -125,12 +125,12 @@ public class CRMSRunner {
 
         //--------------------File-output-----------------------
 
-        File file = new File("output.txt");
+        File output = new File("output.txt");
         FileWriter writer = null;
         try {
-            writer = new FileWriter(file);
+            writer = new FileWriter(output);
 
-            //writing the students into the output file
+            //writing the students into the output output
             writer.write("{\n\t\"students\": [");
             for (int i = 0; i < studentList.size(); i++) {
                 writer.write("\n\t\t{\n\t\t");
@@ -142,7 +142,7 @@ public class CRMSRunner {
             }
             writer.write("\n\t],\n");
 
-            //writing the conferences into the output file
+            //writing the conferences into the output output
             writer.write("\t\"conferences\": [\n");
             for (int i = 0; i < conferenceList.size(); i++){
                 writer.write("\t{\n\t\t");
@@ -174,7 +174,6 @@ public class CRMSRunner {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Hello World!");
     }
 
 }
