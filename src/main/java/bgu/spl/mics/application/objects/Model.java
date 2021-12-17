@@ -65,9 +65,9 @@ public class Model {
         String str = "";
 
         str += "\"name\": \"" + name + "\",\n";
-        str += "\"data\": {\n\t" + data.toString() + "\n},\n";
-        str += "\"status\": \"" + status + "\",\n";
-        str += "\"results\": \"" + result + "\"\n";
+        str += "\t\t\t\t\t\"data\": {\n" + data.toString() + "\t\t\t\t\t},\n";
+        str += "\t\t\t\t\t\"status\": \"" + status + "\",\n";
+        str += "\t\t\t\t\t\"results\": \"" + result + "\"";
 
         return str;
     }

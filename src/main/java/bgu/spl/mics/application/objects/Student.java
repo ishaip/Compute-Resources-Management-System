@@ -64,16 +64,20 @@ public class Student {
         output += "\t\t\t\"status\": \"" + status + "\",\n";
         output += "\t\t\t\"publications\": " + Integer.toString(publications) + ",\n";
         output += "\t\t\t\"papersRead\": " + Integer.toString(papersRead) + ",\n";
-        output += "\t\t\t\"trainedModels\": [\n\t\t\t\t{\n\t\t\t";
-        Iterator itr = models.iterator();
-        while (itr.hasNext()){
-            output += "\t\t" + itr.toString() + "\n\t\t\t\t}";
-            itr.next();
-            if (itr.hasNext())
-                output += ",";
-            output += "\n\t\t\t";
+        output += "\t\t\t\"trainedModels\": [\n\t\t\t\t";
+        if (models.size() > 0){
+            Iterator<Model> itr = models.iterator();
+
+            while (itr.hasNext()){
+                Model m = itr.next();
+                output += "{\n\t\t\t";
+                output += "\t\t" + m.toString() + "\n\t\t\t\t}";
+                output += ",\n\t\t\t\t";
+            }
+            output = output.substring(0, output.length() - 6);
+            output += "\n";
         }
-        output += "]";
+        output += "\t\t\t]";
 
         return output;
     }

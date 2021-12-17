@@ -77,8 +77,8 @@ public class Data {
     public String toString(){
         String str = "";
 
-        str += "\t\"type\": \"" + type + "\",\n";
-        str += "\t\"size\": " + Integer.toString(size) + "\n";
+        str += "\t\t\t\t\t\t\"type\": \"" + type + "\",\n";
+        str += "\t\t\t\t\t\t\"size\": " + Integer.toString(size) + "\n";
 
         return str;
     }
