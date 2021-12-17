@@ -52,6 +52,20 @@ public class Student {
 
     public LinkedList<Model> getModels(){ return models; }
 
+    public String toString(){
+        String output = "";
+
+        output += "\"name\": \"" + name + "\",\n";
+        output += "\"department\": \"" + department + "\",\n";
+        output += "\"status\": \"" + status + "\",\n";
+        output += "\"publications\": " + Integer.toString(publications) + ",\n";
+        output += "\"papersRead\": " + Integer.toString(papersRead) + ",\n";
+        output += "\"trainedModels\": [\n\t{\n\t\t";
+
+
+        return output;
+    }
+
 }
 
 

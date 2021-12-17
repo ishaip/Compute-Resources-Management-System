@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.*;
+import java.io.FileWriter;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class CRMSRunner {
         ArrayList<CPUService> cpuServiceList = new ArrayList<>();
         ArrayList<ConfrenceInformation> conferenceList = new ArrayList<>();
         int tickTime;
-        long duration; //TODO: figure out whether it's int or long
+        int duration; //TODO: figure out whether it's int or long
 
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
@@ -74,25 +75,26 @@ public class CRMSRunner {
 
             //process all gpus
             JsonArray JsonArrayOfGPU = fileObject.get("GPUS").getAsJsonArray();
-            for (int i = 0; i < JsonArrayOfGPU.size(); i++){
-                JsonObject gpuObject = JsonArrayOfGPU.get(i).getAsJsonObject();
-                String t = gpuObject.getAsString();
-                GPU gpu = new GPU(t);
+            int index = 0;
+            for (JsonElement e : JsonArrayOfGPU){
+                String str = e.getAsString();
+                GPU gpu = new GPU(str);
                 gpuList.add(gpu);
 
-                String name = String.format("gpu_%f", i);
+                String name = String.format("gpu_%d", index);
                 gpuServiceList.add(new GPUService("name", gpu));
+                index ++;
             }
+            index = 0;
 
             //process all cpus
             JsonArray JsonArrayOfCPU = fileObject.get("CPUS").getAsJsonArray();
-            for (int i = 0; i < JsonArrayOfCPU.size(); i++){
-                JsonObject cpuObject = JsonArrayOfCPU.get(i).getAsJsonObject();
-                int numOfCores = cpuObject.getAsInt();
+            for (JsonElement e : JsonArrayOfCPU){
+                int numOfCores = e.getAsInt();
                 CPU cpu = new CPU(numOfCores);
                 CPUList.add(cpu);
 
-                String name = String.format("cpu_%f", i);
+                String name = String.format("cpu_%d", index);
                 cpuServiceList.add(new CPUService(name, cpu));
             }
 
@@ -109,25 +111,28 @@ public class CRMSRunner {
             }
 
             tickTime = fileObject.get("TickTime").getAsInt();
-            duration = fileObject.get("Duration").getAsLong();
+            duration = fileObject.get("Duration").getAsInt();
 
         } catch (FileNotFoundException e) {
+            e.printStackTrace(); //or maybe do nothing?
+        }
+
+        //------------------Program-Execution--------------------
+
+        //--------------------File-output-----------------------
+
+        FileWriter file = null; //TODO: change the path
+        try {
+            file = new FileWriter("c:/somepath");
+
+
+
+
+            file.flush();
+            file.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        //--------------------File-output-----------------------
-        JsonObject output = new JsonObject();
-        output.put("key", "value"); //TODO: fix //TODO: change "key" and "value"
-
-        try{
-            FileWriter file = new FileWriter("c:/somepath"); //TODO: change the path
-            //file.write();
-
-
-            file.close();
-        }catch(Exception e){
-
-        }
-
         System.out.println("Hello World!");
     }
 
