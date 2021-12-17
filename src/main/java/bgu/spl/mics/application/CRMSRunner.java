@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.*;
+import java.io.File;
 import java.io.FileWriter;
 
 import java.lang.reflect.Array;
@@ -118,18 +119,58 @@ public class CRMSRunner {
         }
 
         //------------------Program-Execution--------------------
+        int cpuTimeUsed = 0;
+        int gpuTimeUsed = 0;
+        int batchesProcessed = 0;
 
         //--------------------File-output-----------------------
 
-        FileWriter file = null; //TODO: change the path
+        File file = new File("output.txt");
+        FileWriter writer = null;
         try {
-            file = new FileWriter("c:/somepath");
+            writer = new FileWriter(file);
 
+            //writing the students into the output file
+            writer.write("{\n\t\"students\": [");
+            for (int i = 0; i < studentList.size(); i++) {
+                writer.write("\n\t\t{\n\t\t");
+                writer.write(studentList.get(i).toString());
+                writer.write("\n\t\t");
+                if ( i < studentList.size() - 1 )
+                    writer.write(",");
+                writer.write("\n");
+            }
+            writer.write("\n\t],\n");
 
+            //writing the conferences into the output file
+            writer.write("\t\"conferences\": [\n");
+            for (int i = 0; i < conferenceList.size(); i++){
+                writer.write("\t{\n\t\t");
+                writer.write(conferenceList.get(i).toString());
+                writer.write("\n\t}");
+                if ( i < conferenceList.size() - 1 )
+                    writer.write(",");
+                writer.write("\n");
+            }
+            writer.write("\t],\n");
 
+            //writing the entire data
+            writer.write("\t\"cpuTimeUsed\": ");
+            writer.write(Integer.toString(cpuTimeUsed));
+            writer.write(",\n");
 
-            file.flush();
-            file.close();
+            writer.write("\t\"gpuTimeUsed\": ");
+            writer.write(Integer.toString(gpuTimeUsed));
+            writer.write(",\n");
+
+            writer.write("\t\"batchesProcessed\": ");
+            writer.write(Integer.toString(batchesProcessed));
+            writer.write(",\n");
+
+            writer.write("}");
+
+            writer.flush();
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
