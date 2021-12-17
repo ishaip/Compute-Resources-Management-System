@@ -35,7 +35,7 @@ public class ConferenceService extends MicroService {
     @Override
     protected void initialize() {
         subscribeBroadcast(TickBroadcast.class,c -> {
-            time = c.getTick();
+            time ++;
             if (time > date){
                 sendBroadcast(new PublishConferenceBroadcast(models));
                 terminate();
