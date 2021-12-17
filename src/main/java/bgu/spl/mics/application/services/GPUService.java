@@ -49,7 +49,6 @@ public class GPUService extends MicroService {
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
             gpu.terminate();
-            trainDataThread.notify();
             trainDataThread.interrupt();
              terminate();
          });

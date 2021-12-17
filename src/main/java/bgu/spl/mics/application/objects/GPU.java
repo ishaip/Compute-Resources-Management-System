@@ -61,16 +61,17 @@ public class GPU {
 
     public void setGpuService(GPUService gpuService){ this.gpuService = gpuService; }
 
-    public void trainData(){
+    public synchronized void trainData(){
         while (!terminate) {
             time = time + 1;
             if (speed <= time) {
                 db = cluster.getNextProcessedData(this);
+                if (db == null)
+                    break;
                 if (db.getData().processData())
                     gpuService.doneTraining(db);
                 time = time - speed;
             }
-
             try {
                 this.wait();
             } catch (InterruptedException e) {
