@@ -1,8 +1,5 @@
 package bgu.spl.mics.application.objects;
 
-import java.util.Collection;
-import java.util.ArrayList;
-
 /**
  * Passive object representing a single CPU.
  * Add all the fields described in the assignment as private fields.
@@ -16,15 +13,16 @@ public class CPU {
      *       cores > 0
      */
     private int cores;
-    private boolean done;
-    private ArrayList<DataBatch> data;
-    private Cluster cluster;
+    private Cluster cluster = Cluster.getInstance();
+    private int calculationTime;
+    private int time = 0;
+    private DataBatch db;
+    private boolean terminate = false;
 
     //-----------------Constructor---------------------
     public CPU(int numOfCores){
         this.cores = numOfCores;
-        this.done = false;
-        this.data = new ArrayList<DataBatch>();
+
         /* Cluster */
     }
 
@@ -33,34 +31,29 @@ public class CPU {
         return this.cores;
     }
 
-    /**
-     * @Post: done == true
-     * @param dataToProcess
-     */
-    public void process(ArrayList<DataBatch> dataToProcess){
-        //some processing
-        // wait(1/2/4 ticks for each process ?)
-        this.done = true;
+    public void terminate(){terminate = true;}
+
+    public void startUp(DataBatch db){this.db = db; calculationTime = (db.getData().getSpeed()) / cores;}
+
+
+
+    public  void processData() {
+        while (!terminate) {
+            time = time + 1;
+            if (calculationTime <= time) {
+                cluster.addProcessedData(db);
+                db = cluster.getNextDataToBePreprocessed();
+                calculationTime = (db.getData().getSpeed()) / cores;
+                time = time - calculationTime;
+            }
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                //do nothing;
+            }
+        }
     }
 
-    /**
-     * @Post: done == true
-     */
-    public void process(){
-        //some processing
-        //data.get(0).getDataType();
-        this.done = true;
-    }
+    public void updateTime(){time++;}
 
-    public boolean isDone(){
-        return done;
-    }
-
-    /**
-     * @Post: data.size() == @Pre(data.size()) + 1
-     * @param db
-     */
-    public void addBatchOfData(DataBatch db){
-        this.data.add(db);
-    }
 }

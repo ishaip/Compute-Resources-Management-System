@@ -1,8 +1,11 @@
 package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.broadcast.TerminateBroadcast;
 import bgu.spl.mics.application.broadcast.TickBroadcast;
 import bgu.spl.mics.application.objects.CPU;
+import bgu.spl.mics.application.objects.Cluster;
+import bgu.spl.mics.application.objects.DataBatch;
 
 /**
  * CPU service is responsible for handling the {@link  //DataPreProcessEvent}.
@@ -15,25 +18,39 @@ public class CPUService extends MicroService {
 
     //---------------------Fields----------------------
     private boolean terminated;
-    private String name;
-    private CPU cpu; //
+    private final CPU cpu; //
+    private final Cluster cluster;
+    int coreNum;
+
 
     //-----------------Constructor---------------------
-    public CPUService(String name) {
+    public CPUService(String name, CPU _cpu) {
         super(name);
-        // TODO Implement this
+        cpu = _cpu;
+        cluster = Cluster.getInstance();
+        coreNum = cpu.getNumOfCores();
     }
 
     //-------------------Methods----------------------
+
     @Override
     protected void initialize() {
-        // TODO Implement this
-        subscribeBroadcast(TickBroadcast.class, callback -> {
-           int time = callback.getTick();
+        Thread processDataThread = new Thread(cpu::processData);
+        cpu.startUp(cluster.getNextDataToBePreprocessed());
+
+        processDataThread.start();
+
+        subscribeBroadcast(TickBroadcast.class, c -> {
+            if (processDataThread.getState() == Thread.State.WAITING) {
+                processDataThread.notify();
+                processDataThread.interrupt();
+            }
         });
-        terminated = true;
-        while (terminated){
-            cpu.process();
-        }
+
+        subscribeBroadcast(TerminateBroadcast.class, c -> {
+            cpu.terminate();
+            processDataThread.notify();
+            terminate();
+        });
     }
 }

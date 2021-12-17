@@ -13,11 +13,18 @@ public class DataBatch { //
     //--------------------Fields---------------------
     private Data data;
     private int startIndex;
+    private GPU gpu;
 
     //-----------------Constructor-------------------
     public DataBatch(Data _data, int _index){
         this.data = _data;
         this.startIndex = _index;
+    }
+
+    public DataBatch(Data _data, int _index,GPU gpu){
+        this.data = _data;
+        this.startIndex = _index;
+        this.gpu = gpu;
     }
 
     //-------------------Methods---------------------
@@ -27,10 +34,13 @@ public class DataBatch { //
     }
 
     public void setStartIndex(int nextIndex){
-        data.processData(nextIndex);
+        //data.processData(nextIndex);
         this.startIndex += nextIndex;
     }
 
     public Data getDataType() { return data; }
-    
+
+    public GPU getGpu() {return gpu;}
+
+    public Data getData(){return  data;}
 }

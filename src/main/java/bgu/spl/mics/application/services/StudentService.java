@@ -48,7 +48,7 @@ public class StudentService extends MicroService {
                 Model.Result result = testModelFuture.get();
                 //wait until testing is done
                 if (result == Model.Result.Good)
-                    sendEvent(new PublishResultEvent(student,m));
+                    sendEvent(new PublishResultEvent(m));
             }
         }
     }
