@@ -23,6 +23,7 @@ import static bgu.spl.mics.application.objects.Model.Status.Trained;
  */
 public class GPUService extends MicroService {
     private final GPU gpu;
+    private int counter = 0;
     private final Cluster cluster = Cluster.getInstance();
     private final ConcurrentHashMap<Data, Future<Model.Status>> modelFutures = new ConcurrentHashMap<>();
 
@@ -44,7 +45,10 @@ public class GPUService extends MicroService {
         trainDataThread.start();
 
         subscribeBroadcast(TickBroadcast.class, c -> {
-                gpu.getMoreTime();
+            counter++;
+            if ((counter -1 )% 1000  == 1)
+                System.out.println(counter);
+            gpu.getMoreTime();
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
