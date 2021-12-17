@@ -17,9 +17,9 @@ public class Student {
     private String name;
     private String department;
     private Degree status;
-    private int publications;
+    private int publications = 0;
     private int papersRead = 0;
-    private LinkedList<Model> models;
+    private LinkedList<Model> models = new LinkedList<>();
 
     public Student(String name,String department,Degree status, int publications,int papersRead ){
         this.name = name;
@@ -29,19 +29,28 @@ public class Student {
         this.publications = publications;
     }
 
-    public void readPaper(){papersRead++;}
+    public Student(String name, String department, String degree){
+        this.name = name;
+        this.department = department;
+        if (degree.equals("MSc"))
+            this.status = Degree.MSc;
+        else
+            this.status = Degree.PhD;
+    }
 
-    public void setPapersRead(int papersRead){this.papersRead = papersRead;}
+    public void readPaper(){ papersRead++; }
 
-    public int getPapersRead(){return papersRead;}
+    public int getPapersRead(){ return papersRead; }
 
-    public void publishPaper(){publications++;}
+    public void addPublishResult(){ publications++; }
 
-    public Degree getDegree(){return status;}
+    public void publishPaper(){ publications++; }
 
-    public void addModel(Model model){models.addLast(model);}
+    public Degree getDegree(){ return status; }
 
-    public LinkedList<Model> getModels(){return models;}
+    public void addModel(Model model){ models.addLast(model); }
+
+    public LinkedList<Model> getModels(){ return models; }
 
 }
 

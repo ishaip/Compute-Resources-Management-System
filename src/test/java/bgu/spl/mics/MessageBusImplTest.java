@@ -32,13 +32,13 @@ public class MessageBusImplTest extends TestCase {
         //tested in testSendBroadcast
     }
 
-    @Test
+   /* @Test
     public void testComplete() {
-        /*
+
         create an event with result 0
         complete with result 1
         assert that event result is 1
-         */
+
         MicroService m1 = new TMicroService();
         tBus.register(m1);
         tBus.subscribeEvent(TEvent.class,m1);
@@ -130,5 +130,5 @@ public class MessageBusImplTest extends TestCase {
     public void testAwaitMessage() {
         //is tested in testSendEvent
 
-    }
+    }*/
 }

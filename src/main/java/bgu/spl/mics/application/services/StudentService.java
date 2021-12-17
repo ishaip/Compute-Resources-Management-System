@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
  * You MAY change constructor signatures and even add new public constructors.
  */
 public class StudentService extends MicroService {
+
     private final Student student;
     private MessageBusImpl ms = MessageBusImpl.getInstance();
     private boolean terminated = false;
