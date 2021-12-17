@@ -1,9 +1,7 @@
 package bgu.spl.mics.application;
 
 import bgu.spl.mics.application.objects.*;
-import bgu.spl.mics.application.services.CPUService;
-import bgu.spl.mics.application.services.GPUService;
-import bgu.spl.mics.application.services.StudentService;
+import bgu.spl.mics.application.services.*;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -35,8 +33,8 @@ public class CRMSRunner {
         ArrayList<CPU> CPUList = new ArrayList<>();
         ArrayList<CPUService> cpuServiceList = new ArrayList<>();
         ArrayList<ConfrenceInformation> conferenceList = new ArrayList<>();
-        int tickTime;
-        int duration; //TODO: figure out whether it's int or long
+        int tickTime = 0;
+        int duration = 0; //TODO: figure out whether it's int or long
 
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
@@ -122,6 +120,20 @@ public class CRMSRunner {
         int cpuTimeUsed = 0;
         int gpuTimeUsed = 0;
         int batchesProcessed = 0;
+
+        TimeService timeService = new TimeService("timeService",tickTime,duration);
+        new Thread(timeService).start();
+
+        for (StudentService s: studentServiceList)
+            new Thread(s).start();
+        for (ConfrenceInformation cl : conferenceList ){
+            ConferenceService cs = new ConferenceService(cl.getName(),cl);
+            new Thread(cs).start();
+        }
+        for (GPUService g : gpuServiceList)
+            new Thread(g).start();
+        for (CPUService c : cpuServiceList)
+            new Thread(c).start();
 
         //--------------------File-output-----------------------
 
