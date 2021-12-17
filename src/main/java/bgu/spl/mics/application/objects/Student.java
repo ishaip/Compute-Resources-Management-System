@@ -60,8 +60,11 @@ public class Student {
         output += "\"status\": \"" + status + "\",\n";
         output += "\"publications\": " + Integer.toString(publications) + ",\n";
         output += "\"papersRead\": " + Integer.toString(papersRead) + ",\n";
-        output += "\"trainedModels\": [\n\t{\n\t\t";
-
+        output += "\"trainedModels\": [\n\t{\n";
+        for (Model m : models){
+            output += "\t\t" + m.toString();
+        }
+        output += "\n\t}\n]";
 
         return output;
     }
