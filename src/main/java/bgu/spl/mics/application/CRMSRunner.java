@@ -56,7 +56,7 @@ public class CRMSRunner {
                 Student st = new Student(name, department, status);
                 studentList.add(st);
 
-                JsonArray JsonArrayOfModels = fileObject.get("models").getAsJsonArray();
+                JsonArray JsonArrayOfModels = studentObject.get("models").getAsJsonArray();
                 for (JsonElement m : JsonArrayOfModels){
                     //get the Json object
                     JsonObject modelObject = m.getAsJsonObject();
