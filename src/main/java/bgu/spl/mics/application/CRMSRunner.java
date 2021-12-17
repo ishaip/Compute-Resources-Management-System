@@ -5,6 +5,7 @@ import bgu.spl.mics.application.services.CPUService;
 import bgu.spl.mics.application.services.GPUService;
 import bgu.spl.mics.application.services.StudentService;
 
+import bgu.spl.mics.application.services.TimeService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -23,7 +24,7 @@ public class CRMSRunner {
     public static void main(String[] args) {
 
         //--------------------File-Input-----------------------
-        File input = new File("c:/data.json"); //TODO: change pathname input
+        File input = new File("/users/studs/bsc/2022/picus/Downloads/example_input.json"); //TODO: change pathname input
 
         //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
@@ -34,14 +35,14 @@ public class CRMSRunner {
         ArrayList<CPUService> cpuServiceList = new ArrayList<>();
         ArrayList<ConfrenceInformation> conferenceList = new ArrayList<>();
         int tickTime;
-        long duration; //TODO: figure out whether it's int or long
+        int duration; //TODO: figure out whether it's int or long
 
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
             JsonObject fileObject = fileElement.getAsJsonObject();
 
             //extracting Students into array
-            JsonArray JsonArrayOfStudents = fileObject.get("Student").getAsJsonArray();
+            JsonArray JsonArrayOfStudents = fileObject.get("Students").getAsJsonArray();
 
             //process all students
             for (JsonElement e : JsonArrayOfStudents){
@@ -56,7 +57,7 @@ public class CRMSRunner {
                 Student st = new Student(name, department, status);
                 studentList.add(st);
 
-                JsonArray JsonArrayOfModels = fileObject.get("models").getAsJsonArray();
+                JsonArray JsonArrayOfModels = studentObject.get("models").getAsJsonArray();
                 for (JsonElement m : JsonArrayOfModels){
                     //get the Json object
                     JsonObject modelObject = m.getAsJsonObject();
@@ -74,26 +75,32 @@ public class CRMSRunner {
 
             //process all gpus
             JsonArray JsonArrayOfGPU = fileObject.get("GPUS").getAsJsonArray();
-            for (int i = 0; i < JsonArrayOfGPU.size(); i++){
-                JsonObject gpuObject = JsonArrayOfGPU.get(i).getAsJsonObject();
-                String t = gpuObject.getAsString();
-                GPU gpu = new GPU(t);
+            Integer index = 0;
+            for (JsonElement g : JsonArrayOfGPU){
+                //JsonObject gpuObject = JsonArrayOfGPU.get(i).getAsJsonObject();
+                //String t = gpuObject.getAsString();
+                //JsonObject gpuObject = g.getAsJsonObject();
+                //String str = gpuObject.getAsString();
+                String str = g.getAsString();
+                GPU gpu = new GPU(str);
                 gpuList.add(gpu);
 
-                String name = String.format("gpu_%f", i);
+                String name = String.format("gpu_%d", index);
                 gpuServiceList.add(new GPUService("name", gpu));
+                index ++;
             }
-
+            index = 0;
             //process all cpus
             JsonArray JsonArrayOfCPU = fileObject.get("CPUS").getAsJsonArray();
-            for (int i = 0; i < JsonArrayOfCPU.size(); i++){
-                JsonObject cpuObject = JsonArrayOfCPU.get(i).getAsJsonObject();
-                int numOfCores = cpuObject.getAsInt();
+            for (JsonElement e : JsonArrayOfCPU){
+                //JsonObject cpuObject = JsonArrayOfCPU.get(i).getAsJsonObject();
+                int numOfCores = e.getAsInt();
                 CPU cpu = new CPU(numOfCores);
                 CPUList.add(cpu);
 
-                String name = String.format("cpu_%f", i);
+                String name = String.format("cpu_%d", index);
                 cpuServiceList.add(new CPUService(name, cpu));
+                index ++;
             }
 
             //process all conferences
@@ -109,26 +116,16 @@ public class CRMSRunner {
             }
 
             tickTime = fileObject.get("TickTime").getAsInt();
-            duration = fileObject.get("Duration").getAsLong();
+            duration = fileObject.get("Duration").getAsInt();
 
-        } catch (FileNotFoundException e) {
+            TimeService timeService = new TimeService("timeService",tickTime,duration);
+            timeService.run();
+
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //--------------------File-output-----------------------
-        JsonObject output = new JsonObject();
-        output.put("key", "value"); //TODO: fix //TODO: change "key" and "value"
-
-        try{
-            FileWriter file = new FileWriter("c:/somepath"); //TODO: change the path
-            //file.write();
-
-
-            file.close();
-        }catch(Exception e){
-
-        }
-
-        System.out.println("Hello World!");
     }
 
 }
