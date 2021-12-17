@@ -44,7 +44,7 @@ public class GPUService extends MicroService {
         trainDataThread.start();
 
         subscribeBroadcast(TickBroadcast.class, c -> {
-            gpu.addTime();
+                gpu.notify();
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
