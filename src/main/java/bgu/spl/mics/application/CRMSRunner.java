@@ -23,7 +23,7 @@ public class CRMSRunner {
     public static void main(String[] args) {
 
         //--------------------File-Input-----------------------
-        File input = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/example_input.json"); //TODO: change pathname input
+        File input = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/example_input.json"); //TODO: change pathname input
 
         //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
@@ -155,9 +155,14 @@ public class CRMSRunner {
             ct.start();
         }
 
-        //joining threads
-//        for (int i = 0; i < studentsThread.size(); i++)
-//            studentsThread.get(i).join();
+
+        for (int i = 0; i < studentsThread.size(); i++) {
+            try {
+                studentsThread.get(i).join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
 
         //--------------------File-output-----------------------
