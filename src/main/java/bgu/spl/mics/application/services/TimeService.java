@@ -36,7 +36,7 @@ public class TimeService extends MicroService{
 		mb = MessageBusImpl.getInstance();
 		while(time < duration) {
 			time = time + 1;
-			mb.sendBroadcast(new TickBroadcast(time));
+			mb.sendBroadcast(new TickBroadcast());
 			try {
 				wait(speed);
 			} catch (InterruptedException e) {
