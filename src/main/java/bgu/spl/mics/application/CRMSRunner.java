@@ -138,7 +138,6 @@ public class CRMSRunner {
                 writer.write("\n\t\t}");
                 if ( i < studentList.size() - 1 )
                     writer.write(",");
-                //writer.write("\n");
             }
             writer.write("\n\t],\n");
 
