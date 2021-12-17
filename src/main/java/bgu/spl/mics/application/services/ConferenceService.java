@@ -5,9 +5,11 @@ import bgu.spl.mics.application.broadcast.PublishConferenceBroadcast;
 import bgu.spl.mics.application.broadcast.TerminateBroadcast;
 import bgu.spl.mics.application.broadcast.TickBroadcast;
 import bgu.spl.mics.application.events.PublishResultEvent;
+import bgu.spl.mics.application.objects.ConfrenceInformation;
 import bgu.spl.mics.application.objects.Model;
 import bgu.spl.mics.application.objects.Student;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -22,32 +24,38 @@ import java.util.LinkedList;
 
 
 public class ConferenceService extends MicroService {
-    private LinkedList<Model> models = new LinkedList<Model>();
+    private ArrayList<Model> models = new ArrayList<>();
     private int time=0;
     private int date;
+    private ConfrenceInformation confrenceInformation;
 
 
-    public ConferenceService(String name, int date) {
+    public ConferenceService(String name, ConfrenceInformation confrenceInformation) {
         super(name);
-        this.date = date;
+        this.confrenceInformation = confrenceInformation;
+        this.date = confrenceInformation.getDate();
     }
 
     @Override
     protected void initialize() {
+        System.out.println("Confrence is now online  " + getName());
         subscribeBroadcast(TickBroadcast.class,c -> {
             time ++;
             if (time > date){
                 sendBroadcast(new PublishConferenceBroadcast(models));
+                System.out.println("out of time" + getName());
                 terminate();
             }
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
+            System.out.println("Confrence is being termenated" +getName());
             terminate();
         });
 
         subscribeEvent(PublishResultEvent.class , c -> {
             models.add(c.getModel());
+            confrenceInformation.addPublications(c.getModel());
         });
     }
 }

@@ -32,18 +32,20 @@ public class TimeService extends MicroService{
 	}
 
 	@Override
-	protected void initialize() {
-		mb = MessageBusImpl.getInstance();
+	protected synchronized void initialize() {
 		while(time < duration) {
+			if (time% 1000 == 0)
+				System.out.println(time);
 			time = time + 1;
-			mb.sendBroadcast(new TickBroadcast());
+			sendBroadcast(new TickBroadcast());
 			try {
 				wait(speed);
 			} catch (InterruptedException e) {
 				//do nothing
 			}
 		}
-		mb.sendBroadcast(new TerminateBroadcast());
+		sendBroadcast(new TerminateBroadcast());
+		System.out.println("exterminate");
 		terminate();
 	}
 

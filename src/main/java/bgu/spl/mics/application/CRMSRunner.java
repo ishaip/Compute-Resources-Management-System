@@ -1,11 +1,8 @@
 package bgu.spl.mics.application;
 
 import bgu.spl.mics.application.objects.*;
-import bgu.spl.mics.application.services.CPUService;
-import bgu.spl.mics.application.services.GPUService;
-import bgu.spl.mics.application.services.StudentService;
+import bgu.spl.mics.application.services.*;
 
-import bgu.spl.mics.application.services.TimeService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -24,7 +21,7 @@ public class CRMSRunner {
     public static void main(String[] args) {
 
         //--------------------File-Input-----------------------
-        File input = new File("/users/studs/bsc/2022/picus/Downloads/example_input.json"); //TODO: change pathname input
+        File input = new File("/users/studs/bsc/2022/picus/Desktop/jason_ishai_test"); //TODO: change pathname input
 
         //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
@@ -75,7 +72,7 @@ public class CRMSRunner {
 
             //process all gpus
             JsonArray JsonArrayOfGPU = fileObject.get("GPUS").getAsJsonArray();
-            Integer index = 0;
+            int index = 0;
             for (JsonElement g : JsonArrayOfGPU){
                 //JsonObject gpuObject = JsonArrayOfGPU.get(i).getAsJsonObject();
                 //String t = gpuObject.getAsString();
@@ -119,7 +116,21 @@ public class CRMSRunner {
             duration = fileObject.get("Duration").getAsInt();
 
             TimeService timeService = new TimeService("timeService",tickTime,duration);
-            timeService.run();
+            new Thread(timeService).start();
+
+
+            for (StudentService s: studentServiceList)
+                new Thread(s).start();
+            for (ConfrenceInformation cl : conferenceList ){
+                ConferenceService cs = new ConferenceService(cl.getName(),cl);
+                new Thread(cs).start();
+            }
+            for (GPUService g : gpuServiceList)
+                new Thread(g).start();
+            for (CPUService c : cpuServiceList)
+                new Thread(c).start();
+
+
 
 
         } catch (Exception e) {

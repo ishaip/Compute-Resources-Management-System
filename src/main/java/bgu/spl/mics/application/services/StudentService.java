@@ -40,12 +40,15 @@ public class StudentService extends MicroService {
             for (Model m : student.getModels()) {
                 TrainModelEvent trainModelEvent = new TrainModelEvent(m);
                 trainModelFuture = trainModelEvent.getFuture();
-                trainModelFuture.get();
+                if (trainModelFuture.get() == null)
+                    break;
                 //wait until training is done
                 TestModelEvent testModelEvent = new TestModelEvent(m, student);
                 testModelFuture = testModelEvent.getFuture();
                 sendEvent(testModelEvent);
                 Model.Result result = testModelFuture.get();
+                if (result == null)
+                    break;
                 //wait until testing is done
                 if (result == Model.Result.Good)
                     sendEvent(new PublishResultEvent(m));
@@ -55,6 +58,7 @@ public class StudentService extends MicroService {
 
     @Override
     protected void initialize() {
+        System.out.println("student is now online  " + getName());
         Thread runResults = new Thread(this::waitForResults);
         runResults.start();
 
@@ -69,8 +73,12 @@ public class StudentService extends MicroService {
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
+            System.out.println("student is being termanated " +getName());
+            try{
+                runResults.interrupt();
+            }
+            catch (Exception e ){System.out.println("Exception handled "+ e);}
             terminated = true;
-            runResults.interrupt();
             terminate();
         });
 
