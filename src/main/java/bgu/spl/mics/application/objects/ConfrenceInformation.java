@@ -36,15 +36,16 @@ public class ConfrenceInformation {
     public String toString() {
         String str = "";
 
-        str += "\"name\": \"" + name + "\",\n";
-        str += "\"date\": " + Integer.toString(date) + ",\n";
-        str += "\"publications\": [\n\t";
+        str += "\t\"name\": \"" + name + "\",\n";
+        str += "\t\t\t\"date\": " + Integer.toString(date) + ",\n";
+        str += "\t\t\t\"publications\": [";
         for (int i = 0; i < publications.size(); i++){
-            str += "{\n\t\t" + publications.get(i).toString() + "\n}";
+            str += "{\n\t\t\t" + publications.get(i).toString() + "\n}";
             if ( i < publications.size() - 1 )
                 str += ",";
-            str += "\n";
+            //str += "\n";
         }
+        str += "]";
         return str;
     }
 }

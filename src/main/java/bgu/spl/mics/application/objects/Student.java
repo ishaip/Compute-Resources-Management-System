@@ -59,20 +59,25 @@ public class Student {
     public String toString(){
         String output = "";
 
-        output += "\"name\": \"" + name + "\",\n";
-        output += "\"department\": \"" + department + "\",\n";
-        output += "\"status\": \"" + status + "\",\n";
-        output += "\"publications\": " + Integer.toString(publications) + ",\n";
-        output += "\"papersRead\": " + Integer.toString(papersRead) + ",\n";
-        output += "\"trainedModels\": [\n\t{\n";
-        Iterator itr = models.iterator();
-        while (itr.hasNext()){
-            output += "\t\t" + itr.toString() + "\n}";
-            itr.next();
-            if (itr.hasNext())
-                output += ",";
+        output += "\t\"name\": \"" + name + "\",\n";
+        output += "\t\t\t\"department\": \"" + department + "\",\n";
+        output += "\t\t\t\"status\": \"" + status + "\",\n";
+        output += "\t\t\t\"publications\": " + Integer.toString(publications) + ",\n";
+        output += "\t\t\t\"papersRead\": " + Integer.toString(papersRead) + ",\n";
+        output += "\t\t\t\"trainedModels\": [\n\t\t\t\t";
+        if (models.size() > 0){
+            Iterator<Model> itr = models.iterator();
+
+            while (itr.hasNext()){
+                Model m = itr.next();
+                output += "{\n\t\t\t";
+                output += "\t\t" + m.toString() + "\n\t\t\t\t}";
+                output += ",\n\t\t\t\t";
+            }
+            output = output.substring(0, output.length() - 6);
+            output += "\n";
         }
-        output += "\n\t}\n]";
+        output += "\t\t\t]";
 
         return output;
     }
