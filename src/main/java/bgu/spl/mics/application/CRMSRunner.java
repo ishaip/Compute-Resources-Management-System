@@ -5,16 +5,12 @@ import bgu.spl.mics.application.services.CPUService;
 import bgu.spl.mics.application.services.GPUService;
 import bgu.spl.mics.application.services.StudentService;
 
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileDescriptor;
+import java.io.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -25,6 +21,8 @@ import java.util.ArrayList;
  */
 public class CRMSRunner {
     public static void main(String[] args) {
+
+        //--------------------File-Input-----------------------
         File input = new File("c:/data.json"); //TODO: change pathname input
 
         //Lists of inputs objects
@@ -83,7 +81,7 @@ public class CRMSRunner {
                 gpuList.add(gpu);
 
                 String name = String.format("gpu_%f", i);
-                gpuServiceList.add(new GPUService("name"), gpu);
+                gpuServiceList.add(new GPUService("name", gpu));
             }
 
             //process all cpus
@@ -116,7 +114,19 @@ public class CRMSRunner {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        //--------------------File-output-----------------------
+        JsonObject output = new JsonObject();
+        output.put("key", "value"); //TODO: fix //TODO: change "key" and "value"
 
+        try{
+            FileWriter file = new FileWriter("c:/somepath"); //TODO: change the path
+            //file.write();
+
+
+            file.close();
+        }catch(Exception e){
+
+        }
 
         System.out.println("Hello World!");
     }
