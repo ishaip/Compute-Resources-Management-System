@@ -69,9 +69,21 @@ public class Cluster {
 
 	public void addDataToBePreprocessed(DataBatch db){dataToPreprocessed.add(db);}
 
-	public DataBatch getNextProcessedData(GPU gpu){return processedData.get(gpu).poll();}
+	public DataBatch getNextProcessedData(GPU gpu){
+		try {
+			return processedData.get(gpu).take();
+		} catch (InterruptedException e) {// do nothing
+		}
+		return null;
+	}
 
-	public DataBatch getNextDataToBePreprocessed(){return dataToPreprocessed.poll();}
+	public DataBatch getNextDataToBePreprocessed(){
+		try {
+			return dataToPreprocessed.take();
+		} catch (InterruptedException e) {//do nothing
+			 }
+		return null;
+	}
 
 	public void addProcessedData(DataBatch db){processedData.get(db.getGpu()).add(db);}
 

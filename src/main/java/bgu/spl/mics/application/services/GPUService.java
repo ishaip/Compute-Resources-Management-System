@@ -4,6 +4,7 @@ import bgu.spl.mics.Future;
 import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.broadcast.TerminateBroadcast;
 import bgu.spl.mics.application.broadcast.TickBroadcast;
+import bgu.spl.mics.application.events.TestModelEvent;
 import bgu.spl.mics.application.events.TrainModelEvent;
 import bgu.spl.mics.application.objects.*;
 
@@ -43,12 +44,11 @@ public class GPUService extends MicroService {
         trainDataThread.start();
 
         subscribeBroadcast(TickBroadcast.class, c -> {
-            gpu.addTime();
+                gpu.notify();
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
             gpu.terminate();
-            trainDataThread.notify();
             trainDataThread.interrupt();
              terminate();
          });
@@ -58,6 +58,21 @@ public class GPUService extends MicroService {
             for(int i =0; i < c.getData().getSize(); i +=1000){
                 DataBatch db = new DataBatch(c.getData(),0,gpu);
                 cluster.addDataToBePreprocessed(db);
+            }
+        });
+
+        subscribeEvent(TestModelEvent.class, c-> {
+            if (c.getStudent().getDegree() == Student.Degree.MSc) {
+                if (Math.random() >= 0.4)
+                    c.getFuture().resolve(Model.Result.Good);
+                else
+                    c.getFuture().resolve(Model.Result.Bad);
+            }
+            if (c.getStudent().getDegree() == Student.Degree.PhD) {
+                if (Math.random() >= 0.6)
+                    c.getFuture().resolve(Model.Result.Good);
+                else
+                    c.getFuture().resolve(Model.Result.Bad);
             }
         });
     }
