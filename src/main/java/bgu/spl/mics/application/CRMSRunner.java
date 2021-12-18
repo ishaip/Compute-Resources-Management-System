@@ -31,8 +31,8 @@ public class CRMSRunner {
 
         //--------------------File-Input-----------------------
         //File input = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/example_input.json");
-//        File input = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/example_input.json");
-        File input = new File(args[0]); //TODO: fix program argument in configuration
+        File input = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/example_input.json");
+       // File input = new File(args[0]); //TODO: fix program argument in configuration
 
         //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
@@ -208,8 +208,8 @@ public class CRMSRunner {
         }
 
         //--------------------File-output-----------------------
-        File output = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/output_try.txt");
-//        File output = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/output_try.txt");
+ //       File output = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/output_try.txt");
+        File output = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/output_try.txt");
         FileWriter writer = null;
         try {
             writer = new FileWriter(output);
