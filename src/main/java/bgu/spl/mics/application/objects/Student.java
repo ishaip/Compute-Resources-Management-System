@@ -70,6 +70,12 @@ public class Student {
 
             while (itr.hasNext()){
                 Model m = itr.next();
+                while ( m.getStatus() != Model.Status.Trained ){
+                    if ( itr.hasNext() )
+                        m = itr.next();
+                    else
+                        break;
+                }
                 output += "{\n\t\t\t";
                 output += "\t\t" + m.toString() + "\n\t\t\t\t}";
                 output += ",\n\t\t\t\t";
