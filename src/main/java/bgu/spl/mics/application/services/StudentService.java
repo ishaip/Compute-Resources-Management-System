@@ -44,14 +44,12 @@ public class StudentService extends MicroService {
                 if (trainModelFuture.get() == null)
                     break;
                 System.out.println("done traning");
-                //wait until training is done
                 TestModelEvent testModelEvent = new TestModelEvent(m, student);
                 testModelFuture = testModelEvent.getFuture();
                 sendEvent(testModelEvent);
                 Model.Result result = testModelFuture.get();
                 if (result == null)
                     break;
-                //wait until testing is done
                 if (result == Model.Result.Good)
                     sendEvent(new PublishResultEvent(m));
             }
