@@ -53,7 +53,6 @@ public class CPUService extends MicroService {
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
-            //System.out.println("CPU is being termenated");
             cpu.terminate();
             CPUProcessingThread.interrupt();
             terminate();

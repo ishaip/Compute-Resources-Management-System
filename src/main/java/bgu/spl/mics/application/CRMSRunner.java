@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
 /** This is the Main class of Compute Resources Management System application. You should parse the input file,
@@ -171,6 +172,11 @@ public class CRMSRunner {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+
+        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+        for (Thread t : threadSet) {
+            t.interrupt();
         }
 
         //--------------------File-output-----------------------
