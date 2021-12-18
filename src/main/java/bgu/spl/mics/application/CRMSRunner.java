@@ -16,6 +16,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** This is the Main class of Compute Resources Management System application. You should parse the input file,
  * create the different instances of the objects, and run the system.
@@ -23,6 +24,10 @@ import java.util.concurrent.CountDownLatch;
  */
 public class CRMSRunner {
     public static CountDownLatch threadInitCounter;
+    public static AtomicInteger cpuTimeUsed = new AtomicInteger(0);
+    public static AtomicInteger gpuTimeUsed = new AtomicInteger(0);
+    public static AtomicInteger batchesProcessed = new AtomicInteger(0);
+
     public static void main(String[] args) {
 
         //--------------------File-Input-----------------------
@@ -123,10 +128,6 @@ public class CRMSRunner {
         }
 
         //------------------Program-Execution--------------------
-        int cpuTimeUsed = 0;
-        int gpuTimeUsed = 0;
-        int batchesProcessed = 0;
-
         threadInitCounter = new CountDownLatch(gpuServiceList.size() + conferenceList.size());
 
         //initialize the Threads
@@ -214,15 +215,15 @@ public class CRMSRunner {
 
             //writing the entire data
             writer.write("\t\"cpuTimeUsed\": ");
-            writer.write(Integer.toString(cpuTimeUsed));
+            writer.write(Integer.toString(cpuTimeUsed.get()));
             writer.write(",\n");
 
             writer.write("\t\"gpuTimeUsed\": ");
-            writer.write(Integer.toString(gpuTimeUsed));
+            writer.write(Integer.toString(gpuTimeUsed.get()));
             writer.write(",\n");
 
             writer.write("\t\"batchesProcessed\": ");
-            writer.write(Integer.toString(batchesProcessed));
+            writer.write(Integer.toString(batchesProcessed.get()));
             writer.write(",\n");
 
             writer.write("}");
