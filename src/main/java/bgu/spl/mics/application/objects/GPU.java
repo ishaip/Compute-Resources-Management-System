@@ -71,11 +71,11 @@ public class GPU {
     public void setGpuService(GPUService gpuService){ this.gpuService = gpuService; }
 
     public void processGPUData() {
-        if (speed <= time) {
+        if ( db != null && speed <= time) {
             db.Processe();
             if (db.getData().isDone()) {
                 gpuService.doneTraining(db);
-                model = models.poll();
+                initialize(models.poll());
                 if (model != null) {
                     data = model.getData();
                     for (int i = 0; i < 8; i++) {
@@ -89,16 +89,21 @@ public class GPU {
                 if (nextData != null)
                     cluster.addDataToBePreprocessed(nextData);
             }
-
+            db = null;
             time = time - speed;
         }
     }
 
     private void initialize(Model model){
         this.model = model;
-        this.data =  model.getData();
-        this.db = data.getNextDataBatch(this);
-
+        if (model == null){
+            this.data =null;
+            this.db = null;
+        }
+        else {
+            this.data = model.getData();
+            this.db = data.getNextDataBatch(this);
+        }
     }
 
 
@@ -106,6 +111,8 @@ public class GPU {
 
     public void pullNewData(){
         db = cluster.getNextProcessedData(this);
+        if (db != null)
+            time ++;
     }
 
     public synchronized void getMoreTime(){notify();}

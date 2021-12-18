@@ -49,6 +49,8 @@ public class Model {
 
     public void setResult(Result result){ this.result = result; }
 
+    public String getName(){return name;}
+
     public  Result getResult() { return result; }
 
     public void setStatus(Status status){ this.status = status; }

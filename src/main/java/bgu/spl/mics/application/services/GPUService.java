@@ -42,6 +42,7 @@ public class GPUService extends MicroService {
 
     public void doneTraining(DataBatch db){
         modelFutures.get(db.getData()).resolve(Trained);
+        System.out.println(db.getData().getGpu()); //TODO were printing bull
     }
 
     @Override
@@ -53,11 +54,8 @@ public class GPUService extends MicroService {
             if(gpu.hasDataToBeTrained()) {
                 gpu.addTime();
                 gpu.processGPUData();
-                gpu.pullNewData();
             }
-            else{
-                gpu.pullNewData();
-            }
+            gpu.pullNewData();
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
