@@ -70,7 +70,11 @@ public class GPU {
             while (dataInProsse + 8 < data.dataToPross()){
                 dataInProsse ++;
                 DataBatch db = new DataBatch(data, 0, this);
-                cluster.addDataToBePreprocessed(db);
+                try {
+                    cluster.addDataToBePreprocessed(db);
+                } catch (InterruptedException e) {
+                    break;
+                }
             }
             time = time + 1;
             if (speed <= time) {
@@ -84,7 +88,7 @@ public class GPU {
             try {
                 this.wait();
             } catch (InterruptedException e) {
-                //do nothing;
+                break;
             }
         }
     }

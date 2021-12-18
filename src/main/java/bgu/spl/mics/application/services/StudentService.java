@@ -75,7 +75,6 @@ public class StudentService extends MicroService {
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
             try{
-                System.out.println("student is terminated");
                 runResults.interrupt();
             }
             catch (Exception e ){System.out.println("Exception handled "+ e);}
