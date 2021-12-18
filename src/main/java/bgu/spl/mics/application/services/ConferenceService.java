@@ -52,7 +52,6 @@ public class ConferenceService extends MicroService {
         });
 
         subscribeEvent(PublishResultEvent.class , c -> {
-            System.out.println("gotten a model!!!!!!!!");
             models.add(c.getModel());
             confrenceInformation.addPublication(c.getModel());
         });

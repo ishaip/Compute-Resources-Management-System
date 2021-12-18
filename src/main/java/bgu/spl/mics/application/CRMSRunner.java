@@ -179,7 +179,6 @@ public class CRMSRunner {
 
         Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
         for (Thread t : threadSet) {
-            //System.out.println(t + "is stuck");
             t.interrupt();
         }
 
