@@ -74,7 +74,7 @@ public class GPU {
             if (data != null && data.isDone())
                 data = dataList.pollFirst();
             while(data != null ) {
-                while (dataInProsse < 100) {
+                while (dataInProsse < 100 && !data.isDone(dataInProsse)) {
                     DataBatch db = new DataBatch(data, this);
                     try {
                         cluster.addDataToBePreprocessed(db);
@@ -84,15 +84,21 @@ public class GPU {
                         break;
                     }
                 }
-                if (terminate)
+            }
+            if (terminate)
+                break;
+            time++;
+            CRMSRunner.cpuTimeUsed.incrementAndGet();
+            if (time >= speed) {
+                if (cluster.getNextProcessedData(this) == null) {
+                    terminate = true;
                     break;
-                time++;
-                CRMSRunner.cpuTimeUsed.incrementAndGet();
-                if (time >= speed)
-                    if (cluster.getNextProcessedData(this) == null) {
-                        terminate = true;
-                        break;
-                    }
+                }
+                dataInProsse--;
+                if (data.isDone()){
+                    gpuService.doneTraining(data);
+                    data =null;
+                }
             }
             try {
                 this.wait();

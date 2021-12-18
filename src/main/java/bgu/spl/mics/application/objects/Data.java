@@ -59,7 +59,11 @@ public class Data {
 
     public boolean isDone(){return processed.get() *1000 > size;}
 
+    public boolean isDone(int doneAlready){return  (processed.get() + doneAlready) * 1000 > size ;}
+
     public void processData(){processed.incrementAndGet();}
+
+    public int doneData(){return processed.get();}
 
 
     public int getSpeed(){ return speed; }

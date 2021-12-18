@@ -5,7 +5,7 @@
 			"department": "Computer Science",
 			"status": "MSc",
 			"publications": 0,
-			"papersRead": 2,
+			"papersRead": 0,
 			"trainedModels": [
 				{
 					"name": "DensestNet",
@@ -23,7 +23,7 @@
 			"department": "EE",
 			"status": "PhD",
 			"publications": 0,
-			"papersRead": 2,
+			"papersRead": 0,
 			"trainedModels": [
 				{
 					"name": "VIT",
@@ -41,7 +41,7 @@
 			"department": "Computer Science",
 			"status": "PhD",
 			"publications": 0,
-			"papersRead": 2,
+			"papersRead": 0,
 			"trainedModels": [
 				{
 					"name": "GPT10",
@@ -58,17 +58,17 @@
 			"name": "Timon",
 			"department": "SE",
 			"status": "MSc",
-			"publications": 1,
-			"papersRead": 1,
+			"publications": 0,
+			"papersRead": 0,
 			"trainedModels": [
 				{
-					"name": "Percepetron",
+					"name": "ConditionalGAN",
 					"data": {
-						"type": "Tabular",
-						"size": 1000000
+						"type": "Images",
+						"size": 500000
 					},
-					"status": "Tested",
-					"results": "Good"
+					"status": "PreTrained",
+					"results": "None"
 				}
 			]
 		},
@@ -76,17 +76,17 @@
 			"name": "Nala",
 			"department": "Computer Science",
 			"status": "PhD",
-			"publications": 1,
-			"papersRead": 1,
+			"publications": 0,
+			"papersRead": 0,
 			"trainedModels": [
 				{
-					"name": "YOLO9000",
+					"name": "DenserNet",
 					"data": {
 						"type": "Images",
 						"size": 100000
 					},
-					"status": "Tested",
-					"results": "Good"
+					"status": "PreTrained",
+					"results": "None"
 				}
 			]
 		}
@@ -95,15 +95,7 @@
 		{
 			"name": "ICML",
 			"date": 20000,
-			"publications": [{
-			"name": "Percepetron",
-					"data": {
-						"type": "Tabular",
-						"size": 1000000
-					},
-					"status": "Tested",
-					"results": "Good"
-}]
+			"publications": []
 		},
 		{
 			"name": "NeurIPS",
@@ -113,15 +105,7 @@
 		{
 			"name": "CVPR",
 			"date": 30000,
-			"publications": [{
-			"name": "YOLO9000",
-					"data": {
-						"type": "Images",
-						"size": 100000
-					},
-					"status": "Tested",
-					"results": "Good"
-}]
+			"publications": []
 		},
 		{
 			"name": "ECCV",
@@ -134,7 +118,7 @@
 			"publications": []
 		}
 	],
-	"cpuTimeUsed": 316669,
-	"gpuTimeUsed": 60454,
-	"batchesProcessed": 56841,
+	"cpuTimeUsed": 1502,
+	"gpuTimeUsed": 0,
+	"batchesProcessed": 396,
 }
