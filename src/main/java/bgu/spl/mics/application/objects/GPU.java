@@ -13,6 +13,8 @@ import static bgu.spl.mics.application.objects.Model.Status.Trained;
  * Add fields and methods to this class as you see fit (including public methods and constructors).
  */
 public class GPU {
+
+
     /**
      * Enum representing the type of the GPU.
      */
@@ -27,6 +29,8 @@ public class GPU {
     private DataBatch db;
     private boolean terminate = false;
     private GPUService gpuService;
+    private Data data;
+    private int dataInProsse=0;
 
     public GPU(Type type){
         this.type = type;
@@ -63,12 +67,17 @@ public class GPU {
 
     public synchronized void trainData(){
         while (!terminate) {
+            while (dataInProsse + 8 < data.dataToPross()){
+                dataInProsse ++;
+                DataBatch db = new DataBatch(data, 0, this);
+                cluster.addDataToBePreprocessed(db);
+            }
             time = time + 1;
             if (speed <= time) {
                 db = cluster.getNextProcessedData(this);
                 if (db == null)
                     break;
-                if (db.getData().processData())
+                if (db.getData().doneProssing())
                     gpuService.doneTraining(db);
                 time = time - speed;
             }
@@ -85,6 +94,8 @@ public class GPU {
     public void addTime(){ time++; }
 
     public boolean isAvailable(){ return available; }
+
+    public void setData(Data data) {this.data = data;}
 
     public void trainModelEvent (Model model){
         available = false;

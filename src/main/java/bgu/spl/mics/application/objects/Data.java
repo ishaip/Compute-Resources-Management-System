@@ -22,7 +22,7 @@ public class Data {
     private Type type;
     private AtomicInteger processed = new AtomicInteger();
 //    private int prossing;
-    private int size;
+    private final int size;
     private final GPU gpu;
     private int speed;
 
@@ -57,9 +57,11 @@ public class Data {
 
     public int getSize(){ return size; }
 
-    public Boolean processData(){
-        return processed.incrementAndGet() * 1000 >= size;
-    }
+    public void processData(){processed.incrementAndGet();}
+
+    public Boolean doneProssing(){return ((processed.get() + 1) * 1000 >= size); }
+
+    public int dataToPross(){return size - processed.get();}
 
     public int getSpeed(){ return speed; }
 

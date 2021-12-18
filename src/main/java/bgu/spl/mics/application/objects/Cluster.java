@@ -78,7 +78,9 @@ public class Cluster {
 
 	public  DataBatch getNextProcessedData(GPU gpu){
 		try {
-			return processedData.get(gpu).take();
+			DataBatch bd = processedData.get(gpu).take();
+			bd.getData().processData();
+			return bd;
 		} catch (InterruptedException e) {System.out.println("nhere");
 		}
 		return null;

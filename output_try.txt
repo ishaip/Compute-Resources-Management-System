@@ -11,7 +11,7 @@
 					"name": "YOLO10",
 					"data": {
 						"type": "Text",
-						"size": 200000
+						"size": 20
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -20,7 +20,7 @@
 					"name": "ResNet9000",
 					"data": {
 						"type": "Text",
-						"size": 200000
+						"size": 200
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -29,7 +29,7 @@
 					"name": "LessEfficientNet",
 					"data": {
 						"type": "Text",
-						"size": 20000
+						"size": 200
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -38,7 +38,7 @@
 					"name": "DensestNet",
 					"data": {
 						"type": "Text",
-						"size": 200000
+						"size": 200
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -56,7 +56,7 @@
 					"name": "VIT",
 					"data": {
 						"type": "Text",
-						"size": 100000000
+						"size": 10
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -74,7 +74,7 @@
 					"name": "Bert",
 					"data": {
 						"type": "Text",
-						"size": 1000000
+						"size": 10
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -83,7 +83,7 @@
 					"name": "GPT4",
 					"data": {
 						"type": "Text",
-						"size": 1000000
+						"size": 100
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -92,7 +92,7 @@
 					"name": "GPT5",
 					"data": {
 						"type": "Text",
-						"size": 200000
+						"size": 200
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -101,7 +101,7 @@
 					"name": "GPT10",
 					"data": {
 						"type": "Text",
-						"size": 50000
+						"size": 50
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -119,7 +119,7 @@
 					"name": "Percepetron",
 					"data": {
 						"type": "Tabular",
-						"size": 1000000
+						"size": 10
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -128,7 +128,7 @@
 					"name": "GNN",
 					"data": {
 						"type": "Tabular",
-						"size": 1000000
+						"size": 100
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -137,7 +137,7 @@
 					"name": "MoreStyleGAN",
 					"data": {
 						"type": "Images",
-						"size": 100000
+						"size": 100
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -146,7 +146,7 @@
 					"name": "ConditionalGAN",
 					"data": {
 						"type": "Images",
-						"size": 500000
+						"size": 500
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -164,7 +164,7 @@
 					"name": "YOLO9000",
 					"data": {
 						"type": "Text",
-						"size": 100000
+						"size": 10
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -173,7 +173,7 @@
 					"name": "VIT2",
 					"data": {
 						"type": "Text",
-						"size": 1000000
+						"size": 1000
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -182,7 +182,7 @@
 					"name": "MuchMoreEfficientNet",
 					"data": {
 						"type": "Text",
-						"size": 20000
+						"size": 200
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -191,7 +191,7 @@
 					"name": "DenserNet",
 					"data": {
 						"type": "Text",
-						"size": 100000
+						"size": 1000
 					},
 					"status": "PreTrained",
 					"results": "None"

@@ -35,7 +35,7 @@ public class CRMSRunner {
         ArrayList<CPUService> cpuServiceList = new ArrayList<>();
         ArrayList<ConfrenceInformation> conferenceList = new ArrayList<>();
         int tickTime = 0;
-        int duration = 0; //TODO: figure out whether it's int or long
+        int duration = 0;
 
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
@@ -178,7 +178,7 @@ public class CRMSRunner {
 
         //--------------------File-output-----------------------
 
-        File output = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/output_try.txt");
+        File output = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/output_try.txt");
         FileWriter writer = null;
         try {
             writer = new FileWriter(output);
