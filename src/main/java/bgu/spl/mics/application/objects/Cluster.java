@@ -2,6 +2,7 @@ package bgu.spl.mics.application.objects;
 import bgu.spl.mics.MessageBusImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -65,17 +66,25 @@ public class Cluster {
 		return gpus;
 	}
 
-	public void addDataToBePreprocessed(DataBatch db){dataToPreprocessed.add(db);}
 
-	public DataBatch getNextProcessedData(GPU gpu){
+
+	public  void addDataToBePreprocessed(DataBatch db){
+		try {
+			dataToPreprocessed.put(db);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public  DataBatch getNextProcessedData(GPU gpu){
 		try {
 			return processedData.get(gpu).take();
-		} catch (InterruptedException e) {System.out.println("here");
+		} catch (InterruptedException e) {System.out.println("nhere");
 		}
 		return null;
 	}
 
-	public DataBatch getNextDataToBePreprocessed(){
+	public  DataBatch getNextDataToBePreprocessed(){
 		try {
 			return dataToPreprocessed.take();
 		} catch (InterruptedException e) {//do nothing
@@ -83,7 +92,13 @@ public class Cluster {
 		return null;
 	}
 
-	public void addProcessedData(DataBatch db){processedData.get(db.getGpu()).add(db);}
+	public  void addProcessedData(DataBatch db){
+		try {
+			processedData.get(db.getGpu()).put(db);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public ArrayList<String> getTrainedModels(){
 		return stats.getTrainedModels();

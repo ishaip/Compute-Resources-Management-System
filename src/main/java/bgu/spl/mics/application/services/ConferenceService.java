@@ -1,6 +1,7 @@
 package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.CRMSRunner;
 import bgu.spl.mics.application.broadcast.PublishConferenceBroadcast;
 import bgu.spl.mics.application.broadcast.TerminateBroadcast;
 import bgu.spl.mics.application.broadcast.TickBroadcast;
@@ -25,7 +26,7 @@ import java.util.LinkedList;
 
 public class ConferenceService extends MicroService {
     private ArrayList<Model> models = new ArrayList<>();
-    private int time = 0;
+    private int time=0;
     private int date;
     private ConfrenceInformation confrenceInformation;
 
@@ -38,12 +39,10 @@ public class ConferenceService extends MicroService {
 
     @Override
     protected void initialize() {
-        System.out.println("Conference is now online " + getName());
         subscribeBroadcast(TickBroadcast.class,c -> {
             time ++;
             if (time > date){
                 sendBroadcast(new PublishConferenceBroadcast(models));
-                System.out.println("out of time " + getName());
                 terminate();
             }
         });
@@ -54,8 +53,10 @@ public class ConferenceService extends MicroService {
         });
 
         subscribeEvent(PublishResultEvent.class , c -> {
+            System.out.println("gotten a model!!!!!!!!");
             models.add(c.getModel());
             confrenceInformation.addPublication(c.getModel());
         });
+        CRMSRunner.threadInitCounter.countDown();
     }
 }

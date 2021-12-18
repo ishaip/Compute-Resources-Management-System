@@ -42,7 +42,8 @@ public class CPUService extends MicroService {
             cpu.terminate();
             terminate();
         }
-        cpu.startUp(db);
+        else
+            cpu.startUp(db);
 
 
         CPUProcessingThread.start();

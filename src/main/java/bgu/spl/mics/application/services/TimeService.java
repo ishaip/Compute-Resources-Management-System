@@ -20,8 +20,8 @@ import java.util.concurrent.TimeUnit;
 public class TimeService extends MicroService{
 
 	private int time;
-	private int speed;
-	private int duration;
+	private final int speed;
+	private final int duration;
 	private MessageBusImpl mb;
 
 	public TimeService(String name, int speed, int duration) {
@@ -34,7 +34,7 @@ public class TimeService extends MicroService{
 	@Override
 	protected synchronized void initialize() {
 		while(time < duration) {
-			if (time% 1000 == 0)
+			if ((time )% 100  == 0)
 				System.out.println(time);
 			time = time + 1;
 			sendBroadcast(new TickBroadcast());

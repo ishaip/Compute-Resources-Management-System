@@ -2,6 +2,7 @@ package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.Future;
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.CRMSRunner;
 import bgu.spl.mics.application.broadcast.TerminateBroadcast;
 import bgu.spl.mics.application.broadcast.TickBroadcast;
 import bgu.spl.mics.application.events.TestModelEvent;
@@ -9,6 +10,7 @@ import bgu.spl.mics.application.events.TrainModelEvent;
 import bgu.spl.mics.application.objects.*;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 
 import static bgu.spl.mics.application.objects.Model.Status.Trained;
 
@@ -23,6 +25,7 @@ import static bgu.spl.mics.application.objects.Model.Status.Trained;
  */
 public class GPUService extends MicroService {
     private final GPU gpu;
+    private int counter = 0;
     private final Cluster cluster = Cluster.getInstance();
     private final ConcurrentHashMap<Data, Future<Model.Status>> modelFutures = new ConcurrentHashMap<>();
 
@@ -30,8 +33,6 @@ public class GPUService extends MicroService {
     public GPUService(String name, GPU gpu) {
         super(name);
         this.gpu = gpu;
-        cluster.startNewGpuConnection(gpu);
-        gpu.setGpuService(this);
     }
 
     public void doneTraining(DataBatch db){
@@ -40,11 +41,14 @@ public class GPUService extends MicroService {
 
     @Override
     protected void initialize() {
+        cluster.startNewGpuConnection(gpu);
+        gpu.setGpuService(this);
         Thread trainDataThread = new Thread(gpu::trainData) ;
         trainDataThread.start();
 
         subscribeBroadcast(TickBroadcast.class, c -> {
-                gpu.getMoreTime();
+            counter++;
+            gpu.getMoreTime();
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
@@ -54,7 +58,7 @@ public class GPUService extends MicroService {
          });
 
         subscribeEvent(TrainModelEvent.class, c-> {
-            modelFutures.putIfAbsent(c.getData(),c.getFuture());
+            modelFutures.put(c.getData(),c.getFuture());
             for(int i =0; i < c.getData().getSize(); i +=1000){
                 DataBatch db = new DataBatch(c.getData(),0,gpu);
                 cluster.addDataToBePreprocessed(db);
@@ -75,5 +79,6 @@ public class GPUService extends MicroService {
                     c.getFuture().resolve(Model.Result.Bad);
             }
         });
+        CRMSRunner.threadInitCounter.countDown();
     }
 }

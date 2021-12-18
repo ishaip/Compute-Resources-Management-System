@@ -22,13 +22,10 @@ import java.util.concurrent.CountDownLatch;
  */
 public class CRMSRunner {
     public static CountDownLatch threadInitCounter;
-
     public static void main(String[] args) {
 
         //--------------------File-Input-----------------------
-//        File input = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/example_input.json"); //TODO: change pathname input
-        File input = new File(args[0]);
-
+        File input = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/example_input.json"); //TODO: change pathname input
         //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
         ArrayList<StudentService> studentServiceList = new ArrayList<>();
@@ -124,7 +121,6 @@ public class CRMSRunner {
         int cpuTimeUsed = 0;
         int gpuTimeUsed = 0;
         int batchesProcessed = 0;
-
         threadInitCounter = new CountDownLatch(gpuServiceList.size() + conferenceList.size());
 
         TimeService timeService = new TimeService("timeService",tickTime,duration);
@@ -132,6 +128,11 @@ public class CRMSRunner {
         timeServiceThread.start();
 
         //initialize the Threads
+
+
+
+
+
         ArrayList<Thread> conferenceThreads = new ArrayList<>();
         for (ConfrenceInformation cl : conferenceList ){
             ConferenceService cs = new ConferenceService(cl.getName(),cl);
@@ -147,59 +148,37 @@ public class CRMSRunner {
             gt.start();
         }
 
-        ArrayList<Thread> cpuThreads = new ArrayList<>();
+        ArrayList<Thread> cpuThread = new ArrayList<>();
         for (CPUService c : cpuServiceList){
             Thread ct = new Thread(c);
-            cpuThreads.add(ct);
+            cpuThread.add(ct);
             ct.start();
         }
 
-        //await for initialization before starting the student thread
+        ArrayList<Thread> studentsThread = new ArrayList<>();
         try{
-            threadInitCounter.await();
+            threadInitCounter.await();      //wait for all services to register
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ArrayList<Thread> studentsThreads = new ArrayList<>();
         for (StudentService s: studentServiceList){
             Thread st = new Thread(s);
-            studentsThreads.add(st);
+            studentsThread.add(st);
             st.start();
         }
 
-        //joining threads
-        for (int i = 0; i < conferenceThreads.size(); i++) {
+        for (int i = 0; i < studentsThread.size(); i++) {
             try {
-                conferenceThreads.get(i).join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        for (int i = 0; i < gpuThreads.size(); i++) {
-            try {
-                gpuThreads.get(i).join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        for (int i = 0; i < cpuThreads.size(); i++) {
-            try {
-                cpuThreads.get(i).join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        for (int i = 0; i < studentsThreads.size(); i++) {
-            try {
-                studentsThreads.get(i).join();
+                studentsThread.get(i).join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
+
         //--------------------File-output-----------------------
+
         File output = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/output_try.txt");
-//        File output = new File(args[1]);
         FileWriter writer = null;
         try {
             writer = new FileWriter(output);
@@ -238,7 +217,7 @@ public class CRMSRunner {
 
             writer.write("\t\"batchesProcessed\": ");
             writer.write(Integer.toString(batchesProcessed));
-            writer.write("\n");
+            writer.write(",\n");
 
             writer.write("}");
 
