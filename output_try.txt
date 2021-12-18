@@ -5,44 +5,17 @@
 			"department": "Computer Science",
 			"status": "MSc",
 			"publications": 1,
-			"papersRead": 4,
-			"trainedModels": [
-				{
-					"name": "ResNet9000",
-					"data": {
-						"type": "Text",
-						"size": 20000
-					},
-					"status": "Trained",
-					"results": "None"
-				},
-				{
-					"name": "DensestNet",
-					"data": {
-						"type": "Text",
-						"size": 20000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				}
+			"papersRead": 2,
+			"trainedModels": 
 			]
 		},
 		{
 			"name": "Zazu",
 			"department": "EE",
 			"status": "PhD",
-			"publications": 1,
-			"papersRead": 4,
-			"trainedModels": [
-				{
-					"name": "VIT",
-					"data": {
-						"type": "Text",
-						"size": 1000
-					},
-					"status": "Training",
-					"results": "Good"
-				}
+			"publications": 0,
+			"papersRead": 3,
+			"trainedModels": 
 			]
 		},
 		{
@@ -50,17 +23,8 @@
 			"department": "Computer Science",
 			"status": "PhD",
 			"publications": 1,
-			"papersRead": 4,
-			"trainedModels": [
-				{
-					"name": "GPT10",
-					"data": {
-						"type": "Text",
-						"size": 5000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				}
+			"papersRead": 2,
+			"trainedModels": 
 			]
 		},
 		{
@@ -68,35 +32,17 @@
 			"department": "SE",
 			"status": "PhD",
 			"publications": 0,
-			"papersRead": 5,
-			"trainedModels": [
-				{
-					"name": "ConditionalGAN",
-					"data": {
-						"type": "Images",
-						"size": 50000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				}
+			"papersRead": 3,
+			"trainedModels": 
 			]
 		},
 		{
 			"name": "Nala",
 			"department": "Computer Science",
 			"status": "PhD",
-			"publications": 2,
-			"papersRead": 3,
-			"trainedModels": [
-				{
-					"name": "DenserNet",
-					"data": {
-						"type": "Text",
-						"size": 100000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				}
+			"publications": 1,
+			"papersRead": 2,
+			"trainedModels": 
 			]
 		}
 	],
@@ -105,10 +51,10 @@
 			"name": "ICML",
 			"date": 2000,
 			"publications": [{
-			"name": "YOLO10",
+			"name": "YOLO9000",
 					"data": {
 						"type": "Text",
-						"size": 2000
+						"size": 1000
 					},
 					"status": "Tested",
 					"results": "Good"
@@ -123,27 +69,19 @@
 			"name": "CVPR",
 			"date": 3000,
 			"publications": [{
-			"name": "VIT",
+			"name": "YOLO10",
 					"data": {
 						"type": "Text",
-						"size": 1000
+						"size": 2000
 					},
-					"status": "Training",
+					"status": "Tested",
 					"results": "Good"
 }]
 		},
 		{
 			"name": "ECCV",
 			"date": 4000,
-			"publications": [{
-			"name": "YOLO9000",
-					"data": {
-						"type": "Text",
-						"size": 1000
-					},
-					"status": "Tested",
-					"results": "Good"
-}]
+			"publications": []
 		},
 		{
 			"name": "AISTATS",
@@ -156,18 +94,10 @@
 					},
 					"status": "Tested",
 					"results": "Good"
-},{
-			"name": "VIT2",
-					"data": {
-						"type": "Text",
-						"size": 100000
-					},
-					"status": "Tested",
-					"results": "Good"
 }]
 		}
 	],
-	"cpuTimeUsed": 37437,
-	"gpuTimeUsed": 10522,
-	"batchesProcessed": 13368,
+	"cpuTimeUsed": 37547,
+	"gpuTimeUsed": 10459,
+	"batchesProcessed": 13407,
 }

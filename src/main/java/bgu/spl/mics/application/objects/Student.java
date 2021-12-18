@@ -67,15 +67,17 @@ public class Student {
         output += "\t\t\t\"trainedModels\": [\n\t\t\t\t";
         if (models.size() > 0){
             Iterator<Model> itr = models.iterator();
-
+            Model m = itr.next();
             while (itr.hasNext()){
-                Model m = itr.next();
-                while ( m.getStatus() != Model.Status.Trained ){
-                    if ( itr.hasNext() )
-                        m = itr.next();
-                    else
-                        break;
-                }
+                m = itr.next();
+                if ( m.getStatus() != Model.Status.Trained || m.getStatus() != Model.Status.Tested )
+                    continue;
+//                while ( m.getStatus() != Model.Status.Trained ){
+//                    if ( itr.hasNext() )
+//                        m = itr.next();
+//                    else
+//                        break;
+//                }
                 output += "{\n\t\t\t";
                 output += "\t\t" + m.toString() + "\n\t\t\t\t}";
                 output += ",\n\t\t\t\t";
