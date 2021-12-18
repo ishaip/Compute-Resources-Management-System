@@ -6,7 +6,17 @@
 			"status": "MSc",
 			"publications": 0,
 			"papersRead": 0,
-			"trainedModels": []
+			"trainedModels": [
+				{
+					"name": "YOLO10",
+					"data": {
+						"type": "Text",
+						"size": 200000
+					},
+					"status": "Tested",
+					"results": "Good"
+				},
+				]
 		},
 		{
 			"name": "Zazu",
@@ -27,7 +37,7 @@
 					"name": "Bert",
 					"data": {
 						"type": "Text",
-						"size": 1000
+						"size": 1000000
 					},
 					"status": "Tested",
 					"results": "Good"
@@ -40,7 +50,17 @@
 			"status": "PhD",
 			"publications": 0,
 			"papersRead": 0,
-			"trainedModels": []
+			"trainedModels": [
+				{
+					"name": "Percepetron",
+					"data": {
+						"type": "Tabular",
+						"size": 1000000
+					},
+					"status": "Tested",
+					"results": "Good"
+				},
+				]
 		},
 		{
 			"name": "Nala",
@@ -53,10 +73,10 @@
 					"name": "YOLO9000",
 					"data": {
 						"type": "Text",
-						"size": 1000
+						"size": 100000
 					},
-					"status": "Trained",
-					"results": "None"
+					"status": "Tested",
+					"results": "Good"
 				},
 				]
 		}
@@ -88,7 +108,7 @@
 			"publications": []
 		}
 	],
-	"cpuTimeUsed": 2600,
-	"gpuTimeUsed": 623,
-	"batchesProcessed": 927,
+	"cpuTimeUsed": 348581,
+	"gpuTimeUsed": 155025,
+	"batchesProcessed": 146643
 }

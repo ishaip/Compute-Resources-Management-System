@@ -34,12 +34,12 @@ public class Cluster {
 	}
 
 	//---------------------Fields----------------------
-	private static volatile boolean  isDone = false;
+	private static volatile boolean isDone = false;
 	private ArrayList<GPU> gpus;
 	private ArrayList<CPU> cpus;
 	private Statistics stats;
 	private static Cluster instance = null;
-	private LinkedBlockingQueue<DataBatch> dataToPreprocessed = new LinkedBlockingQueue<DataBatch>();
+	private LinkedBlockingQueue<DataBatch> dataToProcessed = new LinkedBlockingQueue<DataBatch>();
 	private ConcurrentHashMap<GPU,LinkedBlockingQueue<DataBatch>> processedData = new ConcurrentHashMap<GPU,LinkedBlockingQueue<DataBatch>>();
 
 	//------------------Constructor---------------------
@@ -66,17 +66,15 @@ public class Cluster {
 		return gpus;
 	}
 
-
-
-	public  void addDataToBePreprocessed(DataBatch db) throws InterruptedException {
+	public void addDataToBePreprocessed(DataBatch db) {
 		try {
-			dataToPreprocessed.put(db);
+			dataToProcessed.put(db);
 		} catch (InterruptedException e) {
-			throw new InterruptedException();
+			//do nothing
 		}
 	}
 
-	public  DataBatch getNextProcessedData(GPU gpu){
+	public DataBatch getNextProcessedData(GPU gpu){
 		try {
 			DataBatch bd = processedData.get(gpu).take();
 			bd.getData().processData();
@@ -85,11 +83,12 @@ public class Cluster {
 		return null;
 	}
 
-	public  DataBatch getNextDataToBePreprocessed(){
+	public DataBatch getNextDataToBeProcessed(){
 		try {
-			return dataToPreprocessed.take();
-		} catch (InterruptedException e) {//do nothing
-			 }
+			return dataToProcessed.take();
+		} catch (InterruptedException e) {
+			//do nothing
+		}
 		return null;
 	}
 

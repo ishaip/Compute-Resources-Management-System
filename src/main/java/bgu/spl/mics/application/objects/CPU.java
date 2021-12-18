@@ -27,8 +27,6 @@ public class CPU {
     //-----------------Constructor---------------------
     public CPU(int numOfCores){
         this.cores = numOfCores;
-
-        /* Cluster */
     }
 
     //-------------------Methods-----------------------
@@ -36,14 +34,12 @@ public class CPU {
         return this.cores;
     }
 
-    public void terminate(){terminate = true;}
+    public void terminate(){ terminate = true; }
 
-    public void startUp(DataBatch db){
+    public synchronized void startUp(DataBatch db){
         this.db = db;
         calculationTime = (db.getData().getSpeed()) / cores;
     }
-
-
 
     public synchronized void processData() {
         while (!terminate) {
@@ -51,7 +47,7 @@ public class CPU {
             CRMSRunner.cpuTimeUsed.incrementAndGet();
             if (calculationTime <= time) {
                 cluster.addProcessedData(db);
-                db = cluster.getNextDataToBePreprocessed();
+                db = cluster.getNextDataToBeProcessed();
                 CRMSRunner.batchesProcessed.incrementAndGet();
                 if (db == null)
                     break;
@@ -72,9 +68,9 @@ public class CPU {
 
     public boolean isDone() { return isDone;}
 
-    public void testprocess(ArrayList<DataBatch> s) { isDone = false;
-    }
+    public void testprocess(ArrayList<DataBatch> s) { isDone = false; }
 
-    public void testaddBatchOfData(DataBatch db) {
-    }
+    public void testaddBatchOfData(DataBatch db) {}
+
+    public boolean hasDataToBeProcessed() { return db != null; }
 }

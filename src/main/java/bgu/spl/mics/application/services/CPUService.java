@@ -20,7 +20,7 @@ public class CPUService extends MicroService {
     private boolean terminated;
     private final CPU cpu; //
     private final Cluster cluster;
-    int coreNum;
+    int coreNum; //TODO: delete
 
 
     //-----------------Constructor---------------------
@@ -28,15 +28,14 @@ public class CPUService extends MicroService {
         super(name);
         cpu = _cpu;
         cluster = Cluster.getInstance();
-        coreNum = cpu.getNumOfCores();
+        coreNum = cpu.getNumOfCores(); //TODO: delete
     }
 
     //-------------------Methods----------------------
-
     @Override
     protected void initialize() {
-        Thread CPUProcessingThread = new Thread(cpu::processData);
-        DataBatch db = cluster.getNextDataToBePreprocessed();
+        Thread CPUProcessingThread = new Thread(cpu::processData); //
+        DataBatch db = cluster.getNextDataToBeProcessed();
         if (db == null) {
             CPUProcessingThread.interrupt();
             cpu.terminate();

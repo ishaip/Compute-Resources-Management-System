@@ -72,11 +72,7 @@ public class GPU {
             while (dataInProsse + 8 < data.dataToPross()){
                 dataInProsse ++;
                 DataBatch db = new DataBatch(data, 0, this);
-                try {
-                    cluster.addDataToBePreprocessed(db);
-                } catch (InterruptedException e) {
-                    break;
-                }
+                cluster.addDataToBePreprocessed(db);
             }
             time = time + 1;
             CRMSRunner.gpuTimeUsed.incrementAndGet();
