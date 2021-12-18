@@ -31,8 +31,6 @@ public class GPUService extends MicroService {
     public GPUService(String name, GPU gpu) {
         super(name);
         this.gpu = gpu;
-        cluster.startNewGpuConnection(gpu);
-        gpu.setGpuService(this);
     }
 
     public void doneTraining(DataBatch db){
@@ -41,6 +39,8 @@ public class GPUService extends MicroService {
 
     @Override
     protected void initialize() {
+        cluster.startNewGpuConnection(gpu);
+        gpu.setGpuService(this);
         Thread trainDataThread = new Thread(gpu::trainData) ;
         trainDataThread.start();
 

@@ -67,9 +67,15 @@ public class Cluster {
 
 
 
-	public void addDataToBePreprocessed(DataBatch db){dataToPreprocessed.add(db);}
+	public synchronized void addDataToBePreprocessed(DataBatch db){
+		try {
+			dataToPreprocessed.put(db);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
-	public DataBatch getNextProcessedData(GPU gpu){
+	public synchronized DataBatch getNextProcessedData(GPU gpu){
 		try {
 			return processedData.get(gpu).take();
 		} catch (InterruptedException e) {// do nothing
@@ -77,7 +83,7 @@ public class Cluster {
 		return null;
 	}
 
-	public DataBatch getNextDataToBePreprocessed(){
+	public synchronized DataBatch getNextDataToBePreprocessed(){
 		try {
 			return dataToPreprocessed.take();
 		} catch (InterruptedException e) {//do nothing
@@ -85,7 +91,13 @@ public class Cluster {
 		return null;
 	}
 
-	public void addProcessedData(DataBatch db){processedData.get(db.getGpu()).add(db);}
+	public synchronized void addProcessedData(DataBatch db){
+		try {
+			processedData.get(db.getGpu()).put(db);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public ArrayList<String> getTrainedModels(){
 		return stats.getTrainedModels();
