@@ -109,7 +109,7 @@ public class GPU {
         this.model = model;
     }
     
-    public void startModelTraining(Model model){}
+    public void startModelTraining(Model model){available = false;}
 
     public Type getType() {return type;}
 
