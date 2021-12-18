@@ -40,11 +40,11 @@ public class GPUService extends MicroService {
 
     @Override
     protected void initialize() {
-        Thread trainDataThread = new Thread(gpu::trainData);
+        Thread trainDataThread = new Thread(gpu::trainData) ;
         trainDataThread.start();
 
         subscribeBroadcast(TickBroadcast.class, c -> {
-                gpu.notify();
+                gpu.getMoreTime();
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
