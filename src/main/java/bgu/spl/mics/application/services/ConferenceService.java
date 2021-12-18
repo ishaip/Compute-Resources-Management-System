@@ -25,7 +25,7 @@ import java.util.LinkedList;
 
 public class ConferenceService extends MicroService {
     private ArrayList<Model> models = new ArrayList<>();
-    private int time=0;
+    private int time = 0;
     private int date;
     private ConfrenceInformation confrenceInformation;
 
@@ -38,12 +38,12 @@ public class ConferenceService extends MicroService {
 
     @Override
     protected void initialize() {
-        System.out.println("Conference is now online  " + getName());
+        System.out.println("Conference is now online " + getName());
         subscribeBroadcast(TickBroadcast.class,c -> {
             time ++;
             if (time > date){
                 sendBroadcast(new PublishConferenceBroadcast(models));
-                System.out.println("out of time" + getName());
+                System.out.println("out of time " + getName());
                 terminate();
             }
         });

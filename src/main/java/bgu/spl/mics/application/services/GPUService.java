@@ -54,7 +54,6 @@ public class GPUService extends MicroService {
          });
 
         subscribeEvent(TrainModelEvent.class, c-> {
-            System.out.println("---");
             modelFutures.putIfAbsent(c.getData(),c.getFuture());
             for(int i =0; i < c.getData().getSize(); i +=1000){
                 DataBatch db = new DataBatch(c.getData(),0,gpu);

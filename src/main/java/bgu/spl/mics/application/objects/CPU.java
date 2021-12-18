@@ -38,8 +38,6 @@ public class CPU {
         calculationTime = (db.getData().getSpeed()) / cores;
     }
 
-
-
     public synchronized void processData() {
         while (!terminate) {
             time = time + 1;
