@@ -12,7 +12,6 @@ import java.io.*;
 import java.io.File;
 import java.io.FileWriter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
@@ -155,16 +154,17 @@ public class CRMSRunner {
 
         ArrayList<Thread> studentsThread = new ArrayList<>();
         try{
-            threadInitCounter.await();      //wait for all services to register
+            threadInitCounter.await(); //wait for all services to register
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        //init student service threads
         for (StudentService s: studentServiceList){
             Thread st = new Thread(s);
             studentsThread.add(st);
             st.start();
         }
-
+        //join student service threads
         for (int i = 0; i < studentsThread.size(); i++) {
             try {
                 studentsThread.get(i).join();
