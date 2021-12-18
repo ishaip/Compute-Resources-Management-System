@@ -33,12 +33,12 @@ public class Future<T> {
 			while ( future == null ) {
 				try {
 					this.wait();
-				} catch (InterruptedException e) {break;//do nothing
+				} catch (InterruptedException e) {
+					break;
 			}
 		}
 		return future;
 	}
-	//TODO update this
 	
 	/**
      * Resolves the result of this Future object.

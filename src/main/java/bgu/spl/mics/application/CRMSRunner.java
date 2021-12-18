@@ -248,7 +248,7 @@ public class CRMSRunner {
 
             writer.write("\t\"batchesProcessed\": ");
             writer.write(Integer.toString(batchesProcessed.get()));
-            writer.write(",\n");
+            writer.write("\n");
 
             writer.write("}");
 

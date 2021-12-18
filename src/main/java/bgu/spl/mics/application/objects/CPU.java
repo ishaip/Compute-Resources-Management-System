@@ -2,6 +2,8 @@ package bgu.spl.mics.application.objects;
 
 import bgu.spl.mics.application.CRMSRunner;
 
+import java.util.ArrayList;
+
 /**
  * Passive object representing a single CPU.
  * Add all the fields described in the assignment as private fields.
@@ -20,6 +22,7 @@ public class CPU {
     private int time = 0;
     private DataBatch db;
     private boolean terminate = false;
+    private boolean isDone = true;
 
     //-----------------Constructor---------------------
     public CPU(int numOfCores){
@@ -67,4 +70,11 @@ public class CPU {
 
     public void updateTime(){time++;}
 
+    public boolean isDone() { return isDone;}
+
+    public void testprocess(ArrayList<DataBatch> s) { isDone = false;
+    }
+
+    public void testaddBatchOfData(DataBatch db) {
+    }
 }
