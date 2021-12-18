@@ -24,6 +24,7 @@ public class CRMSRunner {
 
         //--------------------File-Input-----------------------
         File input = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/example_input.json"); //TODO: change pathname input
+//        File input = new File(args[0]);
 
         //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
@@ -185,10 +186,10 @@ public class CRMSRunner {
             }
         }
 
-
         //--------------------File-output-----------------------
 
         File output = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/output_try.txt");
+//        File output = new File(args[0]);
         FileWriter writer = null;
         try {
             writer = new FileWriter(output);
@@ -227,7 +228,7 @@ public class CRMSRunner {
 
             writer.write("\t\"batchesProcessed\": ");
             writer.write(Integer.toString(batchesProcessed));
-            writer.write(",\n");
+            writer.write("\n");
 
             writer.write("}");
 
