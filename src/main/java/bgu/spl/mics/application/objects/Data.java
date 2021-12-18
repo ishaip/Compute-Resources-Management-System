@@ -21,10 +21,10 @@ public class Data {
     //--------------------Fields---------------------
     private Type type;
     private AtomicInteger processed = new AtomicInteger();
-//    private int prossing;
     private final int size;
     private final GPU gpu;
     private int speed;
+    private AtomicInteger numberOfBatches;
 
     //-----------------Constructor-------------------
     public Data(Type _type, int _size){
@@ -57,22 +57,14 @@ public class Data {
 
     public int getSize(){ return size; }
 
+    public boolean isDone(){return processed.get() *1000 > size;}
+
     public void processData(){processed.incrementAndGet();}
 
-    public Boolean doneProssing(){return ((processed.get() + 1) * 1000 >= size); }
-
-    public int dataToPross(){return size - processed.get();}
 
     public int getSpeed(){ return speed; }
 
-//    public void processData(int numOfProcesses){
-//        if ( processed == size )
-//            throw new StackOverflowError("All data has been processed");
-//        else if ( processed + numOfProcesses >= size )
-//            processed = size;
-//        else
-//            processed += numOfProcesses;
-//    }
+
 
     public GPU getGpu(){ return gpu; }
 

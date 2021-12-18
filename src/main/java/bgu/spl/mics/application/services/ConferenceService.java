@@ -56,6 +56,7 @@ public class ConferenceService extends MicroService {
             System.out.println("confrence got model");
             models.add(c.getModel());
             confrenceInformation.addPublication(c.getModel());
+            c.getModel().getStudent().addModel(c.getModel());
         });
         CRMSRunner.threadInitCounter.countDown();
     }

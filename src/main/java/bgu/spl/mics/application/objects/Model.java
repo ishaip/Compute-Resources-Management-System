@@ -59,6 +59,8 @@ public class Model {
         return status;
     }
 
+    public String getName(){return name;}
+
     public Student getStudent(){ return student; }
 
     public String toString(){

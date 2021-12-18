@@ -27,6 +27,11 @@ public class DataBatch { //
         this.gpu = gpu;
     }
 
+    public DataBatch(Data data, GPU gpu){
+        this.data = data;
+        this.gpu = gpu;
+    }
+
     //-------------------Methods---------------------
     public void setStartIndex(){
         this.startIndex ++;

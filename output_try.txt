@@ -4,14 +4,14 @@
 			"name": "Simba",
 			"department": "Computer Science",
 			"status": "MSc",
-			"publications": 2,
-			"papersRead": 3,
+			"publications": 0,
+			"papersRead": 2,
 			"trainedModels": [
 				{
 					"name": "DensestNet",
 					"data": {
-						"type": "Text",
-						"size": 20000
+						"type": "Images",
+						"size": 200000
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -23,16 +23,16 @@
 			"department": "EE",
 			"status": "PhD",
 			"publications": 0,
-			"papersRead": 5,
+			"papersRead": 2,
 			"trainedModels": [
 				{
 					"name": "VIT",
 					"data": {
-						"type": "Text",
-						"size": 1000
+						"type": "Images",
+						"size": 100000000
 					},
 					"status": "Training",
-					"results": "Bad"
+					"results": "None"
 				}
 			]
 		},
@@ -41,13 +41,13 @@
 			"department": "Computer Science",
 			"status": "PhD",
 			"publications": 0,
-			"papersRead": 5,
+			"papersRead": 2,
 			"trainedModels": [
 				{
 					"name": "GPT10",
 					"data": {
 						"type": "Text",
-						"size": 5000
+						"size": 50000
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -57,18 +57,18 @@
 		{
 			"name": "Timon",
 			"department": "SE",
-			"status": "PhD",
-			"publications": 2,
-			"papersRead": 3,
+			"status": "MSc",
+			"publications": 1,
+			"papersRead": 1,
 			"trainedModels": [
 				{
-					"name": "ConditionalGAN",
+					"name": "Percepetron",
 					"data": {
-						"type": "Images",
-						"size": 50000
+						"type": "Tabular",
+						"size": 1000000
 					},
-					"status": "PreTrained",
-					"results": "None"
+					"status": "Tested",
+					"results": "Good"
 				}
 			]
 		},
@@ -77,16 +77,16 @@
 			"department": "Computer Science",
 			"status": "PhD",
 			"publications": 1,
-			"papersRead": 4,
+			"papersRead": 1,
 			"trainedModels": [
 				{
-					"name": "DenserNet",
+					"name": "YOLO9000",
 					"data": {
-						"type": "Text",
+						"type": "Images",
 						"size": 100000
 					},
-					"status": "PreTrained",
-					"results": "None"
+					"status": "Tested",
+					"results": "Good"
 				}
 			]
 		}
@@ -94,12 +94,12 @@
 	"conferences": [
 		{
 			"name": "ICML",
-			"date": 2000,
+			"date": 20000,
 			"publications": [{
-			"name": "YOLO10",
+			"name": "Percepetron",
 					"data": {
-						"type": "Text",
-						"size": 2000
+						"type": "Tabular",
+						"size": 1000000
 					},
 					"status": "Tested",
 					"results": "Good"
@@ -107,58 +107,34 @@
 		},
 		{
 			"name": "NeurIPS",
-			"date": 2500,
-			"publications": [{
-			"name": "YOLO9000",
-					"data": {
-						"type": "Text",
-						"size": 1000
-					},
-					"status": "Tested",
-					"results": "Good"
-}]
-		},
-		{
-			"name": "CVPR",
-			"date": 3000,
+			"date": 25000,
 			"publications": []
 		},
 		{
-			"name": "ECCV",
-			"date": 4000,
+			"name": "CVPR",
+			"date": 30000,
 			"publications": [{
-			"name": "GNN",
+			"name": "YOLO9000",
 					"data": {
-						"type": "Tabular",
-						"size": 10000
+						"type": "Images",
+						"size": 100000
 					},
 					"status": "Tested",
 					"results": "Good"
 }]
 		},
 		{
+			"name": "ECCV",
+			"date": 40000,
+			"publications": []
+		},
+		{
 			"name": "AISTATS",
-			"date": 5000,
-			"publications": [{
-			"name": "Percepetron",
-					"data": {
-						"type": "Tabular",
-						"size": 1000
-					},
-					"status": "Tested",
-					"results": "Good"
-},{
-			"name": "ResNet9000",
-					"data": {
-						"type": "Text",
-						"size": 20000
-					},
-					"status": "Tested",
-					"results": "Good"
-}]
+			"date": 50000,
+			"publications": []
 		}
 	],
-	"cpuTimeUsed": 37249,
-	"gpuTimeUsed": 13176,
-	"batchesProcessed": 18291,
+	"cpuTimeUsed": 316669,
+	"gpuTimeUsed": 60454,
+	"batchesProcessed": 56841,
 }

@@ -51,6 +51,7 @@ public class Student {
     public Degree getDegree(){ return status; }
 
     public void addModel(Model model){ models.add(model); }
+    
 
     //public LinkedList<Model> getModels(){ return models; }
 

@@ -5,6 +5,7 @@ import bgu.spl.mics.application.CRMSRunner;
 import bgu.spl.mics.application.services.GPUService;
 
 import java.awt.color.CMMException;
+import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static bgu.spl.mics.application.objects.Model.Status.Trained;
@@ -31,7 +32,8 @@ public class GPU {
     private DataBatch db;
     private boolean terminate = false;
     private GPUService gpuService;
-    private Data data;
+    private Data data = null;
+    private LinkedList<Data> dataList = new LinkedList<>();
     private int dataInProsse=0;
 
     public GPU(Type type){
@@ -69,24 +71,28 @@ public class GPU {
 
     public synchronized void trainData(){
         while (!terminate) {
-            while (dataInProsse + 8 < data.dataToPross()){
-                dataInProsse ++;
-                DataBatch db = new DataBatch(data, 0, this);
-                try {
-                    cluster.addDataToBePreprocessed(db);
-                } catch (InterruptedException e) {
-                    break;
+            if (data != null && data.isDone())
+                data = dataList.pollFirst();
+            while(data != null ) {
+                while (dataInProsse < 100) {
+                    DataBatch db = new DataBatch(data, this);
+                    try {
+                        cluster.addDataToBePreprocessed(db);
+                        dataInProsse++;
+                    } catch (InterruptedException e) {
+                        terminate = true;
+                        break;
+                    }
                 }
-            }
-            time = time + 1;
-            CRMSRunner.gpuTimeUsed.incrementAndGet();
-            if (speed <= time) {
-                db = cluster.getNextProcessedData(this);
-                if (db == null)
+                if (terminate)
                     break;
-                if (db.getData().doneProssing())
-                    gpuService.doneTraining(db);
-                time = time - speed;
+                time++;
+                CRMSRunner.cpuTimeUsed.incrementAndGet();
+                if (time >= speed)
+                    if (cluster.getNextProcessedData(this) == null) {
+                        terminate = true;
+                        break;
+                    }
             }
             try {
                 this.wait();
@@ -102,7 +108,11 @@ public class GPU {
 
     public boolean isAvailable(){ return available; }
 
-    public void setData(Data data) {this.data = data;}
+    public void setData(Data data) {
+        if (this.data == null)
+            this.data = data;
+        else dataList.add(data);
+    }
 
     public void trainModelEvent (Model model){
         available = false;
@@ -116,5 +126,7 @@ public class GPU {
     public Future testModel(Model model){
         return null;
     }
+
+
 
 }
