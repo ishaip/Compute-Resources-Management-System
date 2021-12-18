@@ -14,17 +14,18 @@ import java.io.FileWriter;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 /** This is the Main class of Compute Resources Management System application. You should parse the input file,
  * create the different instances of the objects, and run the system.
  * In the end, you should output a text file.
  */
 public class CRMSRunner {
+    public static CountDownLatch threadInitCounter;
     public static void main(String[] args) {
 
         //--------------------File-Input-----------------------
         File input = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/example_input.json"); //TODO: change pathname input
-
         //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
         ArrayList<StudentService> studentServiceList = new ArrayList<>();
@@ -126,12 +127,10 @@ public class CRMSRunner {
         timeServiceThread.start();
 
         //initialize the Threads
-        ArrayList<Thread> studentsThread = new ArrayList<>();
-        for (StudentService s: studentServiceList){
-            Thread st = new Thread(s);
-            studentsThread.add(st);
-            st.start();
-        }
+
+
+
+
 
         ArrayList<Thread> conferenceThreads = new ArrayList<>();
         for (ConfrenceInformation cl : conferenceList ){
@@ -155,6 +154,12 @@ public class CRMSRunner {
             ct.start();
         }
 
+        ArrayList<Thread> studentsThread = new ArrayList<>();
+        for (StudentService s: studentServiceList){
+            Thread st = new Thread(s);
+            studentsThread.add(st);
+            st.start();
+        }
 
         for (int i = 0; i < studentsThread.size(); i++) {
             try {

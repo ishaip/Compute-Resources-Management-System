@@ -1,6 +1,7 @@
 package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.CRMSRunner;
 import bgu.spl.mics.application.broadcast.PublishConferenceBroadcast;
 import bgu.spl.mics.application.broadcast.TerminateBroadcast;
 import bgu.spl.mics.application.broadcast.TickBroadcast;
@@ -58,5 +59,6 @@ public class ConferenceService extends MicroService {
             models.add(c.getModel());
             confrenceInformation.addPublication(c.getModel());
         });
+        CRMSRunner.threadInitCounter.countDown();
     }
 }

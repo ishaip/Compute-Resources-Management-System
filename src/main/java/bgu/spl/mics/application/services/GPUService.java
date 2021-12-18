@@ -2,6 +2,7 @@ package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.Future;
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.CRMSRunner;
 import bgu.spl.mics.application.broadcast.TerminateBroadcast;
 import bgu.spl.mics.application.broadcast.TickBroadcast;
 import bgu.spl.mics.application.events.TestModelEvent;
@@ -9,6 +10,7 @@ import bgu.spl.mics.application.events.TrainModelEvent;
 import bgu.spl.mics.application.objects.*;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 
 import static bgu.spl.mics.application.objects.Model.Status.Trained;
 
@@ -58,6 +60,7 @@ public class GPUService extends MicroService {
          });
 
         subscribeEvent(TrainModelEvent.class, c-> {
+            System.out.println("gfgf");
             modelFutures.putIfAbsent(c.getData(),c.getFuture());
             for(int i =0; i < c.getData().getSize(); i +=1000){
                 DataBatch db = new DataBatch(c.getData(),0,gpu);
@@ -79,5 +82,6 @@ public class GPUService extends MicroService {
                     c.getFuture().resolve(Model.Result.Bad);
             }
         });
+        CRMSRunner.threadInitCounter.countDown();
     }
 }
