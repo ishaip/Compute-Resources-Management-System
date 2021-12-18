@@ -62,6 +62,7 @@ public class GPUService extends MicroService {
          });
 
         subscribeEvent(TrainModelEvent.class, c-> {
+            modelFutures.put(c.getData(),c.getFuture());
             gpu.setData(c.getData());
             if (trainDataThread.getState() == Thread.State.NEW)
                 trainDataThread.start();
