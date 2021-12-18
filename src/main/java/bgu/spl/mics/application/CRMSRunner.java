@@ -25,7 +25,9 @@ public class CRMSRunner {
     public static void main(String[] args) {
 
         //--------------------File-Input-----------------------
-        File input = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/example_input.json"); //TODO: change pathname input
+//        File input = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/example_input.json"); //TODO: change pathname input
+        File input = new File(args[0]);
+
         //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
         ArrayList<StudentService> studentServiceList = new ArrayList<>();
@@ -121,17 +123,13 @@ public class CRMSRunner {
         int cpuTimeUsed = 0;
         int gpuTimeUsed = 0;
         int batchesProcessed = 0;
+
         threadInitCounter = new CountDownLatch(gpuServiceList.size() + conferenceList.size());
 
-        TimeService timeService = new TimeService("timeService",tickTime,duration);
+        //initialize the Threads
+        TimeService timeService = new TimeService("timeService", tickTime, duration);
         Thread timeServiceThread = new Thread(timeService);
         timeServiceThread.start();
-
-        //initialize the Threads
-
-
-
-
 
         ArrayList<Thread> conferenceThreads = new ArrayList<>();
         for (ConfrenceInformation cl : conferenceList ){
@@ -175,10 +173,10 @@ public class CRMSRunner {
             }
         }
 
-
         //--------------------File-output-----------------------
 
         File output = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/output_try.txt");
+//        File output = new File(args[1]);
         FileWriter writer = null;
         try {
             writer = new FileWriter(output);
