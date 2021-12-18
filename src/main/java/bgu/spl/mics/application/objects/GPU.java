@@ -1,8 +1,10 @@
 package bgu.spl.mics.application.objects;
 
 import bgu.spl.mics.Future;
+import bgu.spl.mics.application.CRMSRunner;
 import bgu.spl.mics.application.services.GPUService;
 
+import java.awt.color.CMMException;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static bgu.spl.mics.application.objects.Model.Status.Trained;
@@ -77,6 +79,7 @@ public class GPU {
                 }
             }
             time = time + 1;
+            CRMSRunner.gpuTimeUsed.incrementAndGet();
             if (speed <= time) {
                 db = cluster.getNextProcessedData(this);
                 if (db == null)

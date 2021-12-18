@@ -28,6 +28,8 @@ public class TestModelEvent implements Event<Boolean> {
         model.setResult(res);
     }
 
+    public void setStatus(Model.Status stat){model.setStatus(stat);}
+
     public Future<Model.Result> getFuture(){return future;}
 
     public Student getStudent(){return student;}

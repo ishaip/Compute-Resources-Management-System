@@ -71,18 +71,20 @@ public class GPUService extends MicroService {
         });
 
         subscribeEvent(TestModelEvent.class, c-> {
+            c.setStatus(Model.Status.Tested);
             if (c.getStudent().getDegree() == Student.Degree.MSc) {
                 if (Math.random() >= 0.4)
-                    c.getFuture().resolve(Model.Result.Good);
+                    c.setResult(Model.Result.Good);
                 else
-                    c.getFuture().resolve(Model.Result.Bad);
+                    c.setResult(Model.Result.Bad);
             }
             if (c.getStudent().getDegree() == Student.Degree.PhD) {
                 if (Math.random() >= 0.2)
-                    c.getFuture().resolve(Model.Result.Good);
+                    c.setResult(Model.Result.Good);
                 else
-                    c.getFuture().resolve(Model.Result.Bad);
+                    c.setResult(Model.Result.Bad);
             }
+            c.getFuture().resolve(c.getResult());
         });
         CRMSRunner.threadInitCounter.countDown();
     }

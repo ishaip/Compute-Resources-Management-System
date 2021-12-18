@@ -1,5 +1,7 @@
 package bgu.spl.mics.application.objects;
 
+import bgu.spl.mics.application.CRMSRunner;
+
 /**
  * Passive object representing a single CPU.
  * Add all the fields described in the assignment as private fields.
@@ -43,9 +45,11 @@ public class CPU {
     public synchronized void processData() {
         while (!terminate) {
             time = time + 1;
+            CRMSRunner.cpuTimeUsed.incrementAndGet();
             if (calculationTime <= time) {
                 cluster.addProcessedData(db);
                 db = cluster.getNextDataToBePreprocessed();
+                CRMSRunner.batchesProcessed.incrementAndGet();
                 if (db == null)
                     break;
                 calculationTime = (db.getData().getSpeed()) / cores;

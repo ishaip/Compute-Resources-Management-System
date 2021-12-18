@@ -39,11 +39,13 @@ public class StudentService extends MicroService {
         while (!terminated) {
             for (Model m : student.getModels()) {
                 TrainModelEvent trainModelEvent = new TrainModelEvent(m);
+                m.setStatus(Model.Status.Training);
                 trainModelFuture = trainModelEvent.getFuture();
                 sendEvent(trainModelEvent);
                 if (trainModelFuture.get() == null)
                     break;
                 //wait until training is done
+                m.setStatus(Model.Status.Trained);
                 TestModelEvent testModelEvent = new TestModelEvent(m, student);
                 testModelFuture = testModelEvent.getFuture();
                 sendEvent(testModelEvent);
