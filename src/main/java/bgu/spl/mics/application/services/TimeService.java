@@ -35,11 +35,13 @@ public class TimeService extends MicroService{
 	protected synchronized void initialize() {
 		while(time < duration) {
 			time = time + 1;
+			if (time %1000 ==0)
+				System.out.println(time);
 			sendBroadcast(new TickBroadcast());
 			try {
 				wait(speed);
 			} catch (InterruptedException e) {
-				//do nothing
+				break;
 			}
 		}
 		sendBroadcast(new TerminateBroadcast());
