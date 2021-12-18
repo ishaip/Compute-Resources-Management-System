@@ -12,22 +12,28 @@ import java.io.*;
 import java.io.File;
 import java.io.FileWriter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** This is the Main class of Compute Resources Management System application. You should parse the input file,
  * create the different instances of the objects, and run the system.
  * In the end, you should output a text file.
  */
 public class CRMSRunner {
-    //public static CountDownLatch threadInitCounter;
     public static CountDownLatch threadInitCounter;
+    public static AtomicInteger cpuTimeUsed = new AtomicInteger(0);
+    public static AtomicInteger gpuTimeUsed = new AtomicInteger(0);
+    public static AtomicInteger batchesProcessed = new AtomicInteger(0);
+
     public static void main(String[] args) {
 
         //--------------------File-Input-----------------------
-//        File input = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/example_input.json"); //TODO: change pathname input
-        File input = new File(args[0]);
+        File input = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/example_input.json");
+//        File input = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/example_input.json"); //TODO: change pathname input
+//        File input = new File(args[0]); //TODO: fix program argument in configuration
 
         //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
@@ -38,7 +44,7 @@ public class CRMSRunner {
         ArrayList<CPUService> cpuServiceList = new ArrayList<>();
         ArrayList<ConfrenceInformation> conferenceList = new ArrayList<>();
         int tickTime = 0;
-        int duration = 0; //TODO: figure out whether it's int or long
+        int duration = 0;
 
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
@@ -99,6 +105,7 @@ public class CRMSRunner {
 
                 String name = String.format("cpu_%d", index);
                 cpuServiceList.add(new CPUService(name, cpu));
+                index ++;
             }
 
             //process all conferences
@@ -121,14 +128,10 @@ public class CRMSRunner {
         }
 
         //------------------Program-Execution--------------------
-        int cpuTimeUsed = 0;
-        int gpuTimeUsed = 0;
-        int batchesProcessed = 0;
-
         threadInitCounter = new CountDownLatch(gpuServiceList.size() + conferenceList.size());
 
         //initialize the Threads
-        TimeService timeService = new TimeService("timeService", tickTime, duration);
+        TimeService timeService = new TimeService("timeService",tickTime,duration);
         Thread timeServiceThread = new Thread(timeService);
         timeServiceThread.start();
 
@@ -154,19 +157,18 @@ public class CRMSRunner {
             ct.start();
         }
 
+        ArrayList<Thread> studentsThread = new ArrayList<>();
         try{
-            threadInitCounter.await(); //wait for all services to register
+            threadInitCounter.await();      //wait for all services to register
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //init student service threads
-        ArrayList<Thread> studentsThread = new ArrayList<>();
         for (StudentService s: studentServiceList){
             Thread st = new Thread(s);
             studentsThread.add(st);
             st.start();
         }
-        //join student service threads
+
         for (int i = 0; i < studentsThread.size(); i++) {
             try {
                 studentsThread.get(i).join();
@@ -175,15 +177,15 @@ public class CRMSRunner {
             }
         }
 
+
         Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
         for (Thread t : threadSet) {
             t.interrupt();
         }
 
         //--------------------File-output-----------------------
-
         File output = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/output_try.txt");
-//        File output = new File(args[1]);
+//        File output = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/output_try.txt");
         FileWriter writer = null;
         try {
             writer = new FileWriter(output);
@@ -213,15 +215,15 @@ public class CRMSRunner {
 
             //writing the entire data
             writer.write("\t\"cpuTimeUsed\": ");
-            writer.write(Integer.toString(cpuTimeUsed));
+            writer.write(Integer.toString(cpuTimeUsed.get()));
             writer.write(",\n");
 
             writer.write("\t\"gpuTimeUsed\": ");
-            writer.write(Integer.toString(gpuTimeUsed));
+            writer.write(Integer.toString(gpuTimeUsed.get()));
             writer.write(",\n");
 
             writer.write("\t\"batchesProcessed\": ");
-            writer.write(Integer.toString(batchesProcessed));
+            writer.write(Integer.toString(batchesProcessed.get()));
             writer.write(",\n");
 
             writer.write("}");
