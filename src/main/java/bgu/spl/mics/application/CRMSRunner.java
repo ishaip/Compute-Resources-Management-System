@@ -164,20 +164,20 @@ public class CRMSRunner {
                 e.printStackTrace();
             }
         }
-//        for (int i = 0; i < gpuThreads.size(); i++) {
-//            try {
-//                gpuThreads.get(i).join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        for (int i = 0; i < cpuThreads.size(); i++) {
-//            try {
-//                cpuThreads.get(i).join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        for (int i = 0; i < gpuThreads.size(); i++) {
+            try {
+                gpuThreads.get(i).join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        for (int i = 0; i < cpuThreads.size(); i++) {
+            try {
+                cpuThreads.get(i).join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
 
         try{

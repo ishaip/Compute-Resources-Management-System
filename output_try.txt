@@ -14,17 +14,7 @@
 			"status": "PhD",
 			"publications": 0,
 			"papersRead": 0,
-			"trainedModels": [
-				{
-					"name": "VIT",
-					"data": {
-						"type": "Text",
-						"size": 1000
-					},
-					"status": "Trained",
-					"results": "None"
-				}
-			]
+			"trainedModels": []
 		},
 		{
 			"name": "Pumba",
@@ -32,7 +22,17 @@
 			"status": "PhD",
 			"publications": 0,
 			"papersRead": 0,
-			"trainedModels": []
+			"trainedModels": [
+				{
+					"name": "Bert",
+					"data": {
+						"type": "Text",
+						"size": 1000
+					},
+					"status": "Tested",
+					"results": "Good"
+				},
+				]
 		},
 		{
 			"name": "Timon",
@@ -55,8 +55,8 @@
 						"type": "Text",
 						"size": 1000
 					},
-					"status": "Tested",
-					"results": "Good"
+					"status": "Trained",
+					"results": "None"
 				},
 				]
 		}
@@ -88,7 +88,7 @@
 			"publications": []
 		}
 	],
-	"cpuTimeUsed": 2553,
-	"gpuTimeUsed": 647,
-	"batchesProcessed": 910,
+	"cpuTimeUsed": 2600,
+	"gpuTimeUsed": 623,
+	"batchesProcessed": 927,
 }
