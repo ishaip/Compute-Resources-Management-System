@@ -228,5 +228,5 @@
 	],
 	"cpuTimeUsed": 0,
 	"gpuTimeUsed": 0,
-	"batchesProcessed": 0,
+	"batchesProcessed": 0
 }

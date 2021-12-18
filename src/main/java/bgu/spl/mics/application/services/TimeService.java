@@ -18,11 +18,11 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class TimeService extends MicroService{
+
 	private int time;
 	private int speed;
 	private int duration;
 	private MessageBusImpl mb;
-
 
 	public TimeService(String name, int speed, int duration) {
 		super(name);

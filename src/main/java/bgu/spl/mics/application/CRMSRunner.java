@@ -26,8 +26,8 @@ public class CRMSRunner {
     public static void main(String[] args) {
 
         //--------------------File-Input-----------------------
-        File input = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/example_input.json"); //TODO: change pathname input
-//        File input = new File(args[0]);
+//        File input = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/example_input.json"); //TODO: change pathname input
+        File input = new File(args[0]);
 
         //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
@@ -125,20 +125,13 @@ public class CRMSRunner {
         int gpuTimeUsed = 0;
         int batchesProcessed = 0;
 
-        int threadInitCounter = gpuServiceList.size() + conferenceList.size();
+        threadInitCounter = new CountDownLatch(gpuServiceList.size() + conferenceList.size());
 
         TimeService timeService = new TimeService("timeService",tickTime,duration);
         Thread timeServiceThread = new Thread(timeService);
         timeServiceThread.start();
 
         //initialize the Threads
-        ArrayList<Thread> studentsThreads = new ArrayList<>();
-        for (StudentService s: studentServiceList){
-            Thread st = new Thread(s);
-            studentsThreads.add(st);
-            st.start();
-        }
-
         ArrayList<Thread> conferenceThreads = new ArrayList<>();
         for (ConfrenceInformation cl : conferenceList ){
             ConferenceService cs = new ConferenceService(cl.getName(),cl);
@@ -161,14 +154,20 @@ public class CRMSRunner {
             ct.start();
         }
 
-        //joining threads
-        for (int i = 0; i < studentsThreads.size(); i++) {
-            try {
-                studentsThreads.get(i).join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        //await for initialization before starting the student thread
+        try{
+            threadInitCounter.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        ArrayList<Thread> studentsThreads = new ArrayList<>();
+        for (StudentService s: studentServiceList){
+            Thread st = new Thread(s);
+            studentsThreads.add(st);
+            st.start();
+        }
+
+        //joining threads
         for (int i = 0; i < conferenceThreads.size(); i++) {
             try {
                 conferenceThreads.get(i).join();
@@ -190,11 +189,17 @@ public class CRMSRunner {
                 e.printStackTrace();
             }
         }
+        for (int i = 0; i < studentsThreads.size(); i++) {
+            try {
+                studentsThreads.get(i).join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         //--------------------File-output-----------------------
-
         File output = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/output_try.txt");
-//        File output = new File(args[0]);
+//        File output = new File(args[1]);
         FileWriter writer = null;
         try {
             writer = new FileWriter(output);

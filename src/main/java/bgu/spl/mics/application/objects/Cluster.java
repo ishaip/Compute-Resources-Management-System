@@ -65,14 +65,12 @@ public class Cluster {
 		return gpus;
 	}
 
-
-
 	public void addDataToBePreprocessed(DataBatch db){dataToPreprocessed.add(db);}
 
 	public DataBatch getNextProcessedData(GPU gpu){
 		try {
 			return processedData.get(gpu).take();
-		} catch (InterruptedException e) {System.out.println("nhere");
+		} catch (InterruptedException e) {System.out.println("here");
 		}
 		return null;
 	}
