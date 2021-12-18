@@ -59,7 +59,6 @@ public class StudentService extends MicroService {
 
     @Override
     protected void initialize() {
-        System.out.println("student is now online  " + getName());
         Thread runResults = new Thread(this::waitForResults);
         runResults.start();
 
@@ -74,7 +73,6 @@ public class StudentService extends MicroService {
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
-            System.out.println("student is being termanated " +getName());
             try{
                 runResults.interrupt();
             }

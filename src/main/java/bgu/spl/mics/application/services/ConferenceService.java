@@ -39,12 +39,10 @@ public class ConferenceService extends MicroService {
 
     @Override
     protected void initialize() {
-        System.out.println("Conference is now online  " + getName());
         subscribeBroadcast(TickBroadcast.class,c -> {
             time ++;
             if (time > date){
                 sendBroadcast(new PublishConferenceBroadcast(models));
-                System.out.println("out of time" + getName());
                 terminate();
             }
         });

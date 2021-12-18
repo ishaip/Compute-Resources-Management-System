@@ -48,8 +48,6 @@ public class GPUService extends MicroService {
 
         subscribeBroadcast(TickBroadcast.class, c -> {
             counter++;
-            if ((counter -1 )% 1000  == 1)
-                System.out.println(counter);
             gpu.getMoreTime();
         });
 
@@ -60,8 +58,7 @@ public class GPUService extends MicroService {
          });
 
         subscribeEvent(TrainModelEvent.class, c-> {
-            System.out.println("gfgf");
-            modelFutures.putIfAbsent(c.getData(),c.getFuture());
+            modelFutures.put(c.getData(),c.getFuture());
             for(int i =0; i < c.getData().getSize(); i +=1000){
                 DataBatch db = new DataBatch(c.getData(),0,gpu);
                 cluster.addDataToBePreprocessed(db);

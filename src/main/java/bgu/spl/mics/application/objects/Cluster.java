@@ -2,6 +2,7 @@ package bgu.spl.mics.application.objects;
 import bgu.spl.mics.MessageBusImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -67,7 +68,7 @@ public class Cluster {
 
 
 
-	public synchronized void addDataToBePreprocessed(DataBatch db){
+	public  void addDataToBePreprocessed(DataBatch db){
 		try {
 			dataToPreprocessed.put(db);
 		} catch (InterruptedException e) {
@@ -75,7 +76,7 @@ public class Cluster {
 		}
 	}
 
-	public synchronized DataBatch getNextProcessedData(GPU gpu){
+	public  DataBatch getNextProcessedData(GPU gpu){
 		try {
 			return processedData.get(gpu).take();
 		} catch (InterruptedException e) {System.out.println("nhere");
@@ -83,7 +84,7 @@ public class Cluster {
 		return null;
 	}
 
-	public synchronized DataBatch getNextDataToBePreprocessed(){
+	public  DataBatch getNextDataToBePreprocessed(){
 		try {
 			return dataToPreprocessed.take();
 		} catch (InterruptedException e) {//do nothing
@@ -91,7 +92,7 @@ public class Cluster {
 		return null;
 	}
 
-	public synchronized void addProcessedData(DataBatch db){
+	public  void addProcessedData(DataBatch db){
 		try {
 			processedData.get(db.getGpu()).put(db);
 		} catch (InterruptedException e) {

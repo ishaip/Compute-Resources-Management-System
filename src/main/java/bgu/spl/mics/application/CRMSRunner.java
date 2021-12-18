@@ -121,6 +121,7 @@ public class CRMSRunner {
         int cpuTimeUsed = 0;
         int gpuTimeUsed = 0;
         int batchesProcessed = 0;
+        threadInitCounter = new CountDownLatch(gpuServiceList.size() + conferenceList.size());
 
         TimeService timeService = new TimeService("timeService",tickTime,duration);
         Thread timeServiceThread = new Thread(timeService);
@@ -155,6 +156,11 @@ public class CRMSRunner {
         }
 
         ArrayList<Thread> studentsThread = new ArrayList<>();
+        try{
+            threadInitCounter.await();      //wait for all services to register
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         for (StudentService s: studentServiceList){
             Thread st = new Thread(s);
             studentsThread.add(st);
