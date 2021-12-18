@@ -164,7 +164,7 @@ public abstract class MicroService implements Runnable {
                 if (action != null)
                     action.call(currMessage);
             } catch (InterruptedException e) {
-                throw new IllegalStateException();
+                //;
             }
         }
         messageBus.unregister(this);
