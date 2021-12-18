@@ -9,6 +9,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ public class CRMSRunner {
     public static void main(String[] args) {
 
         //--------------------File-Input-----------------------
-        File input = new File("/users/studs/bsc/2022/picus/Desktop/jason_ishai_test"); //TODO: change pathname input
+        File input = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/example_input.json"); //TODO: change pathname input
 
         //Lists of inputs objects
         ArrayList<Student> studentList = new ArrayList<>();
@@ -31,8 +33,8 @@ public class CRMSRunner {
         ArrayList<CPU> CPUList = new ArrayList<>();
         ArrayList<CPUService> cpuServiceList = new ArrayList<>();
         ArrayList<ConfrenceInformation> conferenceList = new ArrayList<>();
-        int tickTime;
-        int duration; //TODO: figure out whether it's int or long
+        int tickTime = 0;
+        int duration = 0; //TODO: figure out whether it's int or long
 
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
@@ -73,12 +75,8 @@ public class CRMSRunner {
             //process all gpus
             JsonArray JsonArrayOfGPU = fileObject.get("GPUS").getAsJsonArray();
             int index = 0;
-            for (JsonElement g : JsonArrayOfGPU){
-                //JsonObject gpuObject = JsonArrayOfGPU.get(i).getAsJsonObject();
-                //String t = gpuObject.getAsString();
-                //JsonObject gpuObject = g.getAsJsonObject();
-                //String str = gpuObject.getAsString();
-                String str = g.getAsString();
+            for (JsonElement e : JsonArrayOfGPU){
+                String str = e.getAsString();
                 GPU gpu = new GPU(str);
                 gpuList.add(gpu);
 
@@ -87,17 +85,16 @@ public class CRMSRunner {
                 index ++;
             }
             index = 0;
+
             //process all cpus
             JsonArray JsonArrayOfCPU = fileObject.get("CPUS").getAsJsonArray();
             for (JsonElement e : JsonArrayOfCPU){
-                //JsonObject cpuObject = JsonArrayOfCPU.get(i).getAsJsonObject();
                 int numOfCores = e.getAsInt();
                 CPU cpu = new CPU(numOfCores);
                 CPUList.add(cpu);
 
                 String name = String.format("cpu_%d", index);
                 cpuServiceList.add(new CPUService(name, cpu));
-                index ++;
             }
 
             //process all conferences
@@ -115,29 +112,109 @@ public class CRMSRunner {
             tickTime = fileObject.get("TickTime").getAsInt();
             duration = fileObject.get("Duration").getAsInt();
 
-            for (GPUService g : gpuServiceList)
-                new Thread(g).start();
-            for (CPUService c : cpuServiceList)
-                new Thread(c).start();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace(); //or maybe do nothing?
+        }
 
-            for (ConfrenceInformation cl : conferenceList ){
-                ConferenceService cs = new ConferenceService(cl.getName(),cl);
-                new Thread(cs).start();
+        //------------------Program-Execution--------------------
+        int cpuTimeUsed = 0;
+        int gpuTimeUsed = 0;
+        int batchesProcessed = 0;
+
+        TimeService timeService = new TimeService("timeService",tickTime,duration);
+        Thread timeServiceThread = new Thread(timeService);
+        timeServiceThread.start();
+
+        //initialize the Threads
+        ArrayList<Thread> studentsThread = new ArrayList<>();
+        for (StudentService s: studentServiceList){
+            Thread st = new Thread(s);
+            studentsThread.add(st);
+            st.start();
+        }
+
+        ArrayList<Thread> conferenceThreads = new ArrayList<>();
+        for (ConfrenceInformation cl : conferenceList ){
+            ConferenceService cs = new ConferenceService(cl.getName(),cl);
+            Thread cst = new Thread(cs);
+            conferenceThreads.add(cst);
+            cst.start();
+        }
+
+        ArrayList<Thread> gpuThreads = new ArrayList<>();
+        for (GPUService g : gpuServiceList){
+            Thread gt = new Thread(g);
+            gpuThreads.add(gt);
+            gt.start();
+        }
+
+        ArrayList<Thread> cpuThread = new ArrayList<>();
+        for (CPUService c : cpuServiceList){
+            Thread ct = new Thread(c);
+            cpuThread.add(ct);
+            ct.start();
+        }
+
+
+        for (int i = 0; i < studentsThread.size(); i++) {
+            try {
+                studentsThread.get(i).join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
-            for (StudentService s: studentServiceList)
-                new Thread(s).start();
-
-            TimeService timeService = new TimeService("timeService",tickTime,duration);
-            new Thread(timeService).start();
+        }
 
 
+        //--------------------File-output-----------------------
 
+        File output = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/output_try.txt");
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(output);
 
-        } catch (Exception e) {
+            //writing the students into the output file
+            writer.write("{\n\t\"students\": [");
+            for (int i = 0; i < studentList.size(); i++) {
+                writer.write("\n\t\t{\n\t\t");
+                writer.write(studentList.get(i).toString());
+                writer.write("\n\t\t}");
+                if ( i < studentList.size() - 1 )
+                    writer.write(",");
+            }
+            writer.write("\n\t],\n");
+
+            //writing the conferences into the output file
+            writer.write("\t\"conferences\": [\n");
+            for (int i = 0; i < conferenceList.size(); i++){
+                writer.write("\t\t{\n\t\t");
+                writer.write(conferenceList.get(i).toString());
+                writer.write("\n\t\t}");
+                if ( i < conferenceList.size() - 1 )
+                    writer.write(",");
+                writer.write("\n");
+            }
+            writer.write("\t],\n");
+
+            //writing the entire data
+            writer.write("\t\"cpuTimeUsed\": ");
+            writer.write(Integer.toString(cpuTimeUsed));
+            writer.write(",\n");
+
+            writer.write("\t\"gpuTimeUsed\": ");
+            writer.write(Integer.toString(gpuTimeUsed));
+            writer.write(",\n");
+
+            writer.write("\t\"batchesProcessed\": ");
+            writer.write(Integer.toString(batchesProcessed));
+            writer.write(",\n");
+
+            writer.write("}");
+
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        //--------------------File-output-----------------------
     }
 
 }

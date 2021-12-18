@@ -78,7 +78,7 @@ public class Cluster {
 	public synchronized DataBatch getNextProcessedData(GPU gpu){
 		try {
 			return processedData.get(gpu).take();
-		} catch (InterruptedException e) {// do nothing
+		} catch (InterruptedException e) {System.out.println("nhere");
 		}
 		return null;
 	}

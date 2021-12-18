@@ -1,6 +1,7 @@
 package bgu.spl.mics.application.objects;
 
-import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Passive object representing single student.
@@ -19,7 +20,8 @@ public class Student {
     private Degree status;
     private int publications = 0;
     private int papersRead = 0;
-    private LinkedList<Model> models = new LinkedList<>();
+    private ConcurrentLinkedQueue<Model> models = new ConcurrentLinkedQueue<>();
+    //private ArrayList<Model> models = new ArrayList<>();
 
     public Student(String name,String department,Degree status, int publications,int papersRead ){
         this.name = name;
@@ -48,9 +50,37 @@ public class Student {
 
     public Degree getDegree(){ return status; }
 
-    public void addModel(Model model){ models.addLast(model); }
+    public void addModel(Model model){ models.add(model); }
 
-    public LinkedList<Model> getModels(){ return models; }
+    //public LinkedList<Model> getModels(){ return models; }
+
+    public ConcurrentLinkedQueue<Model> getModels(){ return models; }
+
+    public String toString(){
+        String output = "";
+
+        output += "\t\"name\": \"" + name + "\",\n";
+        output += "\t\t\t\"department\": \"" + department + "\",\n";
+        output += "\t\t\t\"status\": \"" + status + "\",\n";
+        output += "\t\t\t\"publications\": " + Integer.toString(publications) + ",\n";
+        output += "\t\t\t\"papersRead\": " + Integer.toString(papersRead) + ",\n";
+        output += "\t\t\t\"trainedModels\": [\n\t\t\t\t";
+        if (models.size() > 0){
+            Iterator<Model> itr = models.iterator();
+
+            while (itr.hasNext()){
+                Model m = itr.next();
+                output += "{\n\t\t\t";
+                output += "\t\t" + m.toString() + "\n\t\t\t\t}";
+                output += ",\n\t\t\t\t";
+            }
+            output = output.substring(0, output.length() - 6);
+            output += "\n";
+        }
+        output += "\t\t\t]";
+
+        return output;
+    }
 
 }
 

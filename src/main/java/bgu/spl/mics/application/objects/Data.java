@@ -55,13 +55,13 @@ public class Data {
         return this.type;
     }
 
-    public int getSize(){return size;}
+    public int getSize(){ return size; }
 
     public Boolean processData(){
         return processed.incrementAndGet() * 1000 >= size;
     }
 
-    public int getSpeed(){return speed;}
+    public int getSpeed(){ return speed; }
 
 //    public void processData(int numOfProcesses){
 //        if ( processed == size )
@@ -72,6 +72,14 @@ public class Data {
 //            processed += numOfProcesses;
 //    }
 
+    public GPU getGpu(){ return gpu; }
 
-    public GPU getGpu(){return gpu;}
+    public String toString(){
+        String str = "";
+
+        str += "\t\t\t\t\t\t\"type\": \"" + type + "\",\n";
+        str += "\t\t\t\t\t\t\"size\": " + Integer.toString(size) + "\n";
+
+        return str;
+    }
 }

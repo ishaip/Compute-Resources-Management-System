@@ -38,7 +38,7 @@ public class ConferenceService extends MicroService {
 
     @Override
     protected void initialize() {
-        System.out.println("Confrence is now online  " + getName());
+        System.out.println("Conference is now online  " + getName());
         subscribeBroadcast(TickBroadcast.class,c -> {
             time ++;
             if (time > date){
@@ -49,14 +49,14 @@ public class ConferenceService extends MicroService {
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
-            System.out.println("Confrence is being termenated" +getName());
+            System.out.println("Conference is being terminated" +getName());
             terminate();
         });
 
         subscribeEvent(PublishResultEvent.class , c -> {
             System.out.println("gotten a model!!!!!!!!");
             models.add(c.getModel());
-            confrenceInformation.addPublications(c.getModel());
+            confrenceInformation.addPublication(c.getModel());
         });
     }
 }

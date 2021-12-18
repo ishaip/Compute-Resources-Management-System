@@ -10,7 +10,7 @@ public class ConfrenceInformation {
 
     private String name;
     private int date;
-    private ArrayList<Model> publications;
+    private ArrayList<Model> publications = new ArrayList<>();
 
     public ConfrenceInformation(String name, int date){
         this.name = name;
@@ -25,7 +25,34 @@ public class ConfrenceInformation {
         return name;
     }
 
-    public void addPublications(Model publication){this.publications.add(publication);}
+    public void addPublication (Model model){
+        publications.add(model);
+    }
 
-    public ArrayList<Model> addPublication(){return publications;}
+    public ArrayList<Model> getPublications (){
+        return publications;
+    }
+
+    public String toString() {
+        String str = "";
+
+        str += "\t\"name\": \"" + name + "\",\n";
+        str += "\t\t\t\"date\": " + Integer.toString(date) + ",\n";
+        str += "\t\t\t\"publications\": [";
+        for (int i = 0; i < publications.size(); i++){
+            str += "{\n\t\t\t" + publications.get(i).toString() + "\n}";
+            if ( i < publications.size() - 1 )
+                str += ",";
+        }
+        str += "]";
+        return str;
+    }
 }
+
+
+
+
+
+
+
+
