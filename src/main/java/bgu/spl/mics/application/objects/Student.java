@@ -65,11 +65,12 @@ public class Student {
         output += "\t\t\t\"publications\": " + Integer.toString(publications) + ",\n";
         output += "\t\t\t\"papersRead\": " + Integer.toString(papersRead) + ",\n";
         output += "\t\t\t\"trainedModels\": [\n\t\t\t\t";
+
         if (models.size() > 0){
             Iterator<Model> itr = models.iterator();
-
+            Model m = itr.next();
             while (itr.hasNext()){
-                Model m = itr.next();
+                m = itr.next();
                 while ( m.getStatus() != Model.Status.Trained ){
                     if ( itr.hasNext() )
                         m = itr.next();

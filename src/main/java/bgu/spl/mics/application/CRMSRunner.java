@@ -32,7 +32,7 @@ public class CRMSRunner {
 
         //--------------------File-Input-----------------------
 //        File input = new File("/home/spl211/IdeaProjects/SPL_Assignment_2_v1/example_input.json");
-//        File input = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/example_input.json"); //TODO: change pathname input
+//        File input = new File("/users/studs/bsc/2022/picus/IdeaProjects/SPL_2021_Assignment_2/example_input.json");
         File input = new File(args[0]); //TODO: fix program argument in configuration
 
         //Lists of inputs objects
