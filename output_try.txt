@@ -8,33 +8,6 @@
 			"papersRead": 0,
 			"trainedModels": [
 				{
-					"name": "YOLO10",
-					"data": {
-						"type": "Text",
-						"size": 200000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				},
-				{
-					"name": "ResNet9000",
-					"data": {
-						"type": "Text",
-						"size": 200000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				},
-				{
-					"name": "LessEfficientNet",
-					"data": {
-						"type": "Text",
-						"size": 20000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				},
-				{
 					"name": "DensestNet",
 					"data": {
 						"type": "Text",
@@ -71,33 +44,6 @@
 			"papersRead": 0,
 			"trainedModels": [
 				{
-					"name": "Bert",
-					"data": {
-						"type": "Text",
-						"size": 1000000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				},
-				{
-					"name": "GPT4",
-					"data": {
-						"type": "Text",
-						"size": 1000000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				},
-				{
-					"name": "GPT5",
-					"data": {
-						"type": "Text",
-						"size": 200000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				},
-				{
 					"name": "GPT10",
 					"data": {
 						"type": "Text",
@@ -116,33 +62,6 @@
 			"papersRead": 0,
 			"trainedModels": [
 				{
-					"name": "Percepetron",
-					"data": {
-						"type": "Tabular",
-						"size": 1000000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				},
-				{
-					"name": "GNN",
-					"data": {
-						"type": "Tabular",
-						"size": 1000000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				},
-				{
-					"name": "MoreStyleGAN",
-					"data": {
-						"type": "Images",
-						"size": 100000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				},
-				{
 					"name": "ConditionalGAN",
 					"data": {
 						"type": "Images",
@@ -160,33 +79,6 @@
 			"publications": 0,
 			"papersRead": 0,
 			"trainedModels": [
-				{
-					"name": "YOLO9000",
-					"data": {
-						"type": "Text",
-						"size": 100000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				},
-				{
-					"name": "VIT2",
-					"data": {
-						"type": "Text",
-						"size": 1000000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				},
-				{
-					"name": "MuchMoreEfficientNet",
-					"data": {
-						"type": "Text",
-						"size": 20000
-					},
-					"status": "PreTrained",
-					"results": "None"
-				},
 				{
 					"name": "DenserNet",
 					"data": {

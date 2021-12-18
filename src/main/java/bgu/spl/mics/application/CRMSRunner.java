@@ -20,6 +20,7 @@ import java.util.concurrent.CountDownLatch;
  * In the end, you should output a text file.
  */
 public class CRMSRunner {
+    //public static CountDownLatch threadInitCounter;
     public static CountDownLatch threadInitCounter;
     public static void main(String[] args) {
 
@@ -152,13 +153,13 @@ public class CRMSRunner {
             ct.start();
         }
 
-        ArrayList<Thread> studentsThread = new ArrayList<>();
         try{
             threadInitCounter.await(); //wait for all services to register
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         //init student service threads
+        ArrayList<Thread> studentsThread = new ArrayList<>();
         for (StudentService s: studentServiceList){
             Thread st = new Thread(s);
             studentsThread.add(st);
