@@ -14,12 +14,15 @@ import java.io.FileWriter;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 /** This is the Main class of Compute Resources Management System application. You should parse the input file,
  * create the different instances of the objects, and run the system.
  * In the end, you should output a text file.
  */
 public class CRMSRunner {
+    public static CountDownLatch threadInitCounter;
+
     public static void main(String[] args) {
 
         //--------------------File-Input-----------------------
@@ -121,6 +124,8 @@ public class CRMSRunner {
         int cpuTimeUsed = 0;
         int gpuTimeUsed = 0;
         int batchesProcessed = 0;
+
+        int threadInitCounter = gpuServiceList.size() + conferenceList.size();
 
         TimeService timeService = new TimeService("timeService",tickTime,duration);
         Thread timeServiceThread = new Thread(timeService);

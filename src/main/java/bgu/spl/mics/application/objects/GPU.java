@@ -80,7 +80,7 @@ public class GPU {
         }
     }
 
-    public synchronized void getMoreTime(){notify();}
+    public synchronized void getMoreTime(){ notify(); }
 
     public void addTime(){ time++; }
 
@@ -93,7 +93,7 @@ public class GPU {
     
     public void startModelTraining(Model model){}
 
-    public Type getType() {return type;}
+    public Type getType() { return type; }
 
     public Future testModel(Model model){
         return null;
