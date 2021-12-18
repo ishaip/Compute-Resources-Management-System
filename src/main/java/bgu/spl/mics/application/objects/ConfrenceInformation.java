@@ -39,11 +39,16 @@ public class ConfrenceInformation {
         str += "\t\"name\": \"" + name + "\",\n";
         str += "\t\t\t\"date\": " + Integer.toString(date) + ",\n";
         str += "\t\t\t\"publications\": [";
+
+        if ( publications.size() > 0)
+            str += "\n\t\t\t\t";
         for (int i = 0; i < publications.size(); i++){
-            str += "{\n\t\t\t" + publications.get(i).toString() + "\n}";
+            str += "{\n\t\t\t\t\t" + publications.get(i).toString() + "\n\t\t\t\t}";
             if ( i < publications.size() - 1 )
                 str += ",";
         }
+        if ( publications.size() > 0 )
+            str += "\n\t\t\t";
         str += "]";
         return str;
     }
