@@ -32,13 +32,13 @@ public class MessageBusImplTest extends TestCase {
         //tested in testSendBroadcast
     }
 
-   /* @Test
+    @Test
     public void testComplete() {
-
+/*
         create an event with result 0
         complete with result 1
         assert that event result is 1
-
+*/
         MicroService m1 = new TMicroService();
         tBus.register(m1);
         tBus.subscribeEvent(TEvent.class,m1);
@@ -50,11 +50,7 @@ public class MessageBusImplTest extends TestCase {
         //asserting that the future have the correct value
         assertTrue(future.isDone());
         // the rest of the code was without 'try' and 'catch'
-        try {
-            assertEquals(1,(int)future.get());
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+        assertEquals(1,(int)future.get());
     }
 
     @Test
@@ -130,5 +126,5 @@ public class MessageBusImplTest extends TestCase {
     public void testAwaitMessage() {
         //is tested in testSendEvent
 
-    }*/
+    }
 }

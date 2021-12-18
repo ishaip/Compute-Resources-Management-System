@@ -22,24 +22,26 @@ public class CPUTest {
         assertEquals(4, cpu.getNumOfCores());
     }
 
-   /* @Test
+    @Test
     public void testProcess() throws Exception{
         assertFalse(cpu.isDone());
-        cpu.process();
+        Data d = new Data(Data.Type.Text, 2000, new GPU(RTX3090));
+        DataBatch db = new DataBatch(d, 0);
+        ArrayList<DataBatch> someData = new ArrayList<>();
+        someData.add(db);
+        cpu.testprocess(someData);
         assertTrue(cpu.isDone());
     }
 
     @Test
     public void testIsDone() {
         assertFalse(cpu.isDone());
-
         Data d = new Data(Data.Type.Text, 2000, new GPU(RTX3090));
         DataBatch db = new DataBatch(d, 0);
-        cpu.addBatchOfData(db);
+        cpu.testaddBatchOfData(db);
         ArrayList<DataBatch> someData = new ArrayList<>();
         someData.add(db);
-
-        cpu.process(someData);
+        cpu.testprocess(someData);
         assertTrue(cpu.isDone());
-    }*/
+    }
 }
