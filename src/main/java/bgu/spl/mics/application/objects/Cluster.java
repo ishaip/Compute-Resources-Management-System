@@ -68,29 +68,20 @@ public class Cluster {
 
 
 
-	public  void addDataToBePreprocessed(DataBatch db) throws InterruptedException {
+	public  void addDataToBePreprocessed(DataBatch db){
 		try {
 			dataToPreprocessed.put(db);
 		} catch (InterruptedException e) {
-			throw new InterruptedException();
+			e.printStackTrace();
 		}
 	}
 
 	public  DataBatch getNextProcessedData(GPU gpu){
-		try {
-			DataBatch bd = processedData.get(gpu).take();
-			bd.getData().processData();
-			return bd;
-		} catch (InterruptedException ignored) {}
-		return null;
+		return processedData.get(gpu).poll();
 	}
 
-	public  DataBatch getNextDataToBePreprocessed(){
-		try {
-			return dataToPreprocessed.take();
-		} catch (InterruptedException e) {//do nothing
-			 }
-		return null;
+	public DataBatch getNextDataToBePreprocessed(){
+			return dataToPreprocessed.poll();
 	}
 
 	public  void addProcessedData(DataBatch db){

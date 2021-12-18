@@ -35,27 +35,18 @@ public class CPUService extends MicroService {
 
     @Override
     protected void initialize() {
-        Thread CPUProcessingThread = new Thread(cpu::processData);
-        DataBatch db = cluster.getNextDataToBePreprocessed();
-        if (db == null) {
-            CPUProcessingThread.interrupt();
-            cpu.terminate();
-            terminate();
-        }
-        else
-            cpu.startUp(db);
-
-
-        CPUProcessingThread.start();
 
         subscribeBroadcast(TickBroadcast.class, c -> {
-            cpu.getMoreTime();
+            if(cpu.hasDataToBeProcessed()) {
+                cpu.addTime();
+                cpu.processCPUData();
+            }
+            else{
+                cpu.pullNewData();
+            }
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
-            //System.out.println("CPU is being termenated");
-            cpu.terminate();
-            CPUProcessingThread.interrupt();
             terminate();
         });
     }

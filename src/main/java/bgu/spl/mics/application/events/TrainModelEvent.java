@@ -16,6 +16,8 @@ public class TrainModelEvent implements Event<Boolean> {
 
     public Data getData(){return model.getData();}
 
+    public Model getModel(){return model;}
+
     public void setStatus(Model.Status status){model.setStatus(status);}
 
     public Model.Status getStatus(){return model.getStatus();}

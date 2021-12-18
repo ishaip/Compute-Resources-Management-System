@@ -21,7 +21,7 @@ public class Data {
     //--------------------Fields---------------------
     private Type type;
     private AtomicInteger processed = new AtomicInteger();
-//    private int prossing;
+    private AtomicInteger dataBatchesInProcessing = new AtomicInteger(0);
     private final int size;
     private final GPU gpu;
     private int speed;
@@ -55,11 +55,17 @@ public class Data {
         return this.type;
     }
 
+    public DataBatch getNextDataBatch(GPU gpu){
+        if ((dataBatchesInProcessing.get() + processed.get())*1000 >= size)
+            return null;
+        return new DataBatch(this, 0, gpu);
+    }
+
     public int getSize(){ return size; }
 
     public void processData(){processed.incrementAndGet();}
 
-    public Boolean doneProssing(){return ((processed.get() + 1) * 1000 >= size); }
+    public Boolean isDone(){return ((processed.get() ) * 1000 >= size); }
 
     public int dataToPross(){return size - processed.get();}
 

@@ -61,19 +61,39 @@ public class CPU {
             try {
                 this.wait();
             } catch (InterruptedException e) {
-                //do nothing;
+                break;
             }
+        }
+    }
+
+    public void processCPUData(){
+        if (calculationTime <= time) {
+            cluster.addProcessedData(db);
+            CRMSRunner.batchesProcessed.incrementAndGet();
+            time = time - calculationTime;
         }
     }
 
     public synchronized void getMoreTime(){notify();}
 
-    public void updateTime(){time++;}
+    public void addTime(){
+        if(db != null) {
+            time++;
+            CRMSRunner.cpuTimeUsed.incrementAndGet();
+        }
+    }
+
+    public boolean hasDataToBeProcessed(){return db != null;}
+
+    public void pullNewData(){
+       db = cluster.getNextDataToBePreprocessed();
+       if(db != null)
+            calculationTime =  (db.getData().getSpeed()) / cores;
+    }
 
     public boolean isDone() { return isDone;}
 
-    public void testprocess(ArrayList<DataBatch> s) { isDone = false;
-    }
+    public void testprocess(ArrayList<DataBatch> s) { isDone = false;}
 
     public void testaddBatchOfData(DataBatch db) {
     }

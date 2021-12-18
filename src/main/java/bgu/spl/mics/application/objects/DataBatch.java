@@ -33,6 +33,8 @@ public class DataBatch { //
         data.processData();
     }
 
+    public void Processe(){data.processData();}
+
     public void setStartIndex(int nextIndex){
         this.startIndex += nextIndex;
     }

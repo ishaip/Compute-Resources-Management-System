@@ -3,8 +3,11 @@ package bgu.spl.mics.application.objects;
 import bgu.spl.mics.Future;
 import bgu.spl.mics.application.CRMSRunner;
 import bgu.spl.mics.application.services.GPUService;
+import sun.misc.Queue;
 
 import java.awt.color.CMMException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static bgu.spl.mics.application.objects.Model.Status.Trained;
@@ -33,7 +36,7 @@ public class GPU {
     private GPUService gpuService;
     private Data data;
     private int dataInProsse=0;
-
+    private ArrayDeque<Model> models = new ArrayDeque<>();
     public GPU(Type type){
         this.type = type;
         available = true;
@@ -67,42 +70,65 @@ public class GPU {
 
     public void setGpuService(GPUService gpuService){ this.gpuService = gpuService; }
 
-    public synchronized void trainData(){
-        while (!terminate) {
-            while (dataInProsse + 8 < data.dataToPross()){
-                dataInProsse ++;
-                DataBatch db = new DataBatch(data, 0, this);
-                try {
-                    cluster.addDataToBePreprocessed(db);
-                } catch (InterruptedException e) {
-                    break;
+    public void processGPUData() {
+        if (speed <= time) {
+            db.Processe();
+            if (db.getData().isDone()) {
+                gpuService.doneTraining(db);
+                model = models.poll();
+                if (model != null) {
+                    data = model.getData();
+                    for (int i = 0; i < 8; i++) {
+                        DataBatch nextData = data.getNextDataBatch(this);
+                        if (nextData != null)
+                            cluster.addDataToBePreprocessed(nextData);
+                    }
                 }
+            } else {
+                DataBatch nextData = data.getNextDataBatch(this);
+                if (nextData != null)
+                    cluster.addDataToBePreprocessed(nextData);
             }
-            time = time + 1;
-            CRMSRunner.gpuTimeUsed.incrementAndGet();
-            if (speed <= time) {
-                db = cluster.getNextProcessedData(this);
-                if (db == null)
-                    break;
-                if (db.getData().doneProssing())
-                    gpuService.doneTraining(db);
-                time = time - speed;
-            }
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                break;
-            }
+
+            time = time - speed;
         }
+    }
+
+    private void initialize(Model model){
+        this.model = model;
+        this.data =  model.getData();
+        this.db = data.getNextDataBatch(this);
+
+    }
+
+
+    public boolean hasDataToBeTrained(){return db != null;}
+
+    public void pullNewData(){
+        db = cluster.getNextProcessedData(this);
     }
 
     public synchronized void getMoreTime(){notify();}
 
-    public void addTime(){ time++; }
+    public void addTime(){
+        if (db != null) {
+            time++;
+            CRMSRunner.gpuTimeUsed.incrementAndGet();
+        }
+    }
 
     public boolean isAvailable(){ return available; }
 
     public void setData(Data data) {this.data = data;}
+
+    public void addModel(Model model){
+        if (models.isEmpty())
+            initialize(model);
+        else
+            models.addLast(model);
+    }
+
+    public boolean hasModelToBeProcessed(){return !models.isEmpty();}
 
     public void trainModelEvent (Model model){
         available = false;

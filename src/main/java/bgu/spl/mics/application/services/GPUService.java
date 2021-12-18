@@ -48,26 +48,25 @@ public class GPUService extends MicroService {
     protected void initialize() {
         cluster.startNewGpuConnection(gpu);
         gpu.setGpuService(this);
-        Thread trainDataThread = new Thread(gpu::trainData) ;
 
         subscribeBroadcast(TickBroadcast.class, c -> {
-            counter++;
-            gpu.getMoreTime();
+            if(gpu.hasDataToBeTrained()) {
+                gpu.addTime();
+                gpu.processGPUData();
+                gpu.pullNewData();
+            }
+            else{
+                gpu.pullNewData();
+            }
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
-            gpu.terminate();
-            trainDataThread.interrupt();
-            //System.out.println("GPU terminate");
              terminate();
          });
 
         subscribeEvent(TrainModelEvent.class, c-> {
             modelFutures.put(c.getData(),c.getFuture());
-            gpu.setData(c.getData());
-            if (trainDataThread.getState() == Thread.State.NEW)
-                trainDataThread.start();
-            gpu.getMoreTime();
+            gpu.addModel(c.getModel());
         });
 
         subscribeEvent(TestModelEvent.class, c-> {
