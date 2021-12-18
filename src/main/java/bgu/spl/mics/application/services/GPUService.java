@@ -28,11 +28,16 @@ public class GPUService extends MicroService {
     private int counter = 0;
     private final Cluster cluster = Cluster.getInstance();
     private final ConcurrentHashMap<Data, Future<Model.Status>> modelFutures = new ConcurrentHashMap<>();
+    private TrainModelEvent c;
 
 
     public GPUService(String name, GPU gpu) {
         super(name);
         this.gpu = gpu;
+    }
+
+    public void sendDataBatches() {
+
     }
 
     public void doneTraining(DataBatch db){
@@ -44,7 +49,6 @@ public class GPUService extends MicroService {
         cluster.startNewGpuConnection(gpu);
         gpu.setGpuService(this);
         Thread trainDataThread = new Thread(gpu::trainData) ;
-        trainDataThread.start();
 
         subscribeBroadcast(TickBroadcast.class, c -> {
             counter++;
@@ -59,10 +63,10 @@ public class GPUService extends MicroService {
 
         subscribeEvent(TrainModelEvent.class, c-> {
             modelFutures.put(c.getData(),c.getFuture());
-            for(int i =0; i < c.getData().getSize(); i +=1000){
-                DataBatch db = new DataBatch(c.getData(),0,gpu);
-                cluster.addDataToBePreprocessed(db);
-            }
+            gpu.setData(c.getData());
+            if (trainDataThread.getState() == Thread.State.NEW)
+                trainDataThread.start();
+            gpu.getMoreTime();
         });
 
         subscribeEvent(TestModelEvent.class, c-> {
@@ -73,7 +77,7 @@ public class GPUService extends MicroService {
                     c.getFuture().resolve(Model.Result.Bad);
             }
             if (c.getStudent().getDegree() == Student.Degree.PhD) {
-                if (Math.random() >= 0.6)
+                if (Math.random() >= 0.2)
                     c.getFuture().resolve(Model.Result.Good);
                 else
                     c.getFuture().resolve(Model.Result.Bad);
@@ -81,4 +85,6 @@ public class GPUService extends MicroService {
         });
         CRMSRunner.threadInitCounter.countDown();
     }
+
+
 }

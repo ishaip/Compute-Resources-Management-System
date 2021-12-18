@@ -43,6 +43,7 @@ public class StudentService extends MicroService {
                 sendEvent(trainModelEvent);
                 if (trainModelFuture.get() == null)
                     break;
+                System.out.println("done traning");
                 //wait until training is done
                 TestModelEvent testModelEvent = new TestModelEvent(m, student);
                 testModelFuture = testModelEvent.getFuture();

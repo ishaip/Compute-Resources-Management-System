@@ -48,7 +48,6 @@ public class ConferenceService extends MicroService {
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
-            System.out.println("Conference is being terminated" +getName());
             terminate();
         });
 

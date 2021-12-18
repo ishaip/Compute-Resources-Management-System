@@ -52,7 +52,7 @@ public class CPU {
             try {
                 this.wait();
             } catch (InterruptedException e) {
-                //do nothing;
+                break;
             }
         }
     }
