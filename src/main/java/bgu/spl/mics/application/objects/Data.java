@@ -67,8 +67,6 @@ public class Data {
     public boolean allDataReleased(){ return (dataBatchesInProcessing.get() + processed.get())*1000 > size ;}
 
     public Boolean isDone(){
-        if((processed.get() ) * 1000 >= size)
-            System.out.println("isDone");
         return ((processed.get() ) * 1000 >= size);
     }
 

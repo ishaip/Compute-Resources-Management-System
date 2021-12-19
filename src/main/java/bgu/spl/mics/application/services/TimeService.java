@@ -35,8 +35,6 @@ public class TimeService extends MicroService{
 	protected synchronized void initialize() {
 		while(time < duration) {
 			time = time + 1;
-			if (time %1000 ==0)
-				System.out.println(time);
 			sendBroadcast(new TickBroadcast());
 			try {
 				wait(speed);
@@ -45,7 +43,6 @@ public class TimeService extends MicroService{
 			}
 		}
 		sendBroadcast(new TerminateBroadcast());
-		System.out.println("exterminate");
 		terminate();
 	}
 }

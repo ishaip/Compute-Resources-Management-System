@@ -81,7 +81,6 @@ public class CRMSRunner {
                     //st.addModel(model);
                 }
                 st.addModel(modelsArray);
-                System.out.println(st.getModelArray().size() + "--");
                 studentServiceList.add(new StudentService(name, st));
             }
 

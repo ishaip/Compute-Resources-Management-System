@@ -42,7 +42,6 @@ public class ConferenceService extends MicroService {
         subscribeBroadcast(TickBroadcast.class,c -> {
             time ++;
             if (time > date){
-                System.out.println("confrence out");
                 sendBroadcast(new PublishConferenceBroadcast(models));
                 terminate();
             }
@@ -53,7 +52,6 @@ public class ConferenceService extends MicroService {
         });
 
         subscribeEvent(PublishResultEvent.class , c -> {
-            System.out.println("confrence got model");
             models.add(c.getModel());
             confrenceInformation.addPublication(c.getModel());
         });
