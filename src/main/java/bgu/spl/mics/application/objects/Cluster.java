@@ -77,7 +77,8 @@ public class Cluster {
 	}
 
 	public  DataBatch getNextProcessedData(GPU gpu){
-		return processedData.get(gpu).poll();
+		DataBatch db = processedData.get(gpu).poll();
+		return db;
 	}
 
 	public DataBatch getNextDataToBePreprocessed(){

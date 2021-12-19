@@ -44,28 +44,6 @@ public class CPU {
     }
 
 
-
-    public synchronized void processData() {
-        while (!terminate) {
-            time = time + 1;
-            CRMSRunner.cpuTimeUsed.incrementAndGet();
-            if (calculationTime <= time) {
-                cluster.addProcessedData(db);
-                db = cluster.getNextDataToBePreprocessed();
-                CRMSRunner.batchesProcessed.incrementAndGet();
-                if (db == null)
-                    break;
-                calculationTime = (db.getData().getSpeed()) / cores;
-                time = time - calculationTime;
-            }
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                break;
-            }
-        }
-    }
-
     public void processCPUData(){
         if (calculationTime <= time) {
             cluster.addProcessedData(db);
@@ -73,8 +51,6 @@ public class CPU {
             time = time - calculationTime;
         }
     }
-
-    public synchronized void getMoreTime(){notify();}
 
     public void addTime(){
         if(db != null) {

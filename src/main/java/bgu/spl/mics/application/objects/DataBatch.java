@@ -28,10 +28,7 @@ public class DataBatch { //
     }
 
     //-------------------Methods---------------------
-    public void setStartIndex(){
-        this.startIndex ++;
-        data.processData();
-    }
+
 
     public void Processe(){data.processData();}
 

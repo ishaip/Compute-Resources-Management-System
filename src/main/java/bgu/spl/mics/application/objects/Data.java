@@ -56,8 +56,7 @@ public class Data {
     }
 
     public DataBatch getNextDataBatch(GPU gpu){
-        if ((dataBatchesInProcessing.get() + processed.get())*1000 >= size)
-            return null;
+        dataBatchesInProcessing.incrementAndGet();
         return new DataBatch(this, 0, gpu);
     }
 
@@ -65,7 +64,13 @@ public class Data {
 
     public void processData(){processed.incrementAndGet();}
 
-    public Boolean isDone(){return ((processed.get() ) * 1000 >= size); }
+    public boolean allDataReleased(){ return (dataBatchesInProcessing.get() + processed.get())*1000 > size ;}
+
+    public Boolean isDone(){
+        if((processed.get() ) * 1000 >= size)
+            System.out.println("here");
+        return ((processed.get() ) * 1000 >= size);
+    }
 
     public int dataToPross(){return size - processed.get();}
 

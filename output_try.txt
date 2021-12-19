@@ -4,14 +4,14 @@
 			"name": "Simba",
 			"department": "Computer Science",
 			"status": "MSc",
-			"publications": 1,
+			"publications": 0,
 			"papersRead": 1,
 			"trainedModels": [
 				{
 					"name": "DensestNet",
 					"data": {
 						"type": "Images",
-						"size": 200
+						"size": 200000
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -23,13 +23,13 @@
 			"department": "EE",
 			"status": "PhD",
 			"publications": 0,
-			"papersRead": 2,
+			"papersRead": 1,
 			"trainedModels": [
 				{
 					"name": "VIT",
 					"data": {
 						"type": "Images",
-						"size": 10000
+						"size": 100000000
 					},
 					"status": "Training",
 					"results": "None"
@@ -40,14 +40,14 @@
 			"name": "Pumba",
 			"department": "Computer Science",
 			"status": "PhD",
-			"publications": 1,
+			"publications": 0,
 			"papersRead": 1,
 			"trainedModels": [
 				{
 					"name": "GPT10",
 					"data": {
 						"type": "Text",
-						"size": 500
+						"size": 50000
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -58,14 +58,14 @@
 			"name": "Timon",
 			"department": "SE",
 			"status": "MSc",
-			"publications": 0,
-			"papersRead": 2,
+			"publications": 1,
+			"papersRead": 0,
 			"trainedModels": [
 				{
 					"name": "ConditionalGAN",
 					"data": {
 						"type": "Images",
-						"size": 5000
+						"size": 500000
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -77,13 +77,13 @@
 			"department": "Computer Science",
 			"status": "PhD",
 			"publications": 0,
-			"papersRead": 2,
+			"papersRead": 1,
 			"trainedModels": [
 				{
 					"name": "DenserNet",
 					"data": {
 						"type": "Images",
-						"size": 1000
+						"size": 100000
 					},
 					"status": "PreTrained",
 					"results": "None"
@@ -100,33 +100,25 @@
 		{
 			"name": "NeurIPS",
 			"date": 25000,
-			"publications": [{
-			"name": "YOLO10",
-					"data": {
-						"type": "Images",
-						"size": 200000
-					},
-					"status": "Tested",
-					"results": "Good"
-}]
+			"publications": []
 		},
 		{
 			"name": "CVPR",
 			"date": 30000,
-			"publications": [{
-			"name": "Bert",
-					"data": {
-						"type": "Text",
-						"size": 10000
-					},
-					"status": "Tested",
-					"results": "Good"
-}]
+			"publications": []
 		},
 		{
 			"name": "ECCV",
 			"date": 40000,
-			"publications": []
+			"publications": [{
+			"name": "Percepetron",
+					"data": {
+						"type": "Tabular",
+						"size": 1000000
+					},
+					"status": "Tested",
+					"results": "Good"
+}]
 		},
 		{
 			"name": "AISTATS",
@@ -134,7 +126,7 @@
 			"publications": []
 		}
 	],
-	"cpuTimeUsed": 384670,
-	"gpuTimeUsed": 75566,
-	"batchesProcessed": 116774,
+	"cpuTimeUsed": 384523,
+	"gpuTimeUsed": 21601,
+	"batchesProcessed": 212858,
 }

@@ -3,12 +3,8 @@ package bgu.spl.mics.application.objects;
 import bgu.spl.mics.Future;
 import bgu.spl.mics.application.CRMSRunner;
 import bgu.spl.mics.application.services.GPUService;
-import sun.misc.Queue;
 
-import java.awt.color.CMMException;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static bgu.spl.mics.application.objects.Model.Status.Trained;
 
@@ -35,8 +31,8 @@ public class GPU {
     private boolean terminate = false;
     private GPUService gpuService;
     private Data data;
-    private int dataInProsse=0;
     private ArrayDeque<Model> models = new ArrayDeque<>();
+
     public GPU(Type type){
         this.type = type;
         available = true;
@@ -71,23 +67,19 @@ public class GPU {
     public void setGpuService(GPUService gpuService){ this.gpuService = gpuService; }
 
     public void processGPUData() {
-        if ( db != null && speed <= time) {
+        if (model != null && db != null && speed <= time) {
             db.Processe();
             if (db.getData().isDone()) {
                 gpuService.doneTraining(db);
+                model.setStatus(Trained);
                 initialize(models.poll());
                 if (model != null) {
-                    data = model.getData();
                     for (int i = 0; i < 8; i++) {
-                        DataBatch nextData = data.getNextDataBatch(this);
-                        if (nextData != null)
-                            cluster.addDataToBePreprocessed(nextData);
+                        addMoreDataToTheCluster();
                     }
                 }
             } else {
-                DataBatch nextData = data.getNextDataBatch(this);
-                if (nextData != null)
-                    cluster.addDataToBePreprocessed(nextData);
+                    addMoreDataToTheCluster();
             }
             db = null;
             time = time - speed;
@@ -106,13 +98,20 @@ public class GPU {
         }
     }
 
+    private void addMoreDataToTheCluster(){
+        DataBatch nextData = data.getNextDataBatch(this);
+        if (nextData != null)
+            cluster.addDataToBePreprocessed(nextData);
+    }
+
 
     public boolean hasDataToBeTrained(){return db != null;}
 
     public void pullNewData(){
-        db = cluster.getNextProcessedData(this);
-        if (db != null)
-            time ++;
+        if (model != null) {
+            db = cluster.getNextProcessedData(this);
+        }
+        else db = null;
     }
 
     public synchronized void getMoreTime(){notify();}
@@ -129,13 +128,11 @@ public class GPU {
     public void setData(Data data) {this.data = data;}
 
     public void addModel(Model model){
-        if (models.isEmpty())
+        if (this.model == null)
             initialize(model);
         else
             models.addLast(model);
     }
-
-    public boolean hasModelToBeProcessed(){return !models.isEmpty();}
 
     public void trainModelEvent (Model model){
         available = false;

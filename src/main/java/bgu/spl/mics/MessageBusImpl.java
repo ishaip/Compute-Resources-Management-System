@@ -1,6 +1,8 @@
 package bgu.spl.mics;
 
 import bgu.spl.mics.application.broadcast.TerminateBroadcast;
+import bgu.spl.mics.application.events.TestModelEvent;
+import bgu.spl.mics.application.events.TrainModelEvent;
 
 import java.util.concurrent.*;
 
@@ -13,6 +15,7 @@ import java.util.concurrent.*;
 public class MessageBusImpl implements MessageBus {
 	private static MessageBusImpl instance = null;
 	private static volatile boolean  isDone = false;
+	private int counter=0;
 
 	//using ConcurrentHashMap and Blocking queue because it will be better for threading
 	//a queue of messages for every microService
@@ -93,7 +96,6 @@ public class MessageBusImpl implements MessageBus {
 				Future<T> future = new Future<>();
 				eventFutureQueues.putIfAbsent(e,future);
 				MicroService handler = messageRegisteredQueues.get(e.getClass()).remove();
-
 				try {
 					microServiceMessageQueues.get(handler).put(e);
 					messageRegisteredQueues.get(e.getClass()).put(handler);
