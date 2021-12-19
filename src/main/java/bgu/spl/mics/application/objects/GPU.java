@@ -74,14 +74,14 @@ public class GPU {
                 model.setStatus(Trained);
                 initialize(models.poll());
                 if (model != null) {
-                    for (int i = 0; i < 8; i++) {
+                    for (int i = 0; i < 20 && !data.allDataReleased(); i++) {
                         addMoreDataToTheCluster();
                     }
                 }
             } else {
                     addMoreDataToTheCluster();
             }
-            db = null;
+            pullNewData();
             time = time - speed;
         }
     }

@@ -4,9 +4,18 @@
 			"name": "Simba",
 			"department": "Computer Science",
 			"status": "MSc",
-			"publications": 0,
-			"papersRead": 1,
+			"publications": 2,
+			"papersRead": 3,
 			"trainedModels": [
+				{
+					"name": "LessEfficientNet",
+					"data": {
+						"type": "Images",
+						"size": 20000
+					},
+					"status": "Trained",
+					"results": "None"
+				},
 				{
 					"name": "DensestNet",
 					"data": {
@@ -23,7 +32,7 @@
 			"department": "EE",
 			"status": "PhD",
 			"publications": 0,
-			"papersRead": 1,
+			"papersRead": 5,
 			"trainedModels": [
 				{
 					"name": "VIT",
@@ -41,8 +50,17 @@
 			"department": "Computer Science",
 			"status": "PhD",
 			"publications": 0,
-			"papersRead": 1,
+			"papersRead": 5,
 			"trainedModels": [
+				{
+					"name": "GPT4",
+					"data": {
+						"type": "Text",
+						"size": 1000000
+					},
+					"status": "Trained",
+					"results": "None"
+				},
 				{
 					"name": "GPT10",
 					"data": {
@@ -58,8 +76,8 @@
 			"name": "Timon",
 			"department": "SE",
 			"status": "MSc",
-			"publications": 1,
-			"papersRead": 0,
+			"publications": 2,
+			"papersRead": 3,
 			"trainedModels": [
 				{
 					"name": "ConditionalGAN",
@@ -76,8 +94,8 @@
 			"name": "Nala",
 			"department": "Computer Science",
 			"status": "PhD",
-			"publications": 0,
-			"papersRead": 1,
+			"publications": 1,
+			"papersRead": 4,
 			"trainedModels": [
 				{
 					"name": "DenserNet",
@@ -95,23 +113,8 @@
 		{
 			"name": "ICML",
 			"date": 20000,
-			"publications": []
-		},
-		{
-			"name": "NeurIPS",
-			"date": 25000,
-			"publications": []
-		},
-		{
-			"name": "CVPR",
-			"date": 30000,
-			"publications": []
-		},
-		{
-			"name": "ECCV",
-			"date": 40000,
 			"publications": [{
-			"name": "Percepetron",
+			"name": "GNN",
 					"data": {
 						"type": "Tabular",
 						"size": 1000000
@@ -121,12 +124,59 @@
 }]
 		},
 		{
+			"name": "NeurIPS",
+			"date": 25000,
+			"publications": [{
+			"name": "ResNet9000",
+					"data": {
+						"type": "Images",
+						"size": 200000
+					},
+					"status": "Tested",
+					"results": "Good"
+}]
+		},
+		{
+			"name": "CVPR",
+			"date": 30000,
+			"publications": [{
+			"name": "YOLO9000",
+					"data": {
+						"type": "Images",
+						"size": 100000
+					},
+					"status": "Tested",
+					"results": "Good"
+}]
+		},
+		{
+			"name": "ECCV",
+			"date": 40000,
+			"publications": [{
+			"name": "YOLO10",
+					"data": {
+						"type": "Images",
+						"size": 200000
+					},
+					"status": "Tested",
+					"results": "Good"
+}]
+		},
+		{
 			"name": "AISTATS",
 			"date": 50000,
-			"publications": []
+			"publications": [{
+			"name": "Percepetron",
+					"data": {
+						"type": "Tabular",
+						"size": 1000000
+					},
+					"status": "Tested",
+					"results": "Good"
+}]
 		}
 	],
-	"cpuTimeUsed": 384523,
-	"gpuTimeUsed": 21601,
-	"batchesProcessed": 212858,
+	"cpuTimeUsed": 51921,
+	"gpuTimeUsed": 17762,
+	"batchesProcessed": 10575,
 }

@@ -51,11 +51,12 @@ public class GPUService extends MicroService {
         gpu.setGpuService(this);
 
         subscribeBroadcast(TickBroadcast.class, c -> {
+            gpu.addTime();
             if(gpu.hasDataToBeTrained()) {
-                gpu.addTime();
                 gpu.processGPUData();
             }
-            gpu.pullNewData();
+            else
+                gpu.pullNewData();
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {

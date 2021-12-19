@@ -49,6 +49,7 @@ public class CPU {
             cluster.addProcessedData(db);
             CRMSRunner.batchesProcessed.incrementAndGet();
             time = time - calculationTime;
+            pullNewData();
         }
     }
 

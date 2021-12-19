@@ -20,7 +20,7 @@ public class Data {
      */
     //--------------------Fields---------------------
     private Type type;
-    private AtomicInteger processed = new AtomicInteger();
+    private AtomicInteger processed = new AtomicInteger(0);
     private AtomicInteger dataBatchesInProcessing = new AtomicInteger(0);
     private final int size;
     private final GPU gpu;
