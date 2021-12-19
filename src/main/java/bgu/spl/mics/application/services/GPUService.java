@@ -52,7 +52,7 @@ public class GPUService extends MicroService {
 
         subscribeBroadcast(TickBroadcast.class, c -> {
             counter++;
-            if (counter % 100 == 0)
+            if (counter % 1000 == 0)
                 System.out.println(counter);
             gpu.getMoreTime();
         });

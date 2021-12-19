@@ -6,17 +6,7 @@
 			"status": "MSc",
 			"publications": 0,
 			"papersRead": 0,
-			"trainedModels": [
-				{
-					"name": "YOLO10",
-					"data": {
-						"type": "Text",
-						"size": 200000
-					},
-					"status": "Tested",
-					"results": "Good"
-				},
-				]
+			"trainedModels": []
 		},
 		{
 			"name": "Zazu",
@@ -32,17 +22,7 @@
 			"status": "PhD",
 			"publications": 0,
 			"papersRead": 0,
-			"trainedModels": [
-				{
-					"name": "Bert",
-					"data": {
-						"type": "Text",
-						"size": 1000000
-					},
-					"status": "Tested",
-					"results": "Good"
-				},
-				]
+			"trainedModels": []
 		},
 		{
 			"name": "Timon",
@@ -50,17 +30,7 @@
 			"status": "PhD",
 			"publications": 0,
 			"papersRead": 0,
-			"trainedModels": [
-				{
-					"name": "Percepetron",
-					"data": {
-						"type": "Tabular",
-						"size": 1000000
-					},
-					"status": "Tested",
-					"results": "Good"
-				},
-				]
+			"trainedModels": []
 		},
 		{
 			"name": "Nala",
@@ -68,17 +38,7 @@
 			"status": "PhD",
 			"publications": 0,
 			"papersRead": 0,
-			"trainedModels": [
-				{
-					"name": "YOLO9000",
-					"data": {
-						"type": "Text",
-						"size": 100000
-					},
-					"status": "Tested",
-					"results": "Good"
-				},
-				]
+			"trainedModels": []
 		}
 	],
 	"conferences": [
@@ -108,7 +68,7 @@
 			"publications": []
 		}
 	],
-	"cpuTimeUsed": 348581,
-	"gpuTimeUsed": 155025,
-	"batchesProcessed": 146643
+	"cpuTimeUsed": 0,
+	"gpuTimeUsed": 0,
+	"batchesProcessed": 0
 }

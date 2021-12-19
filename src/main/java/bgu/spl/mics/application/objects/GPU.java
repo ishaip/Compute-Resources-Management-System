@@ -4,11 +4,6 @@ import bgu.spl.mics.Future;
 import bgu.spl.mics.application.CRMSRunner;
 import bgu.spl.mics.application.services.GPUService;
 
-import java.awt.color.CMMException;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static bgu.spl.mics.application.objects.Model.Status.Trained;
-
 /**
  * Passive object representing a single GPU.
  * Add all the fields described in the assignment as private fields.
@@ -25,14 +20,15 @@ public class GPU {
     private final Type type;
     private Model model = null;
     private final Cluster cluster = Cluster.getInstance();
-    private boolean available;
+    private boolean available; //for testing
     private int speed;
     private int time = 0;
+    private Data data;
+
     private DataBatch db;
     private boolean terminate = false;
     private GPUService gpuService;
-    private Data data;
-    private int dataInProsse=0;
+    private int dataInProcess = 0;
 
     public GPU(Type type){
         this.type = type;
@@ -69,8 +65,8 @@ public class GPU {
 
     public synchronized void trainData(){
         while (!terminate) {
-            while (dataInProsse + 8 < data.dataToPross()){
-                dataInProsse ++;
+            while (dataInProcess + 8 < data.dataToPross()){
+                dataInProcess++;
                 DataBatch db = new DataBatch(data, 0, this);
                 cluster.addDataToBePreprocessed(db);
             }
@@ -92,13 +88,13 @@ public class GPU {
         }
     }
 
-    public synchronized void getMoreTime(){notify();}
+    public synchronized void getMoreTime(){ notify(); }
 
     public void addTime(){ time++; }
 
     public boolean isAvailable(){ return available; }
 
-    public void setData(Data data) {this.data = data;}
+    public void setData(Data data) { this.data = data; }
 
     public void trainModelEvent (Model model){
         available = false;

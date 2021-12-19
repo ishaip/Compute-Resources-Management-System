@@ -3,6 +3,7 @@ package bgu.spl.mics.application.objects;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 import static bgu.spl.mics.application.objects.GPU.Type.RTX3090;
@@ -27,9 +28,9 @@ public class CPUTest {
         assertFalse(cpu.isDone());
         Data d = new Data(Data.Type.Text, 2000, new GPU(RTX3090));
         DataBatch db = new DataBatch(d, 0);
-        ArrayList<DataBatch> someData = new ArrayList<>();
+        ArrayDeque<DataBatch> someData = new ArrayDeque<>();
         someData.add(db);
-        cpu.testprocess(someData);
+        cpu.testProcess(someData);
         assertTrue(cpu.isDone());
     }
 
@@ -38,10 +39,10 @@ public class CPUTest {
         assertFalse(cpu.isDone());
         Data d = new Data(Data.Type.Text, 2000, new GPU(RTX3090));
         DataBatch db = new DataBatch(d, 0);
-        cpu.testaddBatchOfData(db);
-        ArrayList<DataBatch> someData = new ArrayList<>();
+        cpu.testAddBatchOfData(db);
+        ArrayDeque<DataBatch> someData = new ArrayDeque<>();
         someData.add(db);
-        cpu.testprocess(someData);
+        cpu.testProcess(someData);
         assertTrue(cpu.isDone());
     }
 }

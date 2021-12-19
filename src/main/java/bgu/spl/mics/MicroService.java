@@ -159,10 +159,13 @@ public abstract class MicroService implements Runnable {
         while (!terminated) {
             try{
                 Message currMessage = messageBus.awaitMessage(this);
-                Class<? extends Message> react = currMessage.getClass();
-                Callback action = mesInstructions.get(react);
-                if (action != null)
-                    action.call(currMessage);
+                if ( currMessage != null ) {
+                    Class<? extends Message> react = currMessage.getClass();
+                    Callback action = mesInstructions.get(react);
+
+                    if (action != null)
+                        action.call(currMessage);
+                }
             } catch (InterruptedException e) {
                 //;
             }

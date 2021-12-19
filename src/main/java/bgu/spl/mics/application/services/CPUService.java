@@ -20,15 +20,12 @@ public class CPUService extends MicroService {
     private boolean terminated;
     private final CPU cpu; //
     private final Cluster cluster;
-    int coreNum; //TODO: delete
-
 
     //-----------------Constructor---------------------
     public CPUService(String name, CPU _cpu) {
         super(name);
         cpu = _cpu;
         cluster = Cluster.getInstance();
-        coreNum = cpu.getNumOfCores(); //TODO: delete
     }
 
     //-------------------Methods----------------------
@@ -52,7 +49,7 @@ public class CPUService extends MicroService {
         });
 
         subscribeBroadcast(TerminateBroadcast.class, c -> {
-            //System.out.println("CPU is being termenated");
+            System.out.println("CPU is being terminated");
             cpu.terminate();
             CPUProcessingThread.interrupt();
             terminate();

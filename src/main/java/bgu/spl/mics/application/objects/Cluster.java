@@ -84,12 +84,7 @@ public class Cluster {
 	}
 
 	public DataBatch getNextDataToBeProcessed(){
-		try {
-			return dataToProcessed.take();
-		} catch (InterruptedException e) {
-			//do nothing
-		}
-		return null;
+		return dataToProcessed.poll();
 	}
 
 	public  void addProcessedData(DataBatch db){

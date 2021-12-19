@@ -122,7 +122,7 @@ public class MessageBusImpl implements MessageBus {
 	@Override
 	public Message awaitMessage(MicroService m) throws InterruptedException {
 		if(microServiceMessageQueues.containsKey(m))
-			return microServiceMessageQueues.get(m).take();
+			return microServiceMessageQueues.get(m).poll();
 		else
 			throw new NullPointerException("no such microService is registered");
 	}

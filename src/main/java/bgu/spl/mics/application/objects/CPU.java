@@ -2,6 +2,7 @@ package bgu.spl.mics.application.objects;
 
 import bgu.spl.mics.application.CRMSRunner;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 /**
@@ -18,9 +19,10 @@ public class CPU {
      */
     private int cores;
     private Cluster cluster = Cluster.getInstance();
+    private ArrayDeque<DataBatch> dbArray = new ArrayDeque<>();
+
     private int calculationTime;
     private int time = 0;
-    private DataBatch db;
     private boolean terminate = false;
     private boolean isDone = true;
 
@@ -37,7 +39,7 @@ public class CPU {
     public void terminate(){ terminate = true; }
 
     public synchronized void startUp(DataBatch db){
-        this.db = db;
+        this.dbArray.add(db);
         calculationTime = (db.getData().getSpeed()) / cores;
     }
 
@@ -46,13 +48,14 @@ public class CPU {
             time = time + 1;
             CRMSRunner.cpuTimeUsed.incrementAndGet();
             if (calculationTime <= time) {
-                cluster.addProcessedData(db);
-                db = cluster.getNextDataToBeProcessed();
+                cluster.addProcessedData(dbArray.poll());
+                dbArray.add(cluster.getNextDataToBeProcessed());
                 CRMSRunner.batchesProcessed.incrementAndGet();
-                if (db == null)
+                if ( dbArray.isEmpty() )
                     break;
-                calculationTime = (db.getData().getSpeed()) / cores;
+                calculationTime = (dbArray.getFirst().getData().getSpeed()) / cores;
                 time = time - calculationTime;
+                pollNewData();
             }
             try {
                 this.wait();
@@ -62,15 +65,19 @@ public class CPU {
         }
     }
 
-    public synchronized void getMoreTime(){notify();}
+    public void pollNewData(){
+        dbArray.add(cluster.getNextDataToBeProcessed());
+        if( !dbArray.isEmpty() )
+            calculationTime = (dbArray.getFirst().getData().getSpeed()) / cores;
+    }
 
-    public void updateTime(){time++;}
+    public synchronized void getMoreTime(){ notify(); }
 
-    public boolean isDone() { return isDone;}
+    public boolean isDone() { return isDone; }
 
-    public void testprocess(ArrayList<DataBatch> s) { isDone = false; }
+    public void testProcess(ArrayDeque<DataBatch> s) { isDone = false; }
 
-    public void testaddBatchOfData(DataBatch db) {}
+    public void testAddBatchOfData(DataBatch db) { dbArray.add(db); }
 
-    public boolean hasDataToBeProcessed() { return db != null; }
+    public boolean hasDataToBeProcessed() { return !dbArray.isEmpty(); }
 }

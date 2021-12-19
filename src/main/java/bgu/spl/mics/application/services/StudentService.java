@@ -42,16 +42,19 @@ public class StudentService extends MicroService {
                 m.setStatus(Model.Status.Training);
                 trainModelFuture = trainModelEvent.getFuture();
                 sendEvent(trainModelEvent);
-                if (trainModelFuture.get() == null)
-                    break;
+//                if ( trainModelFuture.get(100, TimeUnit.MILLISECONDS) == null)
+//                    break;
                 //wait until training is done
                 m.setStatus(Model.Status.Trained);
                 TestModelEvent testModelEvent = new TestModelEvent(m, student);
                 testModelFuture = testModelEvent.getFuture();
                 sendEvent(testModelEvent);
-                Model.Result result = testModelFuture.get();
-                if (result == null)
+                Model.Result result;
+                //Model.Result result = testModelFuture.get(100, TimeUnit.MILLISECONDS);
+                if ( testModelFuture.get(100, TimeUnit.MILLISECONDS) == null )
                     break;
+                else
+                    result = testModelFuture.get();
                 //wait until testing is done
                 if (result == Model.Result.Good)
                     sendEvent(new PublishResultEvent(m));
