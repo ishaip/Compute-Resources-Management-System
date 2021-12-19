@@ -83,6 +83,7 @@ public class GPUService extends MicroService {
                     c.setResult(Model.Result.Bad);
             }
             c.getFuture().resolve(c.getResult());
+
         });
         CRMSRunner.threadInitCounter.countDown();
     }

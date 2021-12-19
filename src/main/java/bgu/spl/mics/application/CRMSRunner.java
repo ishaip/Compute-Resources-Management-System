@@ -12,7 +12,7 @@ import java.io.*;
 import java.io.File;
 import java.io.FileWriter;
 
-import java.lang.reflect.Array;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
@@ -66,6 +66,7 @@ public class CRMSRunner {
                 studentList.add(st);
 
                 JsonArray JsonArrayOfModels = studentObject.get("models").getAsJsonArray();
+                ArrayList<Model> modelsArray = new ArrayList<>();
                 for (JsonElement m : JsonArrayOfModels){
                     //get the Json object
                     JsonObject modelObject = m.getAsJsonObject();
@@ -76,8 +77,11 @@ public class CRMSRunner {
                     int size = modelObject.get("size").getAsInt();
 
                     Model model = new Model(modelName, type, size, st);
-                    st.addModel(model);
+                    modelsArray.add(model);
+                    //st.addModel(model);
                 }
+                st.addModel(modelsArray);
+                System.out.println(st.getModelArray().size() + "--");
                 studentServiceList.add(new StudentService(name, st));
             }
 

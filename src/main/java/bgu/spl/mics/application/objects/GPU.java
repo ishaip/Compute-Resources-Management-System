@@ -131,7 +131,7 @@ public class GPU {
         if (this.model == null)
             initialize(model);
         else
-            models.addLast(model);
+            models.add(model);
     }
 
     public void trainModelEvent (Model model){

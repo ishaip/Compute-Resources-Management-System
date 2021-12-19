@@ -1,7 +1,7 @@
 package bgu.spl.mics.application.objects;
 
-import java.util.Iterator;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 
 /**
  * Passive object representing single student.
@@ -20,7 +20,7 @@ public class Student {
     private Degree status;
     private int publications = 0;
     private int papersRead = 0;
-    private ConcurrentLinkedQueue<Model> models = new ConcurrentLinkedQueue<>();
+    private ArrayList<Model> modelArray = new ArrayList<>();
     //private ArrayList<Model> models = new ArrayList<>();
 
     public Student(String name,String department,Degree status, int publications,int papersRead ){
@@ -50,11 +50,18 @@ public class Student {
 
     public Degree getDegree(){ return status; }
 
-    public void addModel(Model model){ models.add(model); }
+    public void addModel(Model model){
+        modelArray.add(new Model(model));
+    }
+
+    public void addModel(ArrayList<Model> modelArray){
+        for (int i = 0; i < modelArray.size(); i++ )
+            this.modelArray.add(modelArray.get(i));
+    }
 
     //public LinkedList<Model> getModels(){ return models; }
 
-    public ConcurrentLinkedQueue<Model> getModels(){ return models; }
+    public ArrayList<Model> getModelArray(){ return modelArray; }
 
     public String toString(){
         String output = "";
@@ -64,27 +71,31 @@ public class Student {
         output += "\t\t\t\"status\": \"" + status + "\",\n";
         output += "\t\t\t\"publications\": " + Integer.toString(publications) + ",\n";
         output += "\t\t\t\"papersRead\": " + Integer.toString(papersRead) + ",\n";
-        output += "\t\t\t\"trainedModels\": [\n\t\t\t\t";
-        if (models.size() > 0){
-            Iterator<Model> itr = models.iterator();
+        output += "\t\t\t\"trainedModels\": [";
 
-            while (itr.hasNext()){
-                Model m = itr.next();
-                while ( m.getStatus() != Model.Status.Trained ){
-                    if ( itr.hasNext() )
-                        m = itr.next();
-                    else
-                        break;
-                }
-                output += "{\n\t\t\t";
-                output += "\t\t" + m.toString() + "\n\t\t\t\t}";
-                output += ",\n\t\t\t\t";
-            }
-            output = output.substring(0, output.length() - 6);
-            output += "\n";
+        Model[] mm = new Model[modelArray.size()];
+        int index = 0;
+        for (int i = 0; i < modelArray.size(); i++) {
+            mm[index] = modelArray.get(i);
+            index ++;
         }
-        output += "\t\t\t]";
-
+        boolean isFirst = true;
+        for (int i = 0; i < mm.length; i++){
+            if ( mm[i].getStatus() != Model.Status.Trained && mm[i].getStatus() != Model.Status.Tested )
+                continue;
+            if ( isFirst ){
+                output += "\n\t\t\t\t";
+                isFirst = false;
+            }
+            output += "{\n\t\t\t";
+            output += "\t\t" + mm[i].toString() + "\n\t\t\t\t}";
+            output += ",\n\t\t\t\t";
+            if ( i == mm.length - 1) {
+                output = output.substring(0, output.length() - 6);
+                output += "\n\t\t\t";
+            }
+        }
+        output += "]";
         return output;
     }
 

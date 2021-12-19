@@ -47,6 +47,14 @@ public class Model {
         this.data = new Data(type, sizeOfData);
     }
 
+    public Model(Model model){
+        this.name = model.getName();
+        this.data = model.getData();
+        this.status = model.getStatus();
+        this.student = model.getStudent();
+        this.result = model.getResult();
+    }
+
     public void setResult(Result result){ this.result = result; }
 
     public String getName(){return name;}

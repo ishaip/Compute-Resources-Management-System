@@ -68,7 +68,7 @@ public class Data {
 
     public Boolean isDone(){
         if((processed.get() ) * 1000 >= size)
-            System.out.println("here");
+            System.out.println("isDone");
         return ((processed.get() ) * 1000 >= size);
     }
 
