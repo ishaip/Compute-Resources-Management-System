@@ -21,7 +21,7 @@ public class FutureTest extends TestCase {
     @Test
     public void testGet() {
         assertFalse(future.isDone());
-        future.resolve("");
+        future.resolve("g");
         // the rest of the code was without 'try' and 'catch'
         future.get();
         assertTrue(future.isDone());
@@ -45,12 +45,11 @@ public class FutureTest extends TestCase {
     }
 
     @Test
-    public void testTestGet() throws InterruptedException{
-        String str = "result";
+    public void testTestGet() throws InterruptedException {
         assertFalse(future.isDone());
         future.get(100, TimeUnit.MILLISECONDS);
         assertFalse(future.isDone());
-        future.resolve(str);
-        assertEquals(future.get(100, TimeUnit.MILLISECONDS), str);
+        future.resolve("foo");
+        assertEquals(future.get(100, TimeUnit.MILLISECONDS), "foo");
     }
 }

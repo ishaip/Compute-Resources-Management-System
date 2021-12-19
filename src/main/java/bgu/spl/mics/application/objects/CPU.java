@@ -22,7 +22,7 @@ public class CPU {
     private int time = 0;
     private DataBatch db;
     private boolean terminate = false;
-    private boolean isDone = true;
+    private boolean isDone = false;
 
     //-----------------Constructor---------------------
     public CPU(int numOfCores){
@@ -70,7 +70,7 @@ public class CPU {
 
     public boolean isDone() { return isDone;}
 
-    public void testprocess(ArrayList<DataBatch> s) { isDone = false;}
+    public void testprocess(ArrayList<DataBatch> s) { isDone = true;}
 
     public void testaddBatchOfData(DataBatch db) {
     }

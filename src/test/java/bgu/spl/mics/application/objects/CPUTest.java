@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class CPUTest {
 
-    private CPU cpu;
+    private CPU cpu = new CPU(4);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -18,7 +18,7 @@ public class CPUTest {
 
     }
     @Test
-    public void testGetNumOfCPUs() {
+    public void testGetNumOfCores() {
         assertEquals(4, cpu.getNumOfCores());
     }
 
