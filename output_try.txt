@@ -4,8 +4,8 @@
 			"name": "Simba",
 			"department": "Computer Science",
 			"status": "MSc",
-			"publications": 2,
-			"papersRead": 3,
+			"publications": 0,
+			"papersRead": 2,
 			"trainedModels": [
 				{
 					"name": "YOLO10",
@@ -14,51 +14,24 @@
 						"size": 200000
 					},
 					"status": "Tested",
-					"results": "Good"
-				},
-				{
-					"name": "ResNet9000",
-					"data": {
-						"type": "Images",
-						"size": 200000
-					},
-					"status": "Tested",
-					"results": "Good"
-				},
-				{
-					"name": "LessEfficientNet",
-					"data": {
-						"type": "Images",
-						"size": 20000
-					},
-					"status": "Tested",
 					"results": "Bad"
 				},
-				{
-					"name": "DensestNet",
-					"data": {
-						"type": "Images",
-						"size": 200000
-					},
-					"status": "Trained",
-					"results": "None"
-				}
-			]
+				]
 		},
 		{
 			"name": "Zazu",
 			"department": "EE",
 			"status": "PhD",
 			"publications": 0,
-			"papersRead": 5,
+			"papersRead": 2,
 			"trainedModels": []
 		},
 		{
 			"name": "Pumba",
 			"department": "Computer Science",
 			"status": "PhD",
-			"publications": 0,
-			"papersRead": 5,
+			"publications": 1,
+			"papersRead": 1,
 			"trainedModels": [
 				{
 					"name": "Bert",
@@ -75,8 +48,8 @@
 						"type": "Text",
 						"size": 1000000
 					},
-					"status": "Trained",
-					"results": "None"
+					"status": "Tested",
+					"results": "Good"
 				},
 				]
 		},
@@ -84,8 +57,8 @@
 			"name": "Timon",
 			"department": "SE",
 			"status": "MSc",
-			"publications": 1,
-			"papersRead": 4,
+			"publications": 0,
+			"papersRead": 2,
 			"trainedModels": [
 				{
 					"name": "Percepetron",
@@ -94,7 +67,16 @@
 						"size": 1000000
 					},
 					"status": "Tested",
-					"results": "Good"
+					"results": "Bad"
+				},
+				{
+					"name": "GNN",
+					"data": {
+						"type": "Tabular",
+						"size": 1000000
+					},
+					"status": "Trained",
+					"results": "None"
 				},
 				]
 		},
@@ -102,8 +84,8 @@
 			"name": "Nala",
 			"department": "Computer Science",
 			"status": "PhD",
-			"publications": 2,
-			"papersRead": 3,
+			"publications": 1,
+			"papersRead": 1,
 			"trainedModels": [
 				{
 					"name": "YOLO9000",
@@ -112,7 +94,7 @@
 						"size": 100000
 					},
 					"status": "Tested",
-					"results": "Good"
+					"results": "Bad"
 				},
 				{
 					"name": "VIT2",
@@ -123,6 +105,15 @@
 					"status": "Tested",
 					"results": "Good"
 				},
+				{
+					"name": "MuchMoreEfficientNet",
+					"data": {
+						"type": "Images",
+						"size": 20000
+					},
+					"status": "Trained",
+					"results": "None"
+				},
 				]
 		}
 	],
@@ -130,19 +121,6 @@
 		{
 			"name": "ICML",
 			"date": 20000,
-			"publications": [{
-			"name": "ResNet9000",
-					"data": {
-						"type": "Images",
-						"size": 200000
-					},
-					"status": "Tested",
-					"results": "Good"
-}]
-		},
-		{
-			"name": "NeurIPS",
-			"date": 25000,
 			"publications": [{
 			"name": "VIT2",
 					"data": {
@@ -154,46 +132,35 @@
 }]
 		},
 		{
+			"name": "NeurIPS",
+			"date": 25000,
+			"publications": []
+		},
+		{
 			"name": "CVPR",
 			"date": 30000,
-			"publications": [{
-			"name": "YOLO9000",
-					"data": {
-						"type": "Images",
-						"size": 100000
-					},
-					"status": "Tested",
-					"results": "Good"
-}]
+			"publications": []
 		},
 		{
 			"name": "ECCV",
 			"date": 40000,
-			"publications": [{
-			"name": "Percepetron",
-					"data": {
-						"type": "Tabular",
-						"size": 1000000
-					},
-					"status": "Tested",
-					"results": "Good"
-}]
+			"publications": []
 		},
 		{
 			"name": "AISTATS",
 			"date": 50000,
 			"publications": [{
-			"name": "YOLO10",
+			"name": "GPT4",
 					"data": {
-						"type": "Images",
-						"size": 200000
+						"type": "Text",
+						"size": 1000000
 					},
 					"status": "Tested",
 					"results": "Good"
 }]
 		}
 	],
-	"cpuTimeUsed": 42949,
-	"gpuTimeUsed": 26484,
-	"batchesProcessed": 9014,
+	"cpuTimeUsed": 58441,
+	"gpuTimeUsed": 17500,
+	"batchesProcessed": 11223,
 }
