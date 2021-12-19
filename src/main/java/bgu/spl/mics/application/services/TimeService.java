@@ -21,7 +21,6 @@ public class TimeService extends MicroService{
 	private int time;
 	private final int speed;
 	private final int duration;
-	private MessageBusImpl mb;
 
 
 	public TimeService(String name, int speed, int duration) {
